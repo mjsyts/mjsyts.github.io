@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>M. Josiah Sytsma – Sound Design</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f1115;
+      color: #f5f5f5;
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+    }
+    .wrap {
+      max-width: 900px;
+      width: 100%;
+      padding: 2rem;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .logo {
+      width: 96px;
+      height: 96px;
+      border-radius: 24px;
+      background: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    h1 {
+      font-size: 2.4rem;
+      margin: 0;
+    }
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin: 0.3rem 0 0;
+      color: #b3b3b3;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      gap: 2rem;
+      align-items: center;
+    }
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      border-radius: 999px;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+    .btn-primary {
+      background: #ff6b3b;
+      color: #111;
+      font-weight: 600;
+    }
+    .btn-secondary {
+      background: transparent;
+      color: #f5f5f5;
+      border: 1px solid #555;
+    }
+    .reel iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 16px;
+      border: none;
+      background: #000;
+    }
+    .tagline {
+      color: #d0d0d0;
+      max-width: 32rem;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">
+        <!-- Replace logo.png with your actual logo filename -->
+        <img src="logo.png" alt="Chameleon logo" />
+      </div>
+      <div>
+        <h1>M. Josiah Sytsma</h1>
+        <h2>Sound Design & Music for Games</h2>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <p class="tagline">
+          Cinematic sound design, evocative music, and playful audio systems.
+          Reel-first, game-ready, and crafted for emotional impact.
+        </p>
+        <div class="buttons">
+          <a class="btn btn-primary" href="#reel">▶ Watch Reel</a>
+          <!-- /game will be your Unity WebGL build later -->
+          <a class="btn btn-secondary" href="/game/" target="_blank">Play the Game</a>
+        </div>
+      </div>
+
+      <div class="reel" id="reel">
+        <!-- Replace the src with your actual YouTube/Vimeo link -->
+        <iframe 
+          src="https://www.youtube.com/embed/VIDEO_ID_HERE" 
+          title="Showreel"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
