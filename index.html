@@ -6,10 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
+    /* Jumble-1 static webfont — change the filename if yours is different */
     @font-face {
-      font-family: "Pickllle";
-      src: url("Pickllle.ttf") format("truetype");
-      font-weight: 100 900;
+      font-family: "Pickllle Jumble 1";
+      src: url("OCPickllle-Jumble1.woff2") format("woff2");
+      font-weight: normal;
       font-style: normal;
     }
 
@@ -23,11 +24,13 @@
       align-items: center;
       justify-content: center;
     }
+
     .wrap {
       max-width: 900px;
       width: 100%;
       padding: 2rem;
     }
+
     header {
       display: flex;
       align-items: center;
@@ -35,6 +38,7 @@
       margin-bottom: 2rem;
       flex-wrap: wrap;
     }
+
     .logo {
       width: 96px;
       height: 96px;
@@ -45,6 +49,7 @@
       justify-content: center;
       overflow: hidden;
     }
+
     .logo img {
       width: 100%;
       height: 100%;
@@ -52,22 +57,15 @@
       display: block;
     }
 
+    /* Your name — Jumble 1 styling */
     h1 {
-      font-family: "Pickllle", system-ui, sans-serif;
+      font-family: "Pickllle Jumble 1", system-ui, sans-serif;
       font-size: 2.8rem;
       margin: 0;
       letter-spacing: 0.04em;
-
-      font-variation-settings:
-        "JMBL" 2, 
-        "COUT" 1,
-        "STGR" 1;
-      -webkit-font-variation-settings:
-        "JMBL" 2,
-        "COUT" 1,
-        "STGR" 1;
     }
 
+    /* Subtitle — lowercase */
     h2 {
       font-size: 1.05rem;
       font-weight: 400;
@@ -83,17 +81,20 @@
       gap: 2rem;
       align-items: center;
     }
+
     @media (max-width: 800px) {
       .hero {
         grid-template-columns: 1fr;
       }
     }
+
     .buttons {
       display: flex;
       gap: 1rem;
       margin-top: 1.5rem;
       flex-wrap: wrap;
     }
+
     .btn {
       border-radius: 999px;
       padding: 0.75rem 1.5rem;
@@ -106,16 +107,19 @@
       justify-content: center;
       gap: 0.4rem;
     }
+
     .btn-primary {
       background: #ff6b3b;
       color: #111;
       font-weight: 600;
     }
+
     .btn-secondary {
       background: transparent;
       color: #f5f5f5;
       border: 1px solid #555;
     }
+
     .reel iframe {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -123,6 +127,7 @@
       border: none;
       background: #000;
     }
+
     .tagline {
       color: #d0d0d0;
       max-width: 32rem;
@@ -138,7 +143,7 @@
       </div>
       <div>
         <h1>M. Josiah Sytsma</h1>
-        <h2>Sound Design &amp; Music</h2>
+        <h2>sound design & music</h2>
       </div>
     </header>
 
