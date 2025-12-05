@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>M. Josiah Sytsma – Sound Design</title>
@@ -7,8 +8,8 @@
 
   <style>
     @font-face {
-      font-family: "Pickllle Jumble 2";
-      src: url("OCPickllle-Jumble2.woff2") format("woff2");
+      font-family: "Pickllle";
+      src: url("Pickllle.ttf") format("truetype");
       font-weight: normal;
       font-style: normal;
     }
@@ -42,7 +43,7 @@
       width: 96px;
       height: 96px;
       border-radius: 24px;
-      background: #222;
+      background: #0f1115;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -57,13 +58,22 @@
     }
 
     h1 {
-      font-family: "Pickllle Jumble 2", system-ui, sans-serif;
+      font-family: "Pickllle", system-ui, sans-serif;
       font-size: 2.8rem;
       margin: 0;
       letter-spacing: 0.04em;
+
+      font-variation-settings:
+        "JMBL" 206,
+        "COUT" 225,
+        "STGR" 111;
+
+      -webkit-font-variation-settings:
+        "JMBL" 206,
+        "COUT" 225,
+        "STGR" 111;
     }
 
-    /* Subtitle — lowercase */
     h2 {
       font-size: 1.05rem;
       font-weight: 400;
@@ -133,6 +143,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <header>
@@ -153,15 +164,13 @@
         </p>
         <!-- Add buttons back later -->
         <!-- <div class="buttons"> -->
-          <!-- <a class="btn btn-primary" href="/game/" target="_blank">Play the Game</a> -->
+        <!-- <a class="btn btn-primary" href="/game/" target="_blank">Play the Game</a> -->
         <!-- </div> -->
       </div>
 
       <div class="reel" id="reel">
         <!-- Replace VIDEO_ID_HERE with your actual YouTube/Vimeo ID -->
-        <iframe 
-          src="https://www.youtube.com/embed/VIDEO_ID_HERE" 
-          title="Showreel"
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID_HERE" title="Showreel"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen>
         </iframe>
@@ -169,4 +178,5 @@
     </section>
   </div>
 </body>
+
 </html>
