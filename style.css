@@ -280,8 +280,8 @@ h2 {
     font-family: "Libre Baskerville", serif;
     font-size: 1rem;
     background: linear-gradient(135deg,
-            var(--accent-color, #6c9fd1),
-            var(--accent-color-strong, #2e6bb3));
+            var(--accent-color, var(--aqua)),
+            var(--accent-color-strong, var(--blue)));
     color: #ffffff;
     box-shadow: 0 14px 26px rgba(0, 0, 0, 0.16);
     transition: transform 0.14s ease, box-shadow 0.14s ease,
