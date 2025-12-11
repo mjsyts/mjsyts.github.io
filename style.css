@@ -2,7 +2,13 @@
     --bg: #FAF9F6;
     --text: #1A1A1A;
     --text-secondary: #4A4A4A;
-    --blue: #43A0BDff;
+    --green: #9FC353;
+    --aqua: #6ABCD5;
+    --gold: #EAB93C;
+    --coral: #DE8D74;
+    --indigo: #7191AF;
+    --blue: #43A0BD;
+    --clear: #00000000;
 }
 
 /* -------- Fonts -------- */
@@ -139,6 +145,171 @@ h2 {
 .bio p {
     margin: 0 0 0.9rem;
 }
+
+/* -------- Contact -------- */
+
+.contact-section {
+    padding: 4rem 1.5rem 6rem;
+    background: #f5f5f5;
+}
+
+.contact-inner {
+    position: relative;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2.75rem 2.2rem 3rem;
+    border-radius: 18px;
+    background: #fdfaf4;
+    /* warm off-white, paper-ish */
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+/* faux stacked paper / cutout effect */
+.contact-inner::before {
+    content: "";
+    position: absolute;
+    inset: 0.6rem -0.6rem -0.6rem 0.6rem;
+    border-radius: 20px;
+    background: #fffdf7;
+    z-index: -1;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.04);
+}
+
+/* very subtle paper grain without an image */
+.contact-inner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.25;
+    background-image:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 0),
+        linear-gradient(0deg, rgba(0, 0, 0, 0.02) 1px, transparent 0);
+    background-size: 4px 4px;
+    mix-blend-mode: multiply;
+}
+
+/* Header */
+
+.contact-header {
+    margin-bottom: 2.1rem;
+}
+
+.contact-header h2 {
+    font-family: "Libre Baskerville", serif;
+    font-size: 2rem;
+    margin: 0 0 0.35rem;
+}
+
+.contact-cta {
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
+    font-size: 0.95rem;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+/* Form layout */
+
+.contact-form {
+    position: relative;
+    z-index: 1;
+    /* above texture overlay */
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.form-row label {
+    font-family: "Libre Baskerville", serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+    color: rgba(0, 0, 0, 0.72);
+}
+
+.form-row input,
+.form-row textarea {
+    padding: 0.75rem 0.85rem;
+    font-size: 0.95rem;
+    border-radius: 9px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    font-family: "Open Sans", sans-serif;
+    background: #fafafa;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease,
+        background-color 0.18s ease, transform 0.12s ease;
+    resize: vertical;
+}
+
+.form-row textarea {
+    min-height: 140px;
+}
+
+.form-row input:focus,
+.form-row textarea:focus {
+    outline: none;
+    border-color: var(--accent-color, #6c9fd1);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 1px rgba(108, 159, 209, 0.25);
+    transform: translateY(-1px);
+}
+
+/* Button */
+
+.contact-button {
+    align-self: flex-start;
+    margin-top: 0.5rem;
+    padding: 0.8rem 1.6rem;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: "Libre Baskerville", serif;
+    font-size: 1rem;
+    background: linear-gradient(135deg,
+            var(--accent-color, #6c9fd1),
+            var(--accent-color-strong, #2e6bb3));
+    color: #ffffff;
+    box-shadow: 0 14px 26px rgba(0, 0, 0, 0.16);
+    transition: transform 0.14s ease, box-shadow 0.14s ease,
+        opacity 0.14s ease;
+}
+
+.contact-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 18px 30px rgba(0, 0, 0, 0.2);
+    opacity: 0.96;
+}
+
+.contact-button:active {
+    transform: translateY(0);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.16);
+}
+
+/* Responsive */
+
+@media (min-width: 640px) {
+    .contact-inner {
+        padding: 3rem 3rem 3.4rem;
+    }
+
+    .contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 
 /* -------- Responsive -------- */
 
