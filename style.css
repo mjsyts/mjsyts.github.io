@@ -299,6 +299,37 @@ h2 {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.16);
 }
 
+/* Honeypot: hidden but still present in DOM for bots */
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+
+/* Inline status message */
+.form-status {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.form-status.is-success {
+  /* keep your palette if you want; leaving uncolored for now */
+}
+
+.form-status.is-error {
+  /* keep your palette if you want; leaving uncolored for now */
+}
+
+/* Optional: disabled button state */
+.contact-button[disabled] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+
 /* Responsive */
 
 @media (min-width: 640px) {
