@@ -1,20 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const eye   = document.getElementById("eye");
-  const pupil = document.getElementById("pupil");
+  const eye    = document.getElementById("eye");
+  const pupil  = document.getElementById("pupil");
+  const closed = document.getElementById("closed");
 
-  if (!eye || !pupil) {
-    console.warn("Chameleon eye script: missing #eye or #pupil");
+  if (!eye || !pupil || !closed) {
+    console.warn("Chameleon eye script: missing #eye, #pupil, or #closed");
     return;
   }
 
-  // Original pupil position in SVG coordinates
+  // --- PUPIL TRACKING (unchanged) ---
   const baseX = parseFloat(pupil.getAttribute("cx"));
   const baseY = parseFloat(pupil.getAttribute("cy"));
 
   document.addEventListener("mousemove", (e) => {
     const rect = eye.getBoundingClientRect();
 
-    // Eye center in *screen* coordinates
     const eyeCenterX = rect.left + rect.width / 2;
     const eyeCenterY = rect.top  + rect.height / 2;
 
@@ -23,15 +23,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const angle = Math.atan2(dy, dx);
 
-    // How far the pupil can move inside the eye (fraction of radius)
     const eyeRadius = eye.r ? eye.r.baseVal.value : Math.min(rect.width, rect.height) / 2;
-    const maxMove   = eyeRadius * 0.4; // tweak 0.4 for more/less motion
+    const maxMove   = eyeRadius * 0.4;
 
     const offsetX = Math.cos(angle) * maxMove;
     const offsetY = Math.sin(angle) * maxMove;
 
-    // Move the pupil in SVG coordinate space
     pupil.setAttribute("cx", baseX + offsetX);
     pupil.setAttribute("cy", baseY + offsetY);
   });
+
+  // --- BLINKING ---
+  // Make sure "closed" starts hidden
+  closed.style.display = "none";
+  pupil.style.display = "";
+
+  const BLINK_MS = 100; // 0.1 seconds
+  const MIN_GAP_MS = 3000;
+  const MAX_GAP_MS = 4000;
+
+  function scheduleBlink() {
+    const gap = MIN_GAP_MS + Math.random() * (MAX_GAP_MS - MIN_GAP_MS);
+
+    window.setTimeout(() => {
+      // show closed, hide pupil
+      pupil.style.display = "none";
+      closed.style.display = "";
+
+      window.setTimeout(() => {
+        // restore
+        closed.style.display = "none";
+        pupil.style.display = "";
+
+        // schedule next random blink
+        scheduleBlink();
+      }, BLINK_MS);
+    }, gap);
+  }
+
+  scheduleBlink();
 });

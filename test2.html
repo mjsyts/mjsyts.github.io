@@ -6,13 +6,29 @@
   <title>M. Josiah Sytsma – Sound Design</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <!-- Favicons -->
   <link rel="icon" type="image/png" href="assets/favicon/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg" />
   <link rel="shortcut icon" href="assets/favicon/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
   <link rel="manifest" href="assets/favicon/site.webmanifest" />
 
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mjsyts.com/">
+  <meta property="og:title" content="M. Josiah Sytsma – Sound Design & Music">
+  <meta property="og:description" content="Adaptive sound design, music, and DSP for games and media.">
+  <!-- <meta property="og:image" content="https://mjsyts.com/assets/chameleon_logo.png"> -->
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://mjsyts.com/">
+  <meta name="twitter:title" content="M. Josiah Sytsma – Sound Design & Music">
+  <meta name="twitter:description" content="Adaptive sound design, music, and DSP for games and media.">
+  <!-- <meta name="twitter:image" content="https://mjsyts.com/assets/chameleon_logo.png"> -->
 </head>
 
 <body>
@@ -70,6 +86,14 @@
         </div>
       </div>
 
+      <nav class="top-words" aria-label="Primary">
+        <a class="w" href="/sound-design/">Sound Design</a>
+        <a class="w" href="/music/">Music</a>
+        <a class="w" href="/dsp/">DSP</a>
+        <a class="w" href="/writing/">Writing</a>
+        <a class="w" href="/about/">About</a>
+      </nav>
+
       <div class="header-right">
         <p class="tagline">Adaptive by nature. Meticulous by craft.</p>
       </div>
@@ -106,42 +130,51 @@
         </p>
       </section>
 
-      <section class="contact-section" id="contact">
-        <div class="contact-inner">
-          <header class="contact-header">
-            <h2>Contact</h2>
-            <p class="contact-cta">Tell me about your project.</p>
-          </header>
+      <section class="contact-section">
+        <h1>Contact</h1>
+        <p class="contact-subtext">I'd love to hear from you!</p>
 
-          <form class="contact-form" action="https://formsubmit.co/sytsma.music@icloud.com" method="POST">
-            <input type="hidden" name="_captcha" value="false" />
+        <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+          <input type="hidden" name="access_key" value="9b8c8105-14c7-4d5f-b3af-3fb777e4e65b">
+          <input type="hidden" name="subject" value="New message from mjsyts.com">
 
-            <div class="contact-grid">
-              <div class="form-row">
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text" required />
-              </div>
+          <div class="hp-field" aria-hidden="true">
+            <label for="website">Website</label>
+            <input id="website" type="text" name="website" tabindex="-1" autocomplete="off">
+          </div>
 
-              <div class="form-row">
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" required />
-              </div>
-            </div>
+          <div class="form-row">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" required>
+          </div>
 
-            <div class="form-row">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" rows="5" required></textarea>
-            </div>
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required>
+          </div>
 
-            <button type="submit" class="contact-button">Send message</button>
-          </form>
-        </div>
+          <div class="form-row">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </div>
+
+          <button type="submit" class="contact-button" id="contactSubmit">
+            <span class="btn-text">Send Message</span>
+            <span class="btn-sending" aria-hidden="true" hidden>Sending…</span>
+          </button>
+
+          <!-- Inline status (success/error) -->
+          <p class="form-status" id="contactStatus" role="status" aria-live="polite" hidden></p>
+        </form>
+
+
       </section>
 
 
     </main>
   </div>
   <script src="js/chameleon-eye.js"></script>
+  <script src="js/contact-form.js" defer></script>
 </body>
 
 </html>
