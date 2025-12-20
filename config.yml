@@ -1,4 +1,4 @@
-title: MJSyts
+title: M. Josiah Sytsma
 markdown: kramdown
 theme: null
 lsi: false
@@ -6,8 +6,32 @@ safe: true
 source: [your repo's top level directory]
 incremental: false
 highlighter: rouge
+
 gist:
   noscript: false
+
 kramdown:
   math_engine: mathjax
   syntax_highlighter: rouge
+
+# Nav
+nav:
+  - title: About
+    url: /#about
+    status: live
+  - title: Contact
+    url: /#contact
+    status: live
+
+  # future pages
+  - title: Sound Design
+    url: /sound-design/
+    status: draft
+  - title: Music
+    url: /music/
+    status: draft
+  - title: Writing
+    url: /writing/
+    status: draft
+
+show_drafts_nav: false
