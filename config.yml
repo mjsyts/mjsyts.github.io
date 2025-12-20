@@ -30,4 +30,6 @@ nav:
   - title: Writing
     url: /writing/
     status: draft
+
+show_drafts_nav: false
     
