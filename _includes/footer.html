@@ -1,0 +1,32 @@
+<footer class="site-footer">
+  <nav class="footer-nav">
+    {% for item in site.nav %}
+      {% if item.status == "live" %}
+        {% assign u = item.url %}
+        {% if u contains "#" %}
+          {%- comment -%}
+          Anchor on the home page: /#section
+          {%- endcomment -%}
+          <a href="{{ u | relative_url }}">{{ item.title }}</a>
+        {% else %}
+          <a href="{{ u | relative_url }}">{{ item.title }}</a>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </nav>
+
+  {% if site.show_drafts_nav %}
+    <div class="footer-soon">
+      <strong>Coming soon</strong>
+      <ul>
+        {% for item in site.nav %}
+          {% if item.status == "draft" %}
+            <li>{{ item.title }} <span class="muted">({{ item.url }})</span></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  <p class="muted">&copy; {{ site.time | date: "%Y" }} {{ site.title }}</p>
+</footer>
