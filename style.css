@@ -115,6 +115,11 @@ h2 {
     color: var(--text-secondary);
 }
 
+.section-title.expressive {
+    font-family: "Pickllle", system-ui, sans-serif;
+    letter-spacing: 0.1em;    
+}
+
 .section {
     margin: 80px 0;
 }
