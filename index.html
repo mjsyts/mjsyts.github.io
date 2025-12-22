@@ -35,32 +35,9 @@
 
 <body>
   <div class="wrap">
-    <header class="site-header">
-      <div class="header-left">
-        <div class="logo">
-          {% include logo_layered.svg %}
-        </div>
-        <div class="title-block">
-          <h1>M. Josiah Sytsma</h1>
-          <h2>sound design • music • implementation • dsp</h2>
-        </div>
-      </div>
 
-      <nav class="top-words" aria-label="Primary">
-        <!-- <a class="w" href="/sound-design/">Sound Design</a> -->
-        <!-- <a class="w" href="/music/">Music</a> -->
-        <!-- <a class="w" href="/dsp/">DSP</a> -->
-        <!-- <a class="w" href="/writing/">Writing</a> -->
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
-
-      <div class="header-right">
-        <p class="tagline">Adaptive by nature. Meticulous by craft.</p>
-      </div>
-    </header>
-    </header>
-
+    {% include site-header.html %}
+    
     <main>
       <section class="reel-section">
         <div class="reel">
@@ -141,6 +118,7 @@
 </body>
 
 </html>
+
 
 
 
