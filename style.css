@@ -234,8 +234,9 @@ h2 {
     border: none;
     border-radius: 999px;
     cursor: pointer;
-    font-family: "Libre Baskerville", serif;
-    font-size: 1rem;
+    font-family: "Pickllle", system-ui, sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
     background: linear-gradient(135deg,
             var(--accent-color, var(--aqua)),
             var(--accent-color-strong, var(--blue)));
