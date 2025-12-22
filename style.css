@@ -81,6 +81,11 @@ body {
     transform: scaleX(1);
 }
 
+.site-header nav a,
+.site-header nav a:visited {
+    color: var(--text);
+}
+
 .header-right {
     display: flex;
     align-items: center;
