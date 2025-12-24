@@ -1,152 +1,73 @@
 ---
+layout: default
+title: M. Josiah Sytsma - Sound Design
 ---
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <title>M. Josiah Sytsma – Sound Design</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<main>
+  <section class="reel-section">
+    <div class="reel">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/wBetF3QsMGo"
+        title="Sound Design Reel – M. Josiah Sytsma"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
+  </section>
 
-  <!-- Favicons -->
-  <link rel="icon" type="image/png" href="assets/favicon/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg" />
-  <link rel="shortcut icon" href="assets/favicon/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png" />
-  <link rel="manifest" href="assets/favicon/site.webmanifest" />
+  <section class="bio" id="about">
+    <h2 class="section-title expressive">About</h2>
+    <div class="section-content">
+      <p>
+        I’m Josiah. I’m a sound designer, composer, and DSP developer, and a doctoral candidate at Johns
+        Hopkins. Before any of that, I spent years teaching music and repairing instruments by hand, which shaped the
+        way I listen and the way I work. I’m drawn to the mechanics of sound—how it’s produced, how small details
+        change its behavior, and how those details can define a world or a character.
+      </p>
+      <p>
+        I focus on audio that is believable and internally coherent, whether I’m building a creature
+        vocal chain, shaping an environment, or coding a system that reacts in real time. Instrument repair
+        taught me precision; composition and DSP taught me control.
+      </p>
+      <p>
+        My work is detail-driven, character-aware, and grounded in the physical logic of sound.
+      </p>
+    </div>
+  </section>
 
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="style.css" />
+  <section class="contact-section" id="contact">
+    <h2 class="section-title expressive">Contact</h2>
+    <p class="contact-subtext">I'd love to hear from you!</p>
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://mjsyts.com/">
-  <meta property="og:title" content="M. Josiah Sytsma – Sound Design & Music">
-  <meta property="og:description" content="Adaptive sound design, music, and DSP for games and media.">
-  <!-- <meta property="og:image" content="https://mjsyts.com/assets/chameleon_logo.png"> -->
+    <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+      <input type="hidden" name="access_key" value="9b8c8105-14c7-4d5f-b3af-3fb777e4e65b">
+      <input type="hidden" name="subject" value="New message from mjsyts.com">
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://mjsyts.com/">
-  <meta name="twitter:title" content="M. Josiah Sytsma – Sound Design & Music">
-  <meta name="twitter:description" content="Adaptive sound design, music, and DSP for games and media.">
-  <!-- <meta name="twitter:image" content="https://mjsyts.com/assets/chameleon_logo.png"> -->
-</head>
-
-<body>
-  <div class="wrap">
-    <header class="site-header">
-      <div class="header-left">
-        <div class="logo">
-          {% include logo_layered.svg %}
-        </div>
-        <div class="title-block">
-          <h1>M. Josiah Sytsma</h1>
-          <h2>sound design • music • implementation • dsp</h2>
-        </div>
+      <div class="hp-field" aria-hidden="true">
+        <label for="website">Website</label>
+        <input id="website" type="text" name="website" tabindex="-1" autocomplete="off">
       </div>
 
-      <nav class="top-words" aria-label="Primary">
-        <!-- <a class="w" href="/sound-design/">Sound Design</a> -->
-        <!-- <a class="w" href="/music/">Music</a> -->
-        <!-- <a class="w" href="/dsp/">DSP</a> -->
-        <!-- <a class="w" href="/writing/">Writing</a> -->
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
-
-      <div class="header-right">
-        <p class="tagline">Adaptive by nature. Meticulous by craft.</p>
+      <div class="form-row">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required>
       </div>
-    </header>
-    </header>
 
-    <main>
-      <section class="reel-section">
-        <div class="reel">
-          <iframe src="https://www.youtube-nocookie.com/embed/wBetF3QsMGo" title="Sound Design Reel – M. Josiah Sytsma"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-        </div>
-      </section>
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required>
+      </div>
 
-      
-      <section class="bio" id="about">
-        <h2 class="section-title expressive">About</h2>
-        <div class="section-content">
-        <p>
-          I’m Josiah. I’m a sound designer, composer, and DSP developer, and a doctoral candidate at Johns
-          Hopkins. Before any of that, I spent years teaching music and repairing instruments by hand, which shaped the
-          way I
-          listen and the way I work. I’m drawn to the mechanics of sound—how it’s produced, how small details
-          change its behavior, and how those details can define a world or a character.
-        </p>
-        <p>
-          I focus on audio that is believable and internally coherent, whether I’m building a creature
-          vocal chain, shaping an environment, or coding a system that reacts in real time. Instrument repair
-          taught me precision; composition and DSP taught me control.
-        </p>
-        <p>
-          My work is detail-driven, character-aware, and grounded in the physical logic of sound.
-        </p>
-          <div/>
-      </section>
+      <div class="form-row">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+      </div>
 
-      <section class="contact-section" id="contact">
-        <h2 class="section-title expressive">Contact</h2>
-        <p class="contact-subtext">I'd love to hear from you!</p>
+      <button type="submit" class="contact-button" id="contactSubmit">
+        <span class="btn-text">Send Message</span>
+        <span class="btn-sending" aria-hidden="true" hidden>Sending…</span>
+      </button>
 
-        <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
-          <input type="hidden" name="access_key" value="9b8c8105-14c7-4d5f-b3af-3fb777e4e65b">
-          <input type="hidden" name="subject" value="New message from mjsyts.com">
-
-          <div class="hp-field" aria-hidden="true">
-            <label for="website">Website</label>
-            <input id="website" type="text" name="website" tabindex="-1" autocomplete="off">
-          </div>
-
-          <div class="form-row">
-            <label for="name">Name</label>
-            <input id="name" name="name" type="text" required>
-          </div>
-
-          <div class="form-row">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required>
-          </div>
-
-          <div class="form-row">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
-          </div>
-
-          <button type="submit" class="contact-button" id="contactSubmit">
-            <span class="btn-text">Send Message</span>
-            <span class="btn-sending" aria-hidden="true" hidden>Sending…</span>
-          </button>
-
-          <!-- Inline status (success/error) -->
-          <p class="form-status" id="contactStatus" role="status" aria-live="polite" hidden></p>
-        </form>
-        
-      </section>
-      
-    </main>
-    
-    {% include footer.html %}
-    
-  </div>
-  <script src="js/chameleon-eye.js"></script>
-  <script src="js/contact-form.js" defer></script>
-</body>
-
-</html>
-
-
-
-
-
-
-
-
-
+      <p class="form-status" id="contactStatus" role="status" aria-live="polite" hidden></p>
+    </form>
+  </section>
+</main>
