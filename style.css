@@ -229,7 +229,6 @@ h2 {
 .contact-form {
     position: relative;
     z-index: 1;
-    /* above texture overlay */
     display: flex;
     flex-direction: column;
     gap: 1.75rem;
@@ -242,7 +241,6 @@ h2 {
 }
 
 .form-row label {
-    /* font-family: "Libre Baskerville", serif; */
     font-size: 0.9rem;
     letter-spacing: 0.04em;
     text-transform: lowercase;
