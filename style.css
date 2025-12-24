@@ -361,6 +361,14 @@ h2 {
   padding: 48px 0 34px;
 }
 
+.sd-archive .page-title{
+    margin: 0 0 10px;
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+}
+
 .sd-archive__hero{
   border-bottom: 1px solid var(--sd-line);
   padding-bottom: 22px;
