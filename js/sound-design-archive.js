@@ -1,25 +1,25 @@
 // ====== 1) EDIT THIS LIST TO ADD NEW POSTS ======
 const POSTS = [
   {
-    id: "dQw4w9WgXcQ",
-    title: "Creature Layering Study — Footsteps + Vocalizations",
-    date: "2025-12-01",
-    tags: ["creature", "foley", "layering"],
-    desc: "Short breakdown of creature footsteps + vocal layers, with before/after passes."
+    id: "JqqnvMNVC2o",
+    title: "Atomic Heart Redesign",
+    date: "2025-12-24",
+    tags: ["sfx", "gaming", "synthesis", "supercollider", "redesign", "combat", "foley", "vocal fx"],
+    desc: "Full redesign of Atomic Heart hangar cutscene. Slow motion segment added for tension. Robot weapon sounds synthesized in SuperCollider."
   },
   {
-    id: "ysz5S6PUM-U",
-    title: "UI + Menu SFX Pack — Micro-Animations",
+    id: "-nG8t3iuY04",
+    title: "Destroy All Humans Redesign",
     date: "2025-11-14",
-    tags: ["ui", "sfx", "design"],
-    desc: "A tight UI set focusing on micro-feedback, clicks, toggles, and gentle confirm sounds."
+    tags: ["ui", "sfx", "gaming", "supercollider", "redesign", "combat", "foley"],
+    desc: "Redesign of Destroy All Humans showcasing alien weapon/powers synthesized in SuperCollider."
   },
   {
-    id: "aqz-KE-bpKQ",
-    title: "Ambient Bed Design — Tension Without Music",
+    id: "hldZv1rXLM4",
+    title: "Horror Sound Design: Project MKHEXE",
     date: "2025-10-30",
-    tags: ["ambience", "tension", "mix"],
-    desc: "Building a bed that supports suspense: detail motion, distant events, and spectral movement."
+    tags: ["ambience", "tension", "combat", "film", "foley", "horror",],
+    desc: "Creating tension, atmosphere, and narrative support through sound design without music. Competition entry for '25 Sundance Collab x Dolby Creator Lab."
   }
 ];
 
