@@ -18,7 +18,7 @@ const POSTS = [
     id: "hldZv1rXLM4",
     title: "Horror Sound Design: Project MKHEXE",
     date: "2025-10-30",
-    tags: ["ambience", "tension", "combat", "film", "foley", "horror",],
+    tags: ["ambience", "tension", "combat", "film", "foley", "horror", "infrasound"],
     desc: "Creating tension, atmosphere, and narrative support through sound design without music. Competition entry for '25 Sundance Collab x Dolby Creator Lab."
   }
 ];
