@@ -21,8 +21,6 @@ nav:
   - title: Contact
     url: /#contact
     status: live
-
-  # future pages
   - title: Sound Design
     url: /sound-design/
     status: draft
