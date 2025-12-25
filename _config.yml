@@ -15,6 +15,9 @@ kramdown:
 
 # Nav
 nav:
+  - title: Home
+    url: /
+    status: live
   - title: About
     url: /#about
     status: live
