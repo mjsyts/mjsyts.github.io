@@ -164,7 +164,7 @@ h2 {
     color: var(--text-secondary);
 }
 
-h1 .site-title {
+h1.site-title {
     font-family: "Pickllle", system-ui, sans-serif;
     font-size: 2.6rem;
     margin: 0;
