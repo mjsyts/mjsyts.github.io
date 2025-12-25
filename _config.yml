@@ -15,17 +15,18 @@ kramdown:
 
 # Nav
 nav:
+  - title: Home
+    url: /
+    status: live
   - title: About
     url: /#about
     status: live
   - title: Contact
     url: /#contact
     status: live
-
-  # future pages
   - title: Sound Design
     url: /sound-design/
-    status: draft
+    status: live
   - title: Music
     url: /music/
     status: draft
