@@ -18,8 +18,15 @@ const POSTS = [
     id: "hldZv1rXLM4",
     title: "Horror Sound Design: Project MKHEXE",
     date: "2025-10-30",
-    tags: ["ambience", "tension", "combat", "film", "foley", "horror", "infrasound"],
+    tags: ["ambience", "tension", "combat", "film", "foley", "horror", "infrasound", "sfx"],
     desc: "Creating tension, atmosphere, and narrative support through sound design without music. Competition entry for '25 Sundance Collab x Dolby Creator Lab."
+  },
+  {
+    id: "wBetF3QsMGo",
+    title: "Game Sound Design Reel Dec. '25",
+    date: "2025-12-21",
+    tags: ["gaming", "combat", "tension", "horror", "infrasound", "creature", "supercollider", "reel", "ambience", "foley", "sfx", "vocal fx"],
+    desc: "Game sound design reel #1. Selections include Atomic Heart, Perfect Dark, Wandering Village, PT, and Have a Nice Death."
   }
 ];
 
