@@ -1,7 +1,7 @@
 let ctx;
 let osc;
 
-document.getElementById("play").addEventListener("click", async () => {
+document.getElementById("Play").addEventListener("click", async () => {
     if (!ctx) {
         ctx = new AudioContext();
         osc = ctx.createOscillator();
@@ -12,7 +12,7 @@ document.getElementById("play").addEventListener("click", async () => {
     await ctx.resume();
 });
 
-document.getElementById("stop").addEventListener("click", () => {
+document.getElementById("Stop").addEventListener("click", () => {
     if (osc) {
         osc.stop();
         osc = null;
