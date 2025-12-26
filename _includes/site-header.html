@@ -1,12 +1,12 @@
 <header class="site-header">
-  <div class="logo" aria-label="Site logo">
-    {% include logo_layered.svg %}
+  <div class="brand">
+    <div class="logo" aria-label="Site logo">
+      {% include logo_layered.svg %}
+    </div>
+
+    <h1 class="site-title">{{ site.title | default: "M. Josiah Sytsma" }}</h1>
+    <p class="tagline">Adaptive by nature. Meticulous by craft.</p>
   </div>
-
-  <h1 class="site-title">{{ site.title | default: "M. Josiah Sytsma" }}</h1>
   <p class="site-kicker">sound design • music • implementation • dsp</p>
-
   {% include nav.html %}
-
-  <p class="tagline">Adaptive by nature. Meticulous by craft.</p>
 </header>

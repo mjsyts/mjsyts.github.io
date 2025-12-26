@@ -41,6 +41,27 @@ body {
     margin: 0 auto;
 }
 
+/* -------- Brand -------- */
+
+.brand__title {
+    font-family: "Pickllle", system-ui, sans-serif;
+    font-size: 2.6rem;
+    margin: 0;
+    color: var(--blue);
+    letter-spacing: 0.04em;
+    font-variation-settings: "JMBL" 206, "COUT" 225, "STGR" 111;
+    text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
+}
+
+.brand__tagline {
+    margin-top: 0.25 rem;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+}
+
+
 /* -------- Header -------- */
 
 .site-header {
@@ -103,15 +124,6 @@ body {
     text-align: right;
 }
 
-.tagline {
-    /* font-family: 'Libre Baskerville', serif; */
-    margin: 0;
-    font-size: 0.88rem;
-    color: var(--text-secondary);
-    letter-spacing: 0.04em;
-    text-transform: lowercase;
-}
-
 .header-left {
     display: flex;
     align-items: center;
@@ -162,16 +174,6 @@ h2 {
     text-transform: lowercase;
     letter-spacing: 0.18em;
     color: var(--text-secondary);
-}
-
-h1.site-title {
-    font-family: "Pickllle", system-ui, sans-serif;
-    font-size: 2.6rem;
-    margin: 0;
-    color: var(--blue);
-    letter-spacing: 0.04em;
-    font-variation-settings: "JMBL" 206, "COUT" 225, "STGR" 111;
-    text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
 }
 
 .section-title.expressive {
