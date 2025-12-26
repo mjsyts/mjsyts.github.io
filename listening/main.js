@@ -17,4 +17,4 @@ document.getElementById("stop").addEventListener("click", () => {
         osc.stop();
         osc = null;
     }
-})
+});
