@@ -7,7 +7,7 @@ document.getElementById("Play").addEventListener("click", async () => {
         osc = ctx.createOscillator();
         osc.frequency.value = 220;
         osc.connect(ctx.destination);
-        osc.start;
+        osc.start();
     }
     await ctx.resume();
 });
