@@ -58,56 +58,110 @@ This version is a fixed 15 bit shift register stepped at the sample rate. This v
 
 ## Minimal JavaScript Implementation
 
-<!--
-PLACEHOLDER:
-Intro sentence framing this as the smallest working core.
--->
+This is the smallest working core of our LFSR noise generator in WebAudio.
+
+In the constructor:
 
 ```js
-// PLACEHOLDER: minimal LFSR implementation
+constructor() {
+    super();
+    this.state = 0x7fff;
+  }
+```
+Then the core process loop:
+
+```js
+// Get the two least significant bits for feedback. lsb0 will also become our output value.
+const lsb0 = this.state & 1;
+const lsb1 = (this.state >> 1) & 1;
+
+// XOR
+const fb = lsb0 ^ lsb1;
+
+// Right shift
+this.state = (this.state >> 1) | (fb << 14);
+
+// Map to bipolar
+const sample = lsb0 ? 1.0 : -1.0;
+const amp = (ampParam.length === 1) ? ampParam[0] : ampParam[i];
+
+// ...and then scale by the amplitude value.
+channel[i] = sample * amp;
 ```
 
-<!--
-PLACEHOLDER:
-Brief explanation of the code.
-Why it works.
-Why it’s efficient.
--->
+So the whole thing is:
+
+```js
+class LfsrNoiseProcessor extends AudioWorkletProcessor {
+  static get parameterDescriptors() {
+    return [{
+      name: 'amplitude',
+      defaultValue: 0.10,
+      minValue: 0.0,
+      maxValue: 1.0,
+      automationRate: 'a-rate'
+    }];
+  }
+
+  constructor() {
+    super();
+    this.state = 0x7fff;
+  }
+
+  process(inputs, outputs, parameters) {
+    const out = outputs[0];
+    const ampParam = parameters.amplitude;
+
+    for (let ch = 0; ch < out.length; ch++) {
+      const channel = out[ch];
+
+      for (let i = 0; i < channel.length; i++) {
+        const lsb0 = this.state & 1;
+        const lsb1 = (this.state >> 1) & 1;
+        const fb = lsb0 ^ lsb1;
+
+        this.state = (this.state >> 1) | (fb << 14);
+
+        const sample = lsb0 ? 1.0 : -1.0;
+        const amp = (ampParam.length === 1) ? ampParam[0] : ampParam[i];
+
+        channel[i] = sample * amp;
+      }
+    }
+    return true;
+  }
+}
+
+registerProcessor('lfsr-noise', LfsrNoiseProcessor);
+```
+
+That's it. Extremely light, but as we'll see in future posts **extremely expressive!**
 
 ---
 
 ## Listening to the Output
 
-<!--
-PLACEHOLDER:
-Explain how the sound is generated and played.
-Temporary approach before AudioWorklet.
-Amplitude handling.
--->
-
-<!--
-PLACEHOLDER FOR AUDIO DEMO / WEB AUDIO APPLET
-(Play / stop controls, etc.)
--->
+<iframe
+  class="applet-frame"
+  src="{{ '/applets/demos/lfsr/p1/app.js' | relative_url }}"
+  loading="lazy"
+  title="15-bit LFSR Audio Player"
+></iframe>
 
 ---
 
 ## Limitations of This Version
 
-<!--
-PLACEHOLDER:
-Bullet list of known limitations.
-Set expectations.
-Prepare for future parts.
--->
+Again, this version has no control over:
+- Initial state
+- Frequency/clock rate
+- Width
+- Taps
+- As we'll see in future posts, this could theoretically get stuck. We don't really handle terminal state edge-cases in this version internally.
 
 ---
 
 ## What Comes Next
 
-<!--
-PLACEHOLDER:
-Brief outline of Part 2 and beyond.
-No technical detail yet.
--->
+Now that we have a simple working core, we can add controls for frequency, register width, seed, and a reset trigger to set the state back to the seed. We also need to handle terminal states.
 
