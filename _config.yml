@@ -1,0 +1,55 @@
+title: "M. Josiah Sytsma"
+
+markdown: kramdown
+theme: null
+lsi: false
+safe: true
+incremental: false
+highlighter: rouge
+
+gist:
+  noscript: false
+
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
+
+# Nav
+nav:
+  - title: Home
+    url: /
+    status: live
+  - title: About
+    url: /#about
+    status: live
+  - title: Contact
+    url: /#contact
+    status: live
+  - title: Sound Design
+    url: /sound-design/
+    status: live
+  - title: Music
+    url: /music/
+    status: draft
+  - title: Development
+    url: /development/
+    status: live
+  - title: Writing
+    url: /writing/
+    status: draft
+
+show_drafts_nav: false
+
+# Collections
+collections:
+  development:
+    output: true
+    permalink: /development/:name/
+
+# Defaults for collection entries
+defaults:
+  - scope:
+      path: ""
+      type: development
+    values:
+      layout: post
