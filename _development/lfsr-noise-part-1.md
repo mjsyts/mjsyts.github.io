@@ -10,7 +10,7 @@ excerpt: "PLACEHOLDER_EXCERPT"
 
 ## Introduction
 
-I started working on GameBoy/NES audio emulation in early 2022 with SuperCollider. On paper it's pretty straightforward, but SC doesn't really support the style of noise generation from the 8-bit Nintendo consoles. After I started C++ coursework at Johns Hopkins, I decided I'd make something more useful than a command line Texas Hold 'Em game. I wanted to expand the idea of Nintendo's noise generator, but with more control. You can find the SuperCollider plugin [here](https://github.com/mjsyts/LFSRNoiseUGens).
+I started working on GameBoy/NES audio emulation in early 2022 with SuperCollider. On paper it's pretty straightforward, but SC doesn't really support the style of noise generation from the 8-bit Nintendo consoles. After I started C++ coursework at Johns Hopkins, I decided I'd make something more useful than a command line Texas Hold 'Em game. I wanted to augment the idea behind Nintendo's noise generator, adding more granular control. You can find the SuperCollider plugin [here](https://github.com/mjsyts/LFSRNoiseUGens).
 
 What I love about this noise generator is the massive amount of variety you can squeeze out of something that is extremely elegant and almost trivial computationally. The same audio processing algorithm can give results that range from white noise to incredibly rich, but still relatively stable tones.
 
