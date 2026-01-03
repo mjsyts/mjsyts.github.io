@@ -1,11 +1,11 @@
 ---
 layout: post
 title: "LFSR Noise Generator — Part 1: Concept & Minimal Core"
-date: YYYY-MM-DD
+date: 2026-01-03
 series: "LFSR Noise Generator"
 part: 1
 tags: [dsp, noise, lfsr, nes, gameboy, webaudio]
-excerpt: "PLACEHOLDER_EXCERPT"
+excerpt: "I started working on GameBoy/NES audio emulation in early 2022 with SuperCollider..."
 ---
 
 ## Introduction
