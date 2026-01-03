@@ -1,4 +1,5 @@
-title: M. Josiah Sytsma
+title: "M. Josiah Sytsma"
+
 markdown: kramdown
 theme: null
 lsi: false
@@ -39,8 +40,16 @@ nav:
 
 show_drafts_nav: false
 
-# Archive Pages
+# Archive Pages / Collections
 collections:
   development:
     output: true
     permalink: /development/:name/
+
+# Make sure development entries get a real layout by default
+defaults:
+  - scope:
+      path: ""
+      type: development
+    values:
+      layout: post
