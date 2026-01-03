@@ -35,3 +35,9 @@ nav:
     status: draft
 
 show_drafts_nav: false
+
+# Archive Pages
+collections:
+  development:
+    output: true
+    permalink: /development/:name/
