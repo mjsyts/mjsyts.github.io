@@ -6,13 +6,14 @@
   <title>15-bit LFSR Noise (WebAudio)</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
   <div class="panel">
-    <h2>15‑bit LFSR Noise</h2>
+    <h2>15-bit LFSR Noise</h2>
 
     <div class="row">
-      <button id="startBtn">Start</button>
-      <button id="stopBtn" disabled>Stop</button>
+      <button id="startBtn" type="button">Start</button>
+      <button id="stopBtn" type="button" disabled>Stop</button>
     </div>
 
     <div class="row">
@@ -25,13 +26,11 @@
       <small id="sr">Sample rate: —</small>
     </div>
 
-    <details>
-      <summary>How it works</summary>
-      <p>
-        15‑bit LFSR initialized to 0x7FFF. Per sample: XOR the two LSBs, shift right,
-        write XOR into MSB, output bipolar LSB (1 → +1, 0 → −1), times amplitude.
-      </p>
-    </details>
+    <p class="how">
+      <strong>How it works</strong><br />
+      15-bit LFSR initialized to 0x7FFF. Per sample: XOR the two LSBs, shift right, write XOR into MSB,
+      output bipolar LSB (1 → +1, 0 → −1), times amplitude.
+    </p>
   </div>
 
   <script src="app.js"></script>
