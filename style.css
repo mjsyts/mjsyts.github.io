@@ -584,3 +584,106 @@ h2 {
 @media (max-width: 620px){
   .sd-grid{ grid-template-columns: 1fr; }
 }
+
+/* -------------------------------------------------------------------------- */
+/* Prose / post content polish                                                */
+/* -------------------------------------------------------------------------- */
+
+/* If you already have a wrapper class for post content, replace `article` with it.
+   Example: .post-content, .prose, .entry, .page__content, etc. */
+article {
+  max-width: 72ch;
+  margin-inline: auto;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+/* Headings */
+article h2 {
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.35rem;
+  letter-spacing: 0.02em;
+}
+
+article h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.15rem;
+}
+
+/* Paragraph rhythm */
+article p {
+  margin: 0.8rem 0;
+}
+
+/* Horizontal rules (your markdown currently renders * * * between sections) */
+article hr {
+  border: 0;
+  height: 1px;
+  margin: 1.75rem 0;
+  background: var(--border, rgba(255, 255, 255, 0.16));
+  opacity: 0.9;
+}
+
+/* Lists (ordered lists look cramped/odd without padding + spacing) */
+article ol,
+article ul {
+  margin: 0.8rem 0 1.1rem;
+  padding-left: 1.35rem;
+}
+
+article li {
+  margin: 0.35rem 0;
+}
+
+article li > p {
+  margin: 0.35rem 0;
+}
+
+/* Inline code */
+article code {
+  font-size: 0.95em;
+  padding: 0.12em 0.35em;
+  border-radius: 6px;
+  background: var(--surface-2, rgba(255, 255, 255, 0.06));
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+}
+
+/* Code blocks (your “Minimal JavaScript Implementation” is currently an indented block) */
+article pre {
+  overflow-x: auto;
+  padding: 0.95rem 1rem;
+  border-radius: 12px;
+  background: var(--surface-2, rgba(255, 255, 255, 0.05));
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  margin: 1rem 0 1.25rem;
+}
+
+article pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  display: block;
+}
+
+/* Optional: nicer section separation without relying on HR */
+article h2 + p {
+  margin-top: 0.6rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Applet iframe embed                                                        */
+/* -------------------------------------------------------------------------- */
+
+.applet-frame {
+  display: block;
+  width: 100%;
+  height: clamp(440px, 60vh, 680px);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.14));
+  border-radius: 14px;
+  background: var(--surface, transparent);
+  margin: 1.25rem 0 1.5rem;
+}
