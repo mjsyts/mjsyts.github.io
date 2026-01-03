@@ -20,7 +20,7 @@ What I love about this noise generator is the massive amount of variety you can 
 
 An LFSR (linear-feedback shift register) is a tiny state machine that generates a deterministic stream of bits that *behaves* like noise.
 
-You keep an integer "register (a fixed number of bits). On each step:
+You keep an integer "register" (a fixed number of bits). On each step:
 1. You choose a few of the bit positions (called **taps**).
 2. XOR the tap bits to get a new feedback bit.
 3. Shift the entire register one position.
