@@ -30,6 +30,9 @@ nav:
   - title: Music
     url: /music/
     status: draft
+  - title: Development
+    url: /development/
+    status: live
   - title: Writing
     url: /writing/
     status: draft
