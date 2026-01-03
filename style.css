@@ -677,12 +677,12 @@ post h2 + p {
 
 /* Applet embeds */
 .applet-frame{
-  width: 100%;
-  height: min(820px, 80vh);
-  min-height: 620px;
-  border: 1px solid var(--border, rgba(255,255,255,.14));
-  border-radius: 14px;
-  display: block;
-  margin: 1.25rem 0 1.75rem;
-  background: var(--surface, transparent);
+  display:block;
+  width:100%;
+  height:min(860px, 82vh);
+  min-height:680px;
+  border:1px solid var(--border, rgba(255,255,255,.14));
+  border-radius:14px;
+  background:var(--surface, transparent);
+  margin:1.25rem 0 1.75rem;
 }
