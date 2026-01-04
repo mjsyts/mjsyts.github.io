@@ -1,8 +1,8 @@
 <header class="site-header">
   <div class="header-left">
-    <div class="logo" aria-label="Site logo">
+    <span class="logo" aria-label="Site logo">
       {% include logo_layered.svg %}
-    </div>
+    </span>
 
     <div class="title-block">
       <div class="brand-title">{{ site.title | default: "M. Josiah Sytsma" }}</div>
@@ -11,7 +11,9 @@
     </div>
   </div>
 
-  <nav class="site-nav">
-    {% include nav.html %}
-  </nav>
+  <div class="header-right">
+    <nav class="site-nav">
+      {% include nav.html %}
+    </nav>
+  </div>
 </header>
