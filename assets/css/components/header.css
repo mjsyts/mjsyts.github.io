@@ -87,7 +87,7 @@
 .site-nav{
   display: flex;
   gap: 1rem;
-  align-self: flex-end;
+  align-self: flex-start;
   flex-wrap: wrap;
 }
 
@@ -113,3 +113,4 @@
     align-self: flex-start;
   }
 }
+
