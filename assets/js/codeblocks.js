@@ -1,13 +1,61 @@
 (() => {
   const normalizeLang = (raw) => {
-    if (!raw) return "code";
-    // language-javascript, lang-js, etc.
-    const m = raw.match(/language-([a-z0-9+-]+)/i) || raw.match(/lang(?:uage)?-([a-z0-9+-]+)/i);
-    const lang = (m && m[1]) ? m[1] : raw;
-    // Small niceties
-    const map = { js: "javascript", ts: "typescript", sh: "shell", yml: "yaml" };
-    return (map[lang.toLowerCase()] || lang).toUpperCase();
+  if (!raw) return "CODE";
+
+  // Try to extract a language token from typical class patterns.
+  // Handles: language-javascript, lang-js, highlight-source-cpp, etc.
+  const m =
+    raw.match(/(?:^|\s)language-([a-z0-9+-]+)(?=\s|$)/i) ||
+    raw.match(/(?:^|\s)lang(?:uage)?-([a-z0-9+-]+)(?=\s|$)/i) ||
+    raw.match(/(?:^|\s)highlight-source-([a-z0-9+-]+)(?=\s|$)/i);
+
+  let lang = (m && m[1]) ? m[1] : raw;
+
+  // If raw was a full class string, last-ditch: pick the last token
+  // that looks language-ish (avoids returning the entire class list).
+  if (lang.includes(" ")) {
+    const parts = lang.split(/\s+/).filter(Boolean);
+    lang = parts.find(p => /^language-|^lang(?:uage)?-|^highlight-source-/i.test(p)) || parts[parts.length - 1];
+    // re-extract if we picked a prefixed token
+    const mm = lang.match(/(?:language-|lang(?:uage)?-|highlight-source-)([a-z0-9+-]+)/i);
+    if (mm) lang = mm[1];
+  }
+
+  const key = lang.toLowerCase();
+
+  // Friendly display labels
+  const map = {
+    js: "javascript",
+    javascript: "javascript",
+    ts: "typescript",
+    typescript: "typescript",
+    sh: "shell",
+    shell: "shell",
+    bash: "shell",
+    zsh: "shell",
+    yml: "yaml",
+    yaml: "yaml",
+
+    // C#
+    cs: "c#",
+    csharp: "c#",
+    "c#": "c#",
+
+    // C++
+    cpp: "c++",
+    "c++": "c++",
+    cc: "c++",
+    cxx: "c++",
+
+    // SuperCollider
+    supercollider: "supercollider",
+    sclang: "supercollider",
+    sc: "supercollider",
   };
+
+  return (map[key] || key).toUpperCase();
+};
+
 
   const getCodeText = (pre) => {
     // Prefer <code> innerText if present
@@ -116,3 +164,4 @@
     init();
   }
 })();
+
