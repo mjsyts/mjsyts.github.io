@@ -1,5 +1,6 @@
 /* =========================================================
-   15-bit LFSR Visualizer — purposeful UI + better readout flow
+   15-bit LFSR Visualizer
+   Compact, purposeful, content-sized (NO stretched panels)
    ========================================================= */
 
 @font-face {
@@ -8,65 +9,68 @@
   font-display: swap;
 }
 
-/* Fit-to-iframe: no internal scrollbars */
-html, body {
+/* Prevent iframe scrolling */
+html,
+body {
   height: 100%;
   margin: 0;
   overflow: hidden;
 }
-body { display: flex; }
 
-/* Root tokens */
+body {
+  display: flex;
+}
+
+/* Root */
 .applet--lfsr15 {
   flex: 1;
   min-width: 0;
-  min-height: 0;
 
-  --pad: 0.8rem;
-  --gap: clamp(4px, 0.75vw, 8px);
+  --pad: 0.75rem;
+  --gap: 6px;
 
-  /* Purposeful theme (ink + warm panels + clear accents) */
-  --bg: #070a12;                         /* deep ink */
-  --panel: rgba(255, 255, 255, 0.06);    /* primary surface */
-  --panel2: rgba(255, 255, 255, 0.035);  /* secondary surface */
-  --stroke: rgba(255, 255, 255, 0.14);   /* borders */
-  --stroke2: rgba(255, 255, 255, 0.10);
+  /* Purposeful palette */
+  --bg: #070a12;
+  --panel: rgba(255, 255, 255, 0.06);
+  --panel2: rgba(255, 255, 255, 0.035);
+  --stroke: rgba(255, 255, 255, 0.15);
 
   --text: rgba(255, 255, 255, 0.92);
-  --muted: rgba(255, 255, 255, 0.68);
+  --muted: rgba(255, 255, 255, 0.65);
 
-  /* Slots: darker + slightly “material” */
-  --slot: rgba(0, 0, 0, 0.42);
-  --slotStroke: rgba(255, 255, 255, 0.16);
+  --slot: rgba(0, 0, 0, 0.45);
+  --slotStroke: rgba(255, 255, 255, 0.18);
 
-  /* Accents */
-  --accent: #7bb7ff;     /* blue: primary action */
-  --accent2: #39d98a;    /* green: lmb target */
-  --warn: #ff9a3c;       /* orange: rmb active */
+  --accent: #7bb7ff;
+  --accent2: #39d98a;
+  --warn: #ff9a3c;
 
   --radius: 14px;
-  --radiusSm: 10px;
+  --radiusSm: 9px;
 
-  --shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
-
-  --ui: "Pickllle", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --ui: "Pickllle", system-ui, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   padding: var(--pad);
-  background: radial-gradient(1200px 800px at 30% 0%, rgba(123,183,255,0.08), transparent 55%),
-              radial-gradient(900px 700px at 80% 20%, rgba(57,217,138,0.06), transparent 55%),
-              var(--bg);
+  background: var(--bg);
   color: var(--text);
 }
 
-.applet--lfsr15 *, .applet--lfsr15 *::before, .applet--lfsr15 *::after { box-sizing: border-box; }
+.applet--lfsr15 *,
+.applet--lfsr15 *::before,
+.applet--lfsr15 *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   Layout (IMPORTANT: no vertical stretching)
+   ========================================================= */
 
 .applet--lfsr15 .app-main {
-  height: 100%;
-  min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+  justify-content: flex-start; /* KEY */
 }
 
 /* Panels */
@@ -76,14 +80,16 @@ body { display: flex; }
   background: linear-gradient(180deg, var(--panel), rgba(255,255,255,0.045));
   border: 1px solid var(--stroke);
   border-radius: var(--radius);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset;
 }
 
-/* Controls */
+/* =========================================================
+   Controls
+   ========================================================= */
+
 .applet--lfsr15 .controls {
-  padding: 0.6rem 0.8rem;
+  padding: 0.55rem 0.7rem;
   display: grid;
-  gap: 0.55rem;
+  gap: 0.5rem;
   font-family: var(--ui);
 }
 
@@ -91,7 +97,7 @@ body { display: flex; }
 .applet--lfsr15 .run-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   flex-wrap: wrap;
 }
 
@@ -105,212 +111,162 @@ body { display: flex; }
 
 .applet--lfsr15 .seed-input {
   background: var(--panel2);
-  color: var(--text);
-  border: 1px solid var(--stroke2);
-  border-radius: 10px;
-  padding: 0.45rem 0.6rem;
-  min-width: 220px;
-  max-width: 100%;
+  border: 1px solid var(--stroke);
+  border-radius: 8px;
+  padding: 0.4rem 0.55rem;
+  min-width: 200px;
   font-family: var(--mono);
-  font-size: 0.95rem;
-  outline: none;
-}
-
-.applet--lfsr15 .seed-input:focus {
-  border-color: rgba(123, 183, 255, 0.55);
-  box-shadow: 0 0 0 3px rgba(123, 183, 255, 0.18);
+  color: var(--text);
 }
 
 .applet--lfsr15 .btn {
-  appearance: none;
-  border-radius: 10px;
-  padding: 0.44rem 0.75rem;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--stroke);
+  border-radius: 8px;
+  padding: 0.4rem 0.65rem;
   cursor: pointer;
 
   font-family: var(--ui);
-  font-weight: 950;
+  font-weight: 900;
   letter-spacing: 0.07em;
   text-transform: lowercase;
-
-  background: rgba(0,0,0,0.20);
-  border: 1px solid var(--stroke2);
   color: var(--text);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset;
-}
-
-.applet--lfsr15 .btn:hover {
-  border-color: rgba(255,255,255,0.18);
-  transform: translateY(-1px);
 }
 
 .applet--lfsr15 .btn.primary {
-  background: linear-gradient(180deg, rgba(123,183,255,0.25), rgba(123,183,255,0.12));
-  border-color: rgba(123,183,255,0.55);
-  box-shadow:
-    0 10px 24px rgba(123,183,255,0.14),
-    0 1px 0 rgba(255,255,255,0.06) inset;
+  background: linear-gradient(
+    180deg,
+    rgba(123,183,255,0.25),
+    rgba(123,183,255,0.12)
+  );
+  border-color: rgba(123,183,255,0.6);
 }
 
-.applet--lfsr15 .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.applet--lfsr15 .speed-label {
+  margin-left: auto;
+}
 
-.applet--lfsr15 .speed-label { margin-left: auto; }
-.applet--lfsr15 .speed-range { width: 170px; }
+/* =========================================================
+   Visualizer (SHRINK TO CONTENT)
+   ========================================================= */
 
-/* Viz */
 .applet--lfsr15 .viz {
-  flex: 1;
-  min-height: 0;
-  padding: 0.7rem;
+  flex: 0 0 auto;            /* KEY FIX */
+  padding: 0.6rem;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   overflow: hidden;
 }
 
+/* Legend */
 .applet--lfsr15 .legend {
   display: flex;
-  gap: 1rem;
-  align-items: center;
+  gap: 0.9rem;
   font-family: var(--ui);
-  font-weight: 950;
+  font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: lowercase;
+  font-size: 0.8rem;
   color: var(--muted);
-  font-size: 0.86rem;
 }
 
-.applet--lfsr15 .legend-item { display: inline-flex; align-items: center; gap: 0.35rem; }
-.applet--lfsr15 .legend-swatch { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
-.applet--lfsr15 .legend-swatch.rmb { background: var(--warn); }
-.applet--lfsr15 .legend-swatch.lmb { background: var(--accent2); }
-
-/* Register always fits (no clipped LSB) */
+/* Register */
 .applet--lfsr15 .register {
-  position: relative;
-  width: 100%;
   display: grid;
   grid-template-columns: repeat(15, minmax(0, 1fr));
   gap: var(--gap);
-  align-content: start;
-  overflow: hidden;
+  margin-top: 2px;
 }
 
-/* Slots (less tall) */
+/* Slots (shorter) */
 .applet--lfsr15 .bit {
   position: relative;
   background: linear-gradient(180deg, rgba(255,255,255,0.04), var(--slot));
   border: 1px solid var(--slotStroke);
   border-radius: var(--radiusSm);
-  min-height: clamp(32px, 4.0vw, 42px);
+
+  min-height: 34px; /* SHORT */
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-}
-
-.applet--lfsr15 .bit:hover {
-  box-shadow: var(--shadow);
-  transform: translateY(-1px);
 }
 
 /* Value */
 .applet--lfsr15 .bit .value {
   font-family: var(--mono);
   font-weight: 900;
-  font-size: clamp(0.9rem, 1.6vw, 1.1rem);
-  transform: translateY(4px); /* room for index above */
+  font-size: 0.95rem;
+  transform: translateY(4px);
 }
 
-/* Index centered above */
+/* Index ABOVE slot */
 .applet--lfsr15 .bit .index {
   position: absolute;
-  top: 6px;
+  top: 4px;
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--ui);
-  font-weight: 950;
+  font-weight: 900;
+  font-size: 0.6rem;
   letter-spacing: 0.06em;
   text-transform: lowercase;
-  font-size: clamp(0.55rem, 0.9vw, 0.68rem);
-  color: rgba(255,255,255,0.72);
-  opacity: 0.95;
-  pointer-events: none;
+  color: var(--muted);
 }
 
 /* Highlights */
 .applet--lfsr15 .bit.rmb-active {
-  border-color: rgba(255,154,60,0.65);
-  box-shadow: inset 0 0 0 1px rgba(255,154,60,0.55), 0 0 16px rgba(255,154,60,0.18);
+  border-color: var(--warn);
 }
 
 .applet--lfsr15 .bit.lmb-target {
-  border-color: rgba(57,217,138,0.70);
-  box-shadow: inset 0 0 0 1px rgba(57,217,138,0.55), 0 0 16px rgba(57,217,138,0.14);
+  border-color: var(--accent2);
 }
 
 .applet--lfsr15 .bit.just-updated {
-  outline: 2px solid rgba(123,183,255,0.85);
-  outline-offset: 0;
+  outline: 2px solid var(--accent);
 }
 
 /* XOR bubble */
 .applet--lfsr15 .xor-bubble {
   position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(-50%, -100%);
-  background: rgba(0, 0, 0, 0.62);
-  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(0,0,0,0.65);
+  border: 1px solid var(--stroke);
   border-radius: 999px;
-  padding: 0.25rem 0.6rem;
+  padding: 0.25rem 0.55rem;
   font-family: var(--mono);
   font-weight: 900;
-  color: var(--text);
   opacity: 0;
   pointer-events: none;
-  transition: left 600ms ease, top 600ms ease, opacity 160ms ease;
-  box-shadow: var(--shadow);
-  z-index: 5;
 }
-.applet--lfsr15 .xor-bubble.on { opacity: 1; }
 
 /* =========================================================
-   Readout: label above, value below (no “Cycle: 0” inline)
-   Requires tiny HTML tweak below.
+   Readout (label ABOVE value)
    ========================================================= */
 
 .applet--lfsr15 .readout {
-  margin-top: 0.35rem;
   display: grid;
-  grid-template-columns: repeat(4, minmax(140px, 1fr));
+  grid-template-columns: repeat(4, minmax(130px, 1fr));
   gap: var(--gap);
 }
 
 .applet--lfsr15 .readout-item {
-  padding: 0.55rem 0.6rem;
-  min-width: 0;
+  padding: 0.45rem 0.55rem;
   display: grid;
   gap: 0.25rem;
 }
 
 .applet--lfsr15 .readout-label {
   font-family: var(--ui);
-  font-weight: 950;
-  letter-spacing: 0.07em;
+  font-weight: 900;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
   text-transform: lowercase;
   color: var(--muted);
-  font-size: 0.78rem;
 }
 
 .applet--lfsr15 .readout-value {
   font-family: var(--mono);
   font-weight: 900;
-  font-size: 0.98rem;
-  word-break: break-word;
-  color: var(--text);
-}
-
-@media (max-width: 660px) {
-  .applet--lfsr15 .readout { grid-template-columns: 1fr 1fr; }
-  .applet--lfsr15 .speed-label { margin-left: 0; }
+  font-size: 0.95rem;
 }
