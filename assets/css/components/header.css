@@ -80,6 +80,29 @@
   height: 100%;
 }
 
+.site-header{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+
+  /* key change */
+  flex-wrap: wrap;
+}
+
+/* keep brand on the first row */
+.site-header > .brand{
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* force nav to the next row */
+.site-header > nav,
+.site-header > .site-nav {
+  flex: 0 0 100%;
+}
+
+
 /* Responsive: kicker drops under, but stays visually strong */
 @media (max-width: 800px) {
   .site-header {
@@ -103,3 +126,4 @@
     font-size: 2.2rem;
   }
 }
+
