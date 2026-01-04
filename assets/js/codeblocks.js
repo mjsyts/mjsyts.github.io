@@ -1,19 +1,15 @@
 /* assets/js/codeblocks.js
    Wrap <pre> blocks with a header bar showing language + copy/expand controls.
-   Robust against Jekyll/Rouge markup that uses class="highlight" and/or data-lang.
+   Robust against Jekyll/Highlight.js markup that lacks language-* classes.
 */
 (() => {
   // ---------- helpers ----------
   const pickLangTokenFromClasses = (classStr) => {
     if (!classStr) return "";
-
-    // Look for common language class patterns across highlighters/renderers
-    // e.g. language-javascript, lang-js, highlight-source-cpp
     const m =
       classStr.match(/(?:^|\s)language-([a-z0-9+-]+)(?=\s|$)/i) ||
       classStr.match(/(?:^|\s)lang(?:uage)?-([a-z0-9+-]+)(?=\s|$)/i) ||
       classStr.match(/(?:^|\s)highlight-source-([a-z0-9+-]+)(?=\s|$)/i);
-
     return (m && m[1]) ? m[1] : "";
   };
 
@@ -21,34 +17,27 @@
     if (!token) return "CODE";
     const key = String(token).trim().toLowerCase();
 
-    // Display-friendly aliases
     const map = {
-      // JS/TS
       js: "javascript",
       javascript: "javascript",
       ts: "typescript",
       typescript: "typescript",
 
-      // shell-ish
       sh: "shell",
       shell: "shell",
       bash: "shell",
       zsh: "shell",
 
-      // yaml
       yml: "yaml",
       yaml: "yaml",
 
-      // C# (usually csharp/cs in HTML classes)
       cs: "c#",
       csharp: "c#",
 
-      // C++ (usually cpp/cc/cxx in HTML classes)
       cpp: "c++",
       cc: "c++",
       cxx: "c++",
 
-      // SuperCollider (common tokens)
       supercollider: "supercollider",
       sclang: "supercollider",
       sc: "supercollider",
@@ -62,6 +51,39 @@
     return (code ? code.innerText : pre.innerText).replace(/\s+$/, "");
   };
 
+  // When markup gives us *no* language, guess from code content.
+  // This is exactly your current situation: <pre class="highlight"><code>...</code></pre>
+  const guessLangFromText = (text) => {
+    const t = (text || "").slice(0, 4000); // don't scan huge blocks
+
+    // SuperCollider
+    if (/(SynthDef\s*\(|\bUGen\b|\bEnvGen\b|\bOut\.ar\b|\bSinOsc\.ar\b|\bLPF\.ar\b|\bRoutine\s*\{|s\.waitForBoot\b)/.test(t)) {
+      return "supercollider";
+    }
+
+    // C#
+    if (/\bnamespace\s+[A-Za-z_]\w*|\busing\s+System\b|\bpublic\s+(class|struct|interface)\b|\bConsole\.Write(Line)?\b|\bget;\s*set;/.test(t)) {
+      return "csharp";
+    }
+
+    // C++
+    if (/#include\s+<|std::|template\s*<|cout\s*<<|\bconstexpr\b|\bnullptr\b/.test(t)) {
+      return "cpp";
+    }
+
+    // JavaScript / TypeScript
+    // (Your post screams JS: AudioWorkletProcessor, registerProcessor, const, this., =>)
+    if (/\bAudioWorkletProcessor\b|\bregisterProcessor\s*\(|\bconst\b|\blet\b|\bvar\b|\bthis\.\w+|\bclass\s+\w+|\(\s*\)\s*=>|\bexport\s+(default\s+)?/.test(t)) {
+      // If it smells like TS specifically, bump to TS
+      if (/\binterface\s+\w+|\btype\s+\w+\s*=|\bimplements\s+\w+|:\s*(string|number|boolean|any|unknown)\b/.test(t)) {
+        return "typescript";
+      }
+      return "javascript";
+    }
+
+    return "";
+  };
+
   const makeBtn = (label) => {
     const b = document.createElement("button");
     b.type = "button";
@@ -73,18 +95,18 @@
   const findBestLang = (pre) => {
     const code = pre.querySelector("code");
     const figure = pre.closest("figure");
-    const wrapper = pre.closest(".highlight");
+    const highlightWrap = pre.closest(".highlight");
 
-    // 1) Best: explicit data-lang from Rouge/kramdown if present
+    // 1) data-lang (best if present)
     const dataLang =
       code?.dataset?.lang ||
       pre.dataset?.lang ||
       figure?.dataset?.lang ||
-      wrapper?.dataset?.lang;
+      highlightWrap?.dataset?.lang;
 
     if (dataLang) return normalizeLangLabel(dataLang);
 
-    // 2) Next: language-* style classes on <code> or <pre>
+    // 2) language-* style classes
     const classToken =
       pickLangTokenFromClasses(code?.className || "") ||
       pickLangTokenFromClasses(pre.className || "") ||
@@ -92,21 +114,20 @@
 
     if (classToken) return normalizeLangLabel(classToken);
 
-    // 3) If Rouge only gives you "highlight" etc., DO NOT treat it as a language.
+    // 3) content-based guess (your current case)
+    const guessed = guessLangFromText(getCodeText(pre));
+    if (guessed) return normalizeLangLabel(guessed);
+
     return "CODE";
   };
 
   // ---------- main enhancer ----------
   const enhancePre = (pre) => {
-    // Avoid double-wrapping
     if (pre.closest(".codeblock")) return;
-
-    // Some themes use <pre class="highlight"> (non-code). Ignore empty blocks.
     if (!pre.innerText || !pre.innerText.trim()) return;
 
     const langLabel = findBestLang(pre);
 
-    // Build wrapper
     const wrapper = document.createElement("section");
     wrapper.className = "codeblock";
 
@@ -132,18 +153,15 @@
     const fade = document.createElement("div");
     fade.className = "codeblock__fade";
 
-    // Wrap the <pre>
     pre.parentNode.insertBefore(wrapper, pre);
     wrapper.append(bar, body);
     body.append(pre, fade);
 
-    // Copy
     copyBtn.addEventListener("click", async () => {
       const text = getCodeText(pre);
       try {
         await navigator.clipboard.writeText(text);
       } catch {
-        // Fallback
         const ta = document.createElement("textarea");
         ta.value = text;
         ta.style.position = "fixed";
@@ -157,7 +175,6 @@
       window.setTimeout(() => (copyBtn.textContent = "copy"), 1100);
     });
 
-    // Collapse if tall
     const COLLAPSE_THRESHOLD_PX = 420;
 
     requestAnimationFrame(() => {
@@ -177,7 +194,6 @@
   };
 
   const init = () => {
-    // Only enhance real code blocks (pre, or figure.highlight > pre, etc.)
     document.querySelectorAll("pre").forEach(enhancePre);
   };
 
