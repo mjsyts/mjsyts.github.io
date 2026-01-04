@@ -1,29 +1,29 @@
-/* Header layout */
+/* Header container */
 .site-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-bottom: 1.2rem;
 }
 
-/* Brand row: logo | text stack | kicker */
+/* Brand row: logo | (name + tagline) | kicker */
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
   min-width: 0;
 }
 
 /* Name + tagline stack */
-.brand-text {
+.brand-core {
   display: flex;
   flex-direction: column;
-  line-height: 1.1;
+  line-height: 1.05;
   min-width: 0;
 }
 
-/* Keep title formatting */
+/* Title — unchanged */
 .brand-title {
   font-family: "Pickllle", system-ui, sans-serif;
   font-size: 2.6rem;
@@ -34,23 +34,25 @@
   text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
 }
 
+/* Tagline — clearly subordinate */
 .brand-tagline {
-  margin-top: 0.25rem;
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-  letter-spacing: 0.04em;
+  margin-top: 0.2rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
   text-transform: lowercase;
+  color: var(--text-secondary);
+  opacity: 0.85;
 }
 
-/* Kicker sits to the right of the name/tagline stack */
+/* Kicker — larger, parallel identity */
 .site-kicker {
-  margin-left: 1.25rem;
-  font-size: 0.82rem;
-  letter-spacing: 0.08em;
+  margin-left: 1.75rem;
+  font-size: 1.05rem;        /* intentionally larger than tagline */
+  letter-spacing: 0.12em;
   text-transform: lowercase;
-  color: var(--text-secondary);
-  opacity: 0.9;
+  color: var(--text-primary);
   white-space: nowrap;
+  line-height: 1;
 }
 
 /* Logo */
@@ -65,12 +67,6 @@
   flex: 0 0 auto;
 }
 
-.logo a {
-  display: flex;
-  width: 100%;
-  height: 100%;
-}
-
 .logo svg,
 .logo img {
   width: 100%;
@@ -78,7 +74,13 @@
   object-fit: cover;
 }
 
-/* Responsive: allow wrap, and drop kicker under the name/tagline */
+.logo a {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* Responsive: kicker drops under, but stays visually strong */
 @media (max-width: 800px) {
   .site-header {
     align-items: flex-start;
@@ -87,19 +89,17 @@
 
   .brand {
     flex-wrap: wrap;
-    row-gap: 0.4rem;
+    row-gap: 0.5rem;
   }
 
   .site-kicker {
     margin-left: 0;
-    white-space: normal;
     flex-basis: 100%;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
   }
 
   .brand-title {
     font-size: 2.2rem;
   }
 }
-
-
-
