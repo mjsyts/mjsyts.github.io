@@ -7,22 +7,14 @@
   margin: 1.25rem 0 2rem;
 }
 
-/* Frame that lives inside the post */
+/* Post embed sizing for this applet iframe */
 .applet__frame {
-  display: block;
   width: 100%;
-
-  /* Pick a height that fits your UI without internal scrolling.
-     Start here; tweak once after you see it. */
-  height: 640px;
-
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  height: 520px;      /* adjust here */
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 18px;
-  background: rgba(0, 0, 0, 0.28);
   overflow: hidden;
-
-  /* remove default iframe border in some browsers */
-  border-style: solid;
+  display: block;
 }
 
 /* Slightly more room on larger screens */
@@ -31,3 +23,4 @@
     height: 720px;
   }
 }
+
