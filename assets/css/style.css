@@ -9,6 +9,7 @@
 @import url("./components/applets.css");
 @import url("./components/bio.css");
 @import url("./components/forms.css");
+@import url("./components/codeblocks.css");
 
 @import url("./pages/sd-archive.css");
 @import url("./pages/post.css");
