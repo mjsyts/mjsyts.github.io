@@ -69,9 +69,9 @@ In the constructor:
 
 ```js
 constructor() {
-    super();
-    this.state = 0x7fff;
-  }
+super();
+this.state = 0x7fff;
+}
 ```
 Then the core process loop:
 
