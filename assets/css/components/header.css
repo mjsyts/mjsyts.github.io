@@ -1,3 +1,13 @@
+/* Header layout */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Brand row: logo | text stack | kicker */
 .brand {
   display: flex;
   align-items: center;
@@ -5,6 +15,7 @@
   min-width: 0;
 }
 
+/* Name + tagline stack */
 .brand-text {
   display: flex;
   flex-direction: column;
@@ -12,6 +23,7 @@
   min-width: 0;
 }
 
+/* Keep title formatting */
 .brand-title {
   font-family: "Pickllle", system-ui, sans-serif;
   font-size: 2.6rem;
@@ -30,28 +42,18 @@
   text-transform: lowercase;
 }
 
-.site-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.2rem;
-  flex-wrap: wrap;
+/* Kicker sits to the right of the name/tagline stack */
+.site-kicker {
+  margin-left: 1.25rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: var(--text-secondary);
+  opacity: 0.9;
+  white-space: nowrap;
 }
 
-.header-right {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  text-align: right;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-}
-
+/* Logo */
 .logo {
   width: 96px;
   height: 96px;
@@ -60,6 +62,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 auto;
+}
+
+.logo a {
+  display: flex;
+  width: 100%;
+  height: 100%;
 }
 
 .logo svg,
@@ -69,34 +78,28 @@
   object-fit: cover;
 }
 
-.logo a {
-  display: flex;
-  width: 100%;
-  height: 100%;
-}
-
-.title-block {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.section-title.expressive {
-  font-family: "Pickllle", system-ui, sans-serif;
-  letter-spacing: 0.1em;
-}
-
-.site-kicker{
-  font-size: 0.82rem;
-  letter-spacing: 0.08em;
-  text-transform: lowercase;
-  color: var(--text-secondary);
-  opacity: 0.9;
-}
-
+/* Responsive: allow wrap, and drop kicker under the name/tagline */
 @media (max-width: 800px) {
-  .site-header { align-items: flex-start; }
-  .header-right { width: 100%; margin-top: 0.5rem; text-align: left; }
-  h1 { font-size: 2.2rem; }
+  .site-header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    flex-wrap: wrap;
+    row-gap: 0.4rem;
+  }
+
+  .site-kicker {
+    margin-left: 0;
+    white-space: normal;
+    flex-basis: 100%;
+  }
+
+  .brand-title {
+    font-size: 2.2rem;
+  }
 }
+
+
 
