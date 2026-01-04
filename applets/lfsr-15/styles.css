@@ -1,7 +1,10 @@
-/* =========================================================
-   15-bit LFSR Visualizer
-   Compact, purposeful, content-sized (NO stretched panels)
-   ========================================================= */
+/* styles.css — 15-bit LFSR Visualizer
+   - no internal scrolling
+   - register panel does NOT stretch tall
+   - grid always fits (no clipped LSB)
+   - index labels centered above slots
+   - button/panel hierarchy feels intentional without hardcoding a weird palette
+*/
 
 @font-face {
   font-family: "Pickllle";
@@ -9,7 +12,7 @@
   font-display: swap;
 }
 
-/* Prevent iframe scrolling */
+/* No scrollbars inside iframe */
 html,
 body {
   height: 100%;
@@ -21,75 +24,74 @@ body {
   display: flex;
 }
 
-/* Root */
+/* Root wrapper (scope everything) */
 .applet--lfsr15 {
   flex: 1;
   min-width: 0;
+  min-height: 0;
 
-  --pad: 0.75rem;
+  /* Inherit site colors if present */
+  color: var(--text, currentColor);
+  font: inherit;
+
+  /* Local tokens (fallbacks are higher-contrast than before but still neutral) */
+  --ui: "Pickllle", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+
+  --panel: var(--surface-2, rgba(255, 255, 255, 0.06));
+  --panel2: var(--surface-1, rgba(255, 255, 255, 0.035));
+  --border: var(--border, rgba(255, 255, 255, 0.16));
+  --border2: var(--border-2, rgba(255, 255, 255, 0.12));
+
+  --muted: var(--text-secondary, rgba(255, 255, 255, 0.68));
+
+  /* Accents (use site accents if you have them) */
+  --accent: var(--accent, rgba(140, 190, 255, 1));
+  --danger: var(--danger, rgba(255, 156, 92, 1));
+  --good: var(--accent-2, rgba(80, 220, 160, 1));
+
+  --radius: var(--radius-md, 14px);
+  --radiusSm: var(--radius-sm, 10px);
+
   --gap: 6px;
-
-  /* Purposeful palette */
-  --bg: #070a12;
-  --panel: rgba(255, 255, 255, 0.06);
-  --panel2: rgba(255, 255, 255, 0.035);
-  --stroke: rgba(255, 255, 255, 0.15);
-
-  --text: rgba(255, 255, 255, 0.92);
-  --muted: rgba(255, 255, 255, 0.65);
-
-  --slot: rgba(0, 0, 0, 0.45);
-  --slotStroke: rgba(255, 255, 255, 0.18);
-
-  --accent: #7bb7ff;
-  --accent2: #39d98a;
-  --warn: #ff9a3c;
-
-  --radius: 14px;
-  --radiusSm: 9px;
-
-  --ui: "Pickllle", system-ui, sans-serif;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --pad: 0.75rem;
 
   padding: var(--pad);
-  background: var(--bg);
-  color: var(--text);
 }
 
+/* Keep box sizing local */
 .applet--lfsr15 *,
 .applet--lfsr15 *::before,
 .applet--lfsr15 *::after {
   box-sizing: border-box;
 }
 
-/* =========================================================
-   Layout (IMPORTANT: no vertical stretching)
-   ========================================================= */
-
+/* Main layout: IMPORTANT — do not stretch panels vertically */
 .applet--lfsr15 .app-main {
+  height: 100%;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  justify-content: flex-start; /* KEY */
+  gap: 10px;
+  justify-content: flex-start;
 }
 
 /* Panels */
 .applet--lfsr15 .controls,
 .applet--lfsr15 .viz,
 .applet--lfsr15 .readout-item {
-  background: linear-gradient(180deg, var(--panel), rgba(255,255,255,0.045));
-  border: 1px solid var(--stroke);
+  background: linear-gradient(180deg, var(--panel), rgba(255, 255, 255, 0.045));
+  border: 1px solid var(--border);
   border-radius: var(--radius);
 }
 
-/* =========================================================
-   Controls
-   ========================================================= */
+/* ---------------- Controls ---------------- */
 
 .applet--lfsr15 .controls {
-  padding: 0.55rem 0.7rem;
+  padding: 0.6rem 0.75rem;
   display: grid;
-  gap: 0.5rem;
+  gap: 0.55rem;
   font-family: var(--ui);
 }
 
@@ -111,82 +113,127 @@ body {
 
 .applet--lfsr15 .seed-input {
   background: var(--panel2);
-  border: 1px solid var(--stroke);
-  border-radius: 8px;
-  padding: 0.4rem 0.55rem;
+  color: inherit;
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 0.42rem 0.6rem;
   min-width: 200px;
+  max-width: 100%;
   font-family: var(--mono);
-  color: var(--text);
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.applet--lfsr15 .seed-input:focus {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border2));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
 .applet--lfsr15 .btn {
-  background: rgba(0,0,0,0.25);
-  border: 1px solid var(--stroke);
-  border-radius: 8px;
-  padding: 0.4rem 0.65rem;
+  appearance: none;
+  background: rgba(0, 0, 0, 0.18);
+  color: inherit;
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 0.42rem 0.7rem;
   cursor: pointer;
 
   font-family: var(--ui);
-  font-weight: 900;
-  letter-spacing: 0.07em;
+  font-weight: 950;
+  letter-spacing: 0.06em;
   text-transform: lowercase;
-  color: var(--text);
+}
+
+.applet--lfsr15 .btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--border);
 }
 
 .applet--lfsr15 .btn.primary {
-  background: linear-gradient(
-    180deg,
-    rgba(123,183,255,0.25),
-    rgba(123,183,255,0.12)
-  );
-  border-color: rgba(123,183,255,0.6);
+  background: color-mix(in srgb, var(--accent) 22%, rgba(0, 0, 0, 0.18));
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border2));
+}
+
+.applet--lfsr15 .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .applet--lfsr15 .speed-label {
   margin-left: auto;
 }
 
-/* =========================================================
-   Visualizer (SHRINK TO CONTENT)
-   ========================================================= */
+.applet--lfsr15 .speed-range {
+  width: 170px;
+}
 
+/* ---------------- Viz ---------------- */
+
+/* KEY: do NOT make this flex:1; let it size to content */
 .applet--lfsr15 .viz {
-  flex: 0 0 auto;            /* KEY FIX */
+  flex: 0 0 auto;
   padding: 0.6rem;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   overflow: hidden;
+  margin: 0; /* kill any accidental vertical stretch */
 }
 
-/* Legend */
 .applet--lfsr15 .legend {
   display: flex;
   gap: 0.9rem;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.82rem;
   font-family: var(--ui);
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: lowercase;
-  font-size: 0.8rem;
-  color: var(--muted);
 }
 
-/* Register */
+.applet--lfsr15 .legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.applet--lfsr15 .legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.applet--lfsr15 .legend-swatch.rmb {
+  background: var(--danger);
+}
+
+.applet--lfsr15 .legend-swatch.lmb {
+  background: var(--good);
+}
+
+/* Register grid: ALWAYS fit container width (no clipped LSB) */
 .applet--lfsr15 .register {
+  position: relative;
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(15, minmax(0, 1fr));
   gap: var(--gap);
-  margin-top: 2px;
+  overflow: hidden;
 }
 
-/* Slots (shorter) */
+/* Slot */
 .applet--lfsr15 .bit {
   position: relative;
-  background: linear-gradient(180deg, rgba(255,255,255,0.04), var(--slot));
-  border: 1px solid var(--slotStroke);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(0, 0, 0, 0.22));
+  border: 1px solid var(--border2);
   border-radius: var(--radiusSm);
 
-  min-height: 34px; /* SHORT */
+  /* less tall */
+  min-height: 34px;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -197,52 +244,62 @@ body {
   font-family: var(--mono);
   font-weight: 900;
   font-size: 0.95rem;
-  transform: translateY(4px);
+  transform: translateY(5px); /* make room for index */
 }
 
-/* Index ABOVE slot */
+/* Index: centered above slot */
 .applet--lfsr15 .bit .index {
   position: absolute;
   top: 4px;
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--ui);
-  font-weight: 900;
+  font-weight: 950;
   font-size: 0.6rem;
   letter-spacing: 0.06em;
   text-transform: lowercase;
   color: var(--muted);
+  pointer-events: none;
 }
 
 /* Highlights */
 .applet--lfsr15 .bit.rmb-active {
-  border-color: var(--warn);
+  border-color: color-mix(in srgb, var(--danger) 70%, var(--border2));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--danger) 55%, transparent);
 }
 
 .applet--lfsr15 .bit.lmb-target {
-  border-color: var(--accent2);
+  border-color: color-mix(in srgb, var(--good) 70%, var(--border2));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--good) 55%, transparent);
 }
 
 .applet--lfsr15 .bit.just-updated {
-  outline: 2px solid var(--accent);
+  outline: 2px solid color-mix(in srgb, var(--accent) 85%, transparent);
+  outline-offset: 0;
 }
 
 /* XOR bubble */
 .applet--lfsr15 .xor-bubble {
   position: absolute;
-  background: rgba(0,0,0,0.65);
-  border: 1px solid var(--stroke);
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -100%);
+  background: var(--panel2);
+  border: 1px solid var(--border);
   border-radius: 999px;
-  padding: 0.25rem 0.55rem;
+  padding: 0.22rem 0.55rem;
   font-family: var(--mono);
   font-weight: 900;
   opacity: 0;
   pointer-events: none;
+  transition: left 600ms ease, top 600ms ease, opacity 160ms ease;
 }
 
-/* =========================================================
-   Readout (label ABOVE value)
-   ========================================================= */
+.applet--lfsr15 .xor-bubble.on {
+  opacity: 1;
+}
+
+/* ---------------- Readout (label above value) ---------------- */
 
 .applet--lfsr15 .readout {
   display: grid;
@@ -251,15 +308,15 @@ body {
 }
 
 .applet--lfsr15 .readout-item {
-  padding: 0.45rem 0.55rem;
+  padding: 0.5rem 0.55rem;
   display: grid;
   gap: 0.25rem;
 }
 
 .applet--lfsr15 .readout-label {
   font-family: var(--ui);
-  font-weight: 900;
-  font-size: 0.75rem;
+  font-weight: 950;
+  font-size: 0.74rem;
   letter-spacing: 0.06em;
   text-transform: lowercase;
   color: var(--muted);
@@ -269,4 +326,15 @@ body {
   font-family: var(--mono);
   font-weight: 900;
   font-size: 0.95rem;
+  word-break: break-word;
+}
+
+/* Responsive */
+@media (max-width: 660px) {
+  .applet--lfsr15 .readout {
+    grid-template-columns: 1fr 1fr;
+  }
+  .applet--lfsr15 .speed-label {
+    margin-left: 0;
+  }
 }
