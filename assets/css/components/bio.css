@@ -1,0 +1,7 @@
+.bio {
+  max-width: 42rem;
+  font-size: 0.98rem;
+  color: var(--text-secondary);
+}
+
+.bio p { margin: 0 0 0.9rem; }
