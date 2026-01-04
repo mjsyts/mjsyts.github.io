@@ -1,41 +1,358 @@
-/* --- Fit-to-frame + no accidental overflow --- */
-.applet--lfsr15 {
-  /* source of truth to tune density */
-  --pad: 0.85rem;
-  --gap: clamp(4px, 0.8vw, 8px);
-  --bit: clamp(22px, 3.6vw, 40px); /* <<< key: responsive bit width */
+/* =========================================================
+   15-bit LFSR Visualizer — styles.css
+   Goal: fit-to-iframe (no inner scroll), compact, on-brand
+   ========================================================= */
 
-  padding: var(--pad);
+/* --- Local font: uses your site font (same origin) --- */
+@font-face {
+  font-family: "Pickllle";
+  src: url("/assets/fonts/Pickllle.ttf") format("truetype");
+  font-display: swap;
 }
 
-.applet--lfsr15 .viz {
-  margin-top: 0;               /* remove extra vertical height */
+/* --- Fit-to-iframe: no internal scrollbars --- */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+}
+
+/* --- Root + tokens --- */
+.applet--lfsr15 {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+
+  /* density controls */
+  --pad: 0.85rem;
+  --gap: clamp(4px, 0.8vw, 8px);
+
+  /* theming */
+  --lfsr-panel: rgba(255, 255, 255, 0.04);
+  --lfsr-panel-2: rgba(255, 255, 255, 0.02);
+  --lfsr-border: rgba(255, 255, 255, 0.12);
+
+  --lfsr-text: rgba(255, 255, 255, 0.92);
+  --lfsr-muted: rgba(255, 255, 255, 0.62);
+
+  --lfsr-accent: #22c55e;   /* green */
+  --lfsr-accent-2: #60a5fa; /* blue */
+  --lfsr-danger: #f97316;   /* orange */
+
+  --lfsr-radius: 12px;
+  --lfsr-radius-sm: 10px;
+
+  --lfsr-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+
+  --lfsr-ui: "Pickllle", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Arial, sans-serif;
+
+  --lfsr-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+
   padding: var(--pad);
-  overflow: hidden;            /* never clip sideways with scrollbars */
+  color: var(--lfsr-text);
+  background: transparent;
+}
+
+/* Local box sizing */
+.applet--lfsr15 *,
+.applet--lfsr15 *::before,
+.applet--lfsr15 *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   Layout
+   ========================================================= */
+
+.applet--lfsr15 .app-main {
+  height: 100%;
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Panels */
+.applet--lfsr15 .controls,
+.applet--lfsr15 .viz,
+.applet--lfsr15 .readout-item {
+  background: var(--lfsr-panel);
+  border: 1px solid var(--lfsr-border);
+  border-radius: var(--lfsr-radius);
+}
+
+/* =========================================================
+   Controls
+   ========================================================= */
+
+.applet--lfsr15 .controls {
+  padding: 0.6rem 0.8rem;
+  display: grid;
+  gap: 0.6rem;
+  font-family: var(--lfsr-ui);
+}
+
+.applet--lfsr15 .seed-row,
+.applet--lfsr15 .run-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.applet--lfsr15 .seed-label {
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+}
+
+.applet--lfsr15 .seed-input {
+  background: var(--lfsr-panel-2);
+  color: var(--lfsr-text);
+  border: 1px solid var(--lfsr-border);
+  border-radius: 8px;
+  padding: 0.42rem 0.6rem;
+
+  min-width: 220px;
+  max-width: 100%;
+
+  font-family: var(--lfsr-mono);
+  font-size: 0.95rem;
+}
+
+.applet--lfsr15 .btn {
+  appearance: none;
+  background: var(--lfsr-panel-2);
+  color: var(--lfsr-text);
+  border: 1px solid var(--lfsr-border);
+  border-radius: 8px;
+  padding: 0.42rem 0.7rem;
+
+  cursor: pointer;
+
+  font-family: var(--lfsr-ui);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+}
+
+.applet--lfsr15 .btn.primary {
+  background: var(--lfsr-accent-2);
+  border-color: var(--lfsr-accent-2);
+  color: #0b1220;
+}
+
+.applet--lfsr15 .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.applet--lfsr15 .speed-label {
+  margin-left: auto;
+  color: var(--lfsr-muted);
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+}
+
+.applet--lfsr15 .speed-range {
+  width: 180px;
+}
+
+/* =========================================================
+   Visualizer panel (fills remaining height)
+   ========================================================= */
+
+.applet--lfsr15 .viz {
+  flex: 1;
+  min-height: 0;
+
+  margin-top: 0;          /* avoid extra vertical height */
+  padding: var(--pad);
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  overflow: hidden;       /* critical: don’t create scrollbars */
 }
 
 .applet--lfsr15 .legend {
-  margin-bottom: 0.4rem;       /* slightly tighter */
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  font-family: var(--lfsr-ui);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+
+  color: var(--lfsr-muted);
+  margin-bottom: 0.35rem;
 }
 
-/* Register grid: always fit the iframe width */
+.applet--lfsr15 .legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.applet--lfsr15 .legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+.applet--lfsr15 .legend-swatch.rmb {
+  background: var(--lfsr-danger);
+}
+
+.applet--lfsr15 .legend-swatch.lmb {
+  background: var(--lfsr-accent);
+}
+
+/* --- Register grid: ALWAYS fit container (fixes LSB clipping) --- */
 .applet--lfsr15 .register {
+  position: relative;
   width: 100%;
+
+  display: grid;
+
+  /* key change: allow columns to shrink as needed */
   grid-template-columns: repeat(15, minmax(0, 1fr));
   gap: var(--gap);
+
+  align-content: start;
+  overflow: hidden;
 }
 
-/* Bit sizing: don’t force the grid wider than its container */
+/* Bits */
 .applet--lfsr15 .bit {
+  position: relative;
+
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--lfsr-radius-sm);
+
   min-height: clamp(40px, 5.2vw, 56px);
-  border-radius: clamp(8px, 1vw, var(--lfsr-radius-sm));
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
 
-/* Keep inner text from forcing overflow */
+.applet--lfsr15 .bit:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--lfsr-shadow);
+}
+
 .applet--lfsr15 .bit .value {
   font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+  font-weight: 800;
+  font-family: var(--lfsr-mono);
+  letter-spacing: 0.02em;
 }
 
 .applet--lfsr15 .bit .index {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+
   font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+  color: var(--lfsr-muted);
+  font-family: var(--lfsr-mono);
+}
+
+/* State highlights */
+.applet--lfsr15 .bit.rmb-active {
+  border-color: var(--lfsr-danger);
+  box-shadow: inset 0 0 0 1px var(--lfsr-danger), 0 0 18px rgba(249, 115, 22, 0.22);
+}
+
+.applet--lfsr15 .bit.lmb-target {
+  border-color: var(--lfsr-accent);
+  box-shadow: inset 0 0 0 1px var(--lfsr-accent), 0 0 18px rgba(34, 197, 94, 0.18);
+}
+
+.applet--lfsr15 .bit.just-updated {
+  outline: 2px solid var(--lfsr-accent-2);
+  outline-offset: 0;
+}
+
+/* XOR bubble */
+.applet--lfsr15 .xor-bubble {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -100%);
+
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--lfsr-text);
+  border: 1px solid var(--lfsr-border);
+  border-radius: 999px;
+  padding: 0.25rem 0.6rem;
+
+  font-weight: 900;
+  font-family: var(--lfsr-mono);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: left 600ms ease, top 600ms ease, opacity 160ms ease;
+
+  box-shadow: var(--lfsr-shadow);
+  z-index: 5;
+}
+
+.applet--lfsr15 .xor-bubble.on {
+  opacity: 1;
+}
+
+/* =========================================================
+   Readout
+   ========================================================= */
+
+.applet--lfsr15 .readout {
+  margin-top: 0.55rem; /* tighter than 1rem */
+  display: grid;
+  grid-template-columns: repeat(4, minmax(140px, 1fr));
+  gap: var(--gap);
+}
+
+.applet--lfsr15 .readout-item {
+  padding: 0.5rem 0.6rem;
+  min-width: 0;
+
+  font-family: var(--lfsr-ui);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+}
+
+.applet--lfsr15 code {
+  font-family: var(--lfsr-mono);
+  font-weight: 700;
+  font-size: 0.95rem;
+  word-break: break-word;
+  opacity: 0.96;
+}
+
+@media (max-width: 660px) {
+  .applet--lfsr15 .readout {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .applet--lfsr15 .speed-label {
+    margin-left: 0;
+  }
 }
