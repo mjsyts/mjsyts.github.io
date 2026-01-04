@@ -1,60 +1,60 @@
 (() => {
   const normalizeLang = (raw) => {
-  if (!raw) return "CODE";
+    if (!raw) return "CODE";
 
-  // Try to extract a language token from typical class patterns.
-  // Handles: language-javascript, lang-js, highlight-source-cpp, etc.
-  const m =
-    raw.match(/(?:^|\s)language-([a-z0-9+-]+)(?=\s|$)/i) ||
-    raw.match(/(?:^|\s)lang(?:uage)?-([a-z0-9+-]+)(?=\s|$)/i) ||
-    raw.match(/(?:^|\s)highlight-source-([a-z0-9+-]+)(?=\s|$)/i);
+    // Try to extract a language token from typical class patterns.
+    // Handles: language-javascript, lang-js, highlight-source-cpp, etc.
+    const m =
+      raw.match(/(?:^|\s)language-([a-z0-9+-]+)(?=\s|$)/i) ||
+      raw.match(/(?:^|\s)lang(?:uage)?-([a-z0-9+-]+)(?=\s|$)/i) ||
+      raw.match(/(?:^|\s)highlight-source-([a-z0-9+-]+)(?=\s|$)/i);
 
-  let lang = (m && m[1]) ? m[1] : raw;
+    let lang = (m && m[1]) ? m[1] : raw;
 
-  // If raw was a full class string, last-ditch: pick the last token
-  // that looks language-ish (avoids returning the entire class list).
-  if (lang.includes(" ")) {
-    const parts = lang.split(/\s+/).filter(Boolean);
-    lang = parts.find(p => /^language-|^lang(?:uage)?-|^highlight-source-/i.test(p)) || parts[parts.length - 1];
-    // re-extract if we picked a prefixed token
-    const mm = lang.match(/(?:language-|lang(?:uage)?-|highlight-source-)([a-z0-9+-]+)/i);
-    if (mm) lang = mm[1];
-  }
+    // If raw was a full class string, last-ditch: pick the last token
+    // that looks language-ish (avoids returning the entire class list).
+    if (lang.includes(" ")) {
+      const parts = lang.split(/\s+/).filter(Boolean);
+      lang = parts.find(p => /^language-|^lang(?:uage)?-|^highlight-source-/i.test(p)) || parts[parts.length - 1];
+      // re-extract if we picked a prefixed token
+      const mm = lang.match(/(?:language-|lang(?:uage)?-|highlight-source-)([a-z0-9+-]+)/i);
+      if (mm) lang = mm[1];
+    }
 
-  const key = lang.toLowerCase();
+    const key = lang.toLowerCase();
 
-  // Friendly display labels
-  const map = {
-    js: "javascript",
-    javascript: "javascript",
-    ts: "typescript",
-    typescript: "typescript",
-    sh: "shell",
-    shell: "shell",
-    bash: "shell",
-    zsh: "shell",
-    yml: "yaml",
-    yaml: "yaml",
+    // Friendly display labels
+    const map = {
+      js: "javascript",
+      javascript: "javascript",
+      ts: "typescript",
+      typescript: "typescript",
+      sh: "shell",
+      shell: "shell",
+      bash: "shell",
+      zsh: "shell",
+      yml: "yaml",
+      yaml: "yaml",
 
-    // C#
-    cs: "c#",
-    csharp: "c#",
-    "c#": "c#",
+      // C#
+      cs: "c#",
+      csharp: "c#",
+      "c#": "c#",
 
-    // C++
-    cpp: "c++",
-    "c++": "c++",
-    cc: "c++",
-    cxx: "c++",
+      // C++
+      cpp: "c++",
+      "c++": "c++",
+      cc: "c++",
+      cxx: "c++",
 
-    // SuperCollider
-    supercollider: "supercollider",
-    sclang: "supercollider",
-    sc: "supercollider",
+      // SuperCollider
+      supercollider: "supercollider",
+      sclang: "supercollider",
+      sc: "supercollider",
+    };
+
+    return (map[key] || key).toUpperCase();
   };
-
-  return (map[key] || key).toUpperCase();
-};
 
 
   const getCodeText = (pre) => {
@@ -125,7 +125,7 @@
         ta.style.left = "-9999px";
         document.body.appendChild(ta);
         ta.select();
-        try { document.execCommand("copy"); } catch {}
+        try { document.execCommand("copy"); } catch { }
         document.body.removeChild(ta);
         copyBtn.textContent = "copied";
         window.setTimeout(() => (copyBtn.textContent = "copy"), 1100);
