@@ -1,79 +1,75 @@
-/* styles.css — 15-bit LFSR Visualizer (scoped + host-friendly)
-   Requires a wrapper element with class: .applet--lfsr15
-*/
+/* styles.css — 15-bit LFSR Visualizer (fit-to-iframe, no internal scroll) */
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* key: no scrollbars inside the iframe */
+}
+
+body {
+  /* make the component fill the page cleanly */
+  display: flex;
+}
+
+/* Component root */
 .applet--lfsr15 {
-  /* Inherit site typography + colors by default */
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+
   color: inherit;
   font: inherit;
 
-  /* Local “theme hooks” (bind to site tokens when available) */
+  /* Local theme hooks (bind to site tokens when available) */
   --lfsr-panel: var(--surface-2, rgba(255, 255, 255, 0.04));
   --lfsr-panel-2: var(--surface-1, rgba(255, 255, 255, 0.02));
   --lfsr-border: var(--border, rgba(255, 255, 255, 0.12));
   --lfsr-text: var(--text, currentColor);
   --lfsr-muted: var(--text-secondary, rgba(255, 255, 255, 0.65));
-
   --lfsr-accent: var(--accent, #22c55e);
   --lfsr-accent-2: var(--accent-2, #60a5fa);
   --lfsr-danger: var(--danger, #f97316);
-
   --lfsr-bit-bg: var(--surface-3, rgba(255, 255, 255, 0.03));
   --lfsr-bit-border: var(--border-2, rgba(255, 255, 255, 0.16));
-
   --lfsr-radius: var(--radius-md, 12px);
   --lfsr-radius-sm: var(--radius-sm, 10px);
-
   --lfsr-shadow: var(--shadow-1, 0 6px 14px rgba(0, 0, 0, 0.22));
+  --lfsr-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
 
-  --lfsr-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  padding: 12px;
 }
 
-/* Keep box sizing local to the component */
+/* Keep box sizing local */
 .applet--lfsr15 *,
 .applet--lfsr15 *::before,
 .applet--lfsr15 *::after {
   box-sizing: border-box;
 }
 
-/* Optional: tighten the “standalone page” spacing without forcing a page layout */
-.applet--lfsr15 .app-header {
-  padding: 0;
-  margin: 0 0 0.75rem 0;
-}
-.applet--lfsr15 .app-header h1 {
-  margin: 0;
-  font-size: 1.25rem;
-  letter-spacing: 0.2px;
-}
-.applet--lfsr15 .app-header .subtitle {
-  margin: 0.35rem 0 0;
-  color: var(--lfsr-muted);
-  font-size: 0.95rem;
-  line-height: 1.35;
-}
-
+/* Layout: controls + viz + readout, fit inside iframe */
 .applet--lfsr15 .app-main {
-  padding: 0;
-  max-width: none;
-  margin: 0;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 /* Panels */
 .applet--lfsr15 .controls,
 .applet--lfsr15 .viz,
-.applet--lfsr15 .readout-item,
-.applet--lfsr15 .notes {
+.applet--lfsr15 .readout-item {
   background: var(--lfsr-panel);
   border: 1px solid var(--lfsr-border);
   border-radius: var(--lfsr-radius);
 }
 
 .applet--lfsr15 .controls {
-  padding: 0.75rem 1rem;
+  padding: 0.65rem 0.85rem;
   display: grid;
-  gap: 0.75rem;
+  gap: 0.65rem;
 }
 
 .applet--lfsr15 .seed-row,
@@ -93,20 +89,19 @@
   color: var(--lfsr-text);
   border: 1px solid var(--lfsr-border);
   border-radius: 8px;
-  padding: 0.5rem 0.6rem;
-  min-width: 260px;
+  padding: 0.45rem 0.6rem;
+  min-width: 240px;
   font-family: var(--lfsr-mono);
   font-size: 0.95rem;
 }
 
-/* Buttons (keep simple so your site can override easily) */
 .applet--lfsr15 .btn {
   appearance: none;
   background: var(--lfsr-panel-2);
   color: var(--lfsr-text);
   border: 1px solid var(--lfsr-border);
   border-radius: 8px;
-  padding: 0.45rem 0.8rem;
+  padding: 0.42rem 0.75rem;
   cursor: pointer;
   font-weight: 600;
 }
@@ -114,7 +109,7 @@
 .applet--lfsr15 .btn.primary {
   background: var(--lfsr-accent-2);
   border-color: var(--lfsr-accent-2);
-  color: #0b1220; /* readable on light accent */
+  color: #0b1220;
 }
 
 .applet--lfsr15 .btn:disabled {
@@ -131,17 +126,21 @@
   width: 180px;
 }
 
-/* Viz panel */
+/* Viz panel takes the remaining height (no scrolling) */
 .applet--lfsr15 .viz {
   position: relative;
-  margin-top: 1rem;
-  padding: 1rem;
+  flex: 1;
+  min-height: 0;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden; /* important: prevent internal overflow */
 }
 
 .applet--lfsr15 .legend {
   display: flex;
   gap: 1rem;
-  margin-bottom: 0.5rem;
   color: var(--lfsr-muted);
   font-size: 0.9rem;
 }
@@ -169,22 +168,26 @@
 
 /* Register grid */
 .applet--lfsr15 .register {
+  position: relative; /* bubble positioning must be relative to register */
   display: grid;
-  grid-template-columns: repeat(15, minmax(42px, 1fr));
+  grid-template-columns: repeat(15, minmax(36px, 1fr));
   gap: 8px;
+
+  /* keep it from blowing the panel height */
+  align-content: start;
+  overflow: hidden;
 }
 
+/* Bits */
 .applet--lfsr15 .bit {
   position: relative;
   background: var(--lfsr-bit-bg);
   border: 1px solid var(--lfsr-bit-border);
   border-radius: var(--lfsr-radius-sm);
-  min-height: 60px;
-
+  min-height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-
   overflow: hidden;
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
@@ -195,7 +198,7 @@
 }
 
 .applet--lfsr15 .bit .value {
-  font-size: 1.35rem;
+  font-size: 1.2rem;
   font-weight: 700;
   font-family: var(--lfsr-mono);
   letter-spacing: 0.02em;
@@ -205,7 +208,7 @@
   position: absolute;
   top: 6px;
   left: 8px;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--lfsr-muted);
   font-family: var(--lfsr-mono);
 }
@@ -213,14 +216,12 @@
 /* State highlights */
 .applet--lfsr15 .bit.rmb-active {
   border-color: var(--lfsr-danger);
-  box-shadow: inset 0 0 0 1px var(--lfsr-danger),
-    0 0 18px rgba(249, 115, 22, 0.22);
+  box-shadow: inset 0 0 0 1px var(--lfsr-danger), 0 0 18px rgba(249, 115, 22, 0.22);
 }
 
 .applet--lfsr15 .bit.lmb-target {
   border-color: var(--lfsr-accent);
-  box-shadow: inset 0 0 0 1px var(--lfsr-accent),
-    0 0 18px rgba(34, 197, 94, 0.18);
+  box-shadow: inset 0 0 0 1px var(--lfsr-accent), 0 0 18px rgba(34, 197, 94, 0.18);
 }
 
 .applet--lfsr15 .bit.just-updated {
@@ -228,7 +229,7 @@
   outline-offset: 0;
 }
 
-/* XOR bubble */
+/* XOR bubble (script positions it using register bounds) */
 .applet--lfsr15 .xor-bubble {
   position: absolute;
   top: 0;
@@ -241,28 +242,27 @@
   padding: 0.25rem 0.6rem;
   font-weight: 700;
   font-family: var(--lfsr-mono);
-
   opacity: 0;
   pointer-events: none;
-
   transition: left 600ms ease, top 600ms ease, opacity 160ms ease;
   box-shadow: var(--lfsr-shadow);
+  z-index: 5;
 }
 
 .applet--lfsr15 .xor-bubble.on {
   opacity: 1;
 }
 
-/* Readout */
+/* Readout stays compact */
 .applet--lfsr15 .readout {
   display: grid;
   grid-template-columns: repeat(4, minmax(160px, 1fr));
   gap: 8px;
-  margin-top: 1rem;
 }
 
 .applet--lfsr15 .readout-item {
-  padding: 0.6rem;
+  padding: 0.55rem 0.65rem;
+  min-width: 0;
 }
 
 .applet--lfsr15 code {
@@ -270,37 +270,9 @@
   opacity: 0.95;
   font-family: var(--lfsr-mono);
   font-size: 0.95rem;
+  word-break: break-word;
 }
 
-/* Notes: keep but neutral */
-.applet--lfsr15 .notes {
-  margin-top: 1rem;
-  background: var(--lfsr-panel-2);
-  padding: 1rem;
-}
-
-.applet--lfsr15 .notes h2 {
-  margin: 0 0 0.6rem 0;
-  font-size: 1rem;
-}
-
-.applet--lfsr15 .notes ol {
-  margin: 0.5rem 0 0.75rem 1.25rem;
-}
-
-.applet--lfsr15 .notes p {
-  margin: 0.5rem 0 0;
-  color: var(--lfsr-muted);
-}
-
-/* Footer: don’t style page-level spacing, just tone */
-.applet--lfsr15 .app-footer {
-  margin-top: 0.75rem;
-  color: var(--lfsr-muted);
-  padding: 0;
-}
-
-/* Responsive readout */
 @media (max-width: 660px) {
   .applet--lfsr15 .readout {
     grid-template-columns: 1fr 1fr;
