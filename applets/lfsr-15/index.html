@@ -12,18 +12,18 @@
       <main class="app-main">
         <section class="controls" aria-label="Controls">
           <div class="seed-row">
-            <span class="seed-label">Seed (15-bit):</span>
+            <span class="seed-label">seed</span>
             <input id="seedInput" class="seed-input" value="0x7FFF" spellcheck="false" />
-            <button id="applySeed" class="btn">Apply</button>
-            <button id="randomSeed" class="btn">Random</button>
-            <button id="reset" class="btn">Reset</button>
+            <button id="applySeed" class="btn">apply</button>
+            <button id="randomSeed" class="btn">random</button>
+            <button id="reset" class="btn">reset</button>
           </div>
 
           <div class="run-row">
-            <button id="stepBtn" class="btn">Step</button>
-            <button id="playBtn" class="btn primary">Play</button>
+            <button id="stepBtn" class="btn">step</button>
+            <button id="playBtn" class="btn primary">play</button>
 
-            <span class="speed-label">Speed</span>
+            <span class="speed-label">speed</span>
             <input
               id="speedRange"
               class="speed-range"
@@ -36,10 +36,10 @@
           </div>
         </section>
 
-        <section class="viz" aria-label="Visualizer">
+        <section class="viz" aria-label="Register">
           <div class="legend" aria-hidden="true">
-            <span class="legend-item"><span class="legend-swatch rmb"></span>RMBs</span>
-            <span class="legend-item"><span class="legend-swatch lmb"></span>New MSB</span>
+            <span class="legend-item"><span class="legend-swatch rmb"></span>rmbs</span>
+            <span class="legend-item"><span class="legend-swatch lmb"></span>new msb</span>
           </div>
 
           <div id="register" class="register" aria-label="Shift register">
@@ -48,31 +48,26 @@
         </section>
 
         <section class="readout" aria-label="Readout">
-  <div class="readout-item">
-    <div class="readout-label">cycle</div>
-    <div class="readout-value" id="cycleOut">0</div>
-  </div>
-
-  <div class="readout-item">
-    <div class="readout-label">binary</div>
-    <div class="readout-value" id="binOut"></div>
-  </div>
-
-  <div class="readout-item">
-    <div class="readout-label">hex</div>
-    <div class="readout-value" id="hexOut"></div>
-  </div>
-
-  <div class="readout-item">
-    <div class="readout-label">decimal</div>
-    <div class="readout-value" id="decOut"></div>
-  </div>
-</section>
-
+          <div class="readout-item">
+            <div class="readout-label">cycle</div>
+            <div class="readout-value" id="cycleOut">0</div>
+          </div>
+          <div class="readout-item">
+            <div class="readout-label">binary</div>
+            <div class="readout-value" id="binOut"></div>
+          </div>
+          <div class="readout-item">
+            <div class="readout-label">hex</div>
+            <div class="readout-value" id="hexOut"></div>
+          </div>
+          <div class="readout-item">
+            <div class="readout-label">decimal</div>
+            <div class="readout-value" id="decOut"></div>
+          </div>
+        </section>
       </main>
     </div>
 
     <script src="./script.js"></script>
   </body>
 </html>
-
