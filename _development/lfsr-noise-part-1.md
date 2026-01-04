@@ -47,6 +47,8 @@ This version is a fixed 15 bit shift register stepped at the sample rate. This v
 2. Right‑shift
 3. Insert the XOR result as the new left‑most bit (MSB).
 
+You can use the applet to see what's happening internally:
+
 <div class="applet lfsr-applet">
   <iframe
     class="applet__frame"
@@ -138,18 +140,21 @@ class LfsrNoiseProcessor extends AudioWorkletProcessor {
 registerProcessor('lfsr-noise', LfsrNoiseProcessor);
 ```
 
-That's it. Extremely light, but as we'll see in future posts **extremely expressive!**
+That's it. Atomically small, but this simplicity will have significant implications later on.
 
 ---
 
 ## Listening to the Output
 
-<iframe
-  class="applet-frame"
-  src="{{ '/applets/demos/lfsr/p1/app.js' | relative_url }}"
-  loading="lazy"
-  title="15-bit LFSR Audio Player"
-></iframe>
+<div class="applet lfsr-applet">
+  <iframe
+    class="applet__frame"
+    src="/applets//demos/lfsr/p1/"
+    title="LFSR Noise — WebAudio demo"
+    loading="lazy"
+    scrolling="no"
+  ></iframe>
+</div>
 
 ---
 
