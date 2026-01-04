@@ -7,7 +7,7 @@
   margin: 1.25rem 0 2rem;
 }
 
-/* Post embed sizing for this applet iframe */
+/* Default: keep tall for complex applets like the visualizer */
 .applet__frame {
   width: 100%;
   height: min(520px, 66vh);
@@ -19,9 +19,21 @@
 
 /* Slightly more room on larger screens */
 @media (min-width: 900px) {
-   .applet__frame { 
-      height: min(560px, 70vh);
-   }
+  .applet__frame {
+    height: min(560px, 70vh);
+  }
 }
 
+/* ---------------------------------------------------------
+   Overrides: WebAudio demo embed should be compact
+   --------------------------------------------------------- */
 
+.applet.lfsr-applet .applet__frame {
+  height: 260px; /* adjust to taste */
+}
+
+@media (min-width: 900px) {
+  .applet.lfsr-applet .applet__frame {
+    height: 300px;
+  }
+}
