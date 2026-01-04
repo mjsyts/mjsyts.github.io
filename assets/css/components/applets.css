@@ -1,77 +1,33 @@
 /* =========================================================
-   Applet Embeds
-   Used for interactive DSP / visualization applets in posts
+   Applet Embeds (tight + specific)
    ========================================================= */
 
-/* Generic wrapper (recommended usage) */
-.applet-embed,
-.applet-frame,
-.post-applet {
+.applet {
   width: 100%;
-  max-width: 100%;
   margin: 1.25rem 0 2rem;
 }
 
-/* Catch iframe-based applets by path */
-.post-content iframe[src*="/applets/"],
-.post iframe[src*="/applets/"],
-article iframe[src*="/applets/"] {
+/* Frame that lives inside the post */
+.applet__frame {
   display: block;
   width: 100%;
-  height: 520px;
-  max-width: 100%;
+
+  /* Pick a height that fits your UI without internal scrolling.
+     Start here; tweak once after you see it. */
+  height: 640px;
 
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 18px;
   background: rgba(0, 0, 0, 0.28);
-
-  box-shadow:
-    0 6px 16px rgba(0, 0, 0, 0.25),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
-
   overflow: hidden;
+
+  /* remove default iframe border in some browsers */
+  border-style: solid;
 }
 
-/* If iframe is wrapped, let wrapper handle framing */
-.applet-embed iframe,
-.applet-frame iframe,
-.post-applet iframe {
-  display: block;
-  width: 100%;
-  height: 520px;
-
-  border: 0;
-  border-radius: 18px;
-  background: transparent;
-
-  overflow: hidden;
-}
-
-/* Slightly larger canvas on wider screens */
+/* Slightly more room on larger screens */
 @media (min-width: 900px) {
-  .post-content iframe[src*="/applets/"],
-  .post iframe[src*="/applets/"],
-  article iframe[src*="/applets/"],
-  .applet-embed iframe,
-  .applet-frame iframe,
-  .post-applet iframe {
-    height: 620px;
+  .applet__frame {
+    height: 720px;
   }
 }
-
-/* Reduce top margin when following section headers */
-.post-content h2 + .applet-embed,
-.post-content h2 + .applet-frame,
-.post-content h2 + .post-applet,
-.post-content h2 + iframe[src*="/applets/"] {
-  margin-top: 0.75rem;
-}
-
-/* Optional caption support */
-.applet-caption {
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  text-align: center;
-}
-
