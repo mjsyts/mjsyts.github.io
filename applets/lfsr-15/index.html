@@ -1,76 +1,61 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>15-bit LFSR Visualizer</title>
-    <link rel="stylesheet" href="styles.css" />
-</head>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
 
-<body>
-    <div class="applet applet--lfsr15">
-        <header class="app-header">
-            <h1>15‑bit LFSR Visualizer</h1>
-            <p class="subtitle">Rule: XOR the two right‑most bits (LSB &amp; bit1), right‑shift, then insert the XOR
-                result as the new left‑most bit (MSB).</p>
-        </header>
+  <body>
+    <div class="applet--lfsr15" role="application" aria-label="15-bit LFSR Visualizer">
+      <main class="app-main">
+        <section class="controls" aria-label="Controls">
+          <div class="seed-row">
+            <span class="seed-label">Seed (15-bit):</span>
+            <input id="seedInput" class="seed-input" value="0x7FFF" spellcheck="false" />
+            <button id="applySeed" class="btn">Apply</button>
+            <button id="randomSeed" class="btn">Random</button>
+            <button id="reset" class="btn">Reset</button>
+          </div>
 
-        <main class="app-main">
-            <section class="controls" aria-label="Controls">
-                <div class="seed-row">
-                    <label for="seedInput" class="seed-label">Seed (15‑bit):</label>
-                    <input id="seedInput" class="seed-input" type="text" value="0x1"
-                        placeholder="e.g., 0x1234, 32767, or 101010101010101" />
-                    <button id="applySeed" class="btn">Apply</button>
-                    <button id="randomSeed" class="btn">Random</button>
-                    <button id="reset" class="btn">Reset</button>
-                </div>
-                <div class="run-row">
-                    <button id="stepBtn" class="btn primary">Step</button>
-                    <button id="playBtn" class="btn">Play</button>
-                    <label class="speed-label" for="speedRange">Speed</label>
-                    <input id="speedRange" class="speed-range" type="range" min="0.25" max="2.0" step="0.05"
-                        value="1" />
-                </div>
-            </section>
+          <div class="run-row">
+            <button id="stepBtn" class="btn">Step</button>
+            <button id="playBtn" class="btn primary">Play</button>
 
-            <section class="viz" id="viz">
-                <div class="legend">
-                    <span class="legend-item"><span class="legend-swatch rmb"></span> RMBs (LSB &amp; bit1)</span>
-                    <span class="legend-item"><span class="legend-swatch lmb"></span> New MSB</span>
-                </div>
-                <div id="register" class="register" aria-label="15-bit register"></div>
-                <div id="xorBubble" class="xor-bubble" aria-hidden="true">0</div>
-            </section>
+            <span class="speed-label">Speed</span>
+            <input
+              id="speedRange"
+              class="speed-range"
+              type="range"
+              min="0.5"
+              max="3"
+              value="1"
+              step="0.1"
+            />
+          </div>
+        </section>
 
-            <section class="readout" aria-label="State readout">
-                <div class="readout-item">Cycle: <span id="cycleOut">0</span></div>
-                <div class="readout-item">Binary: <code id="binOut">000000000000001</code></div>
-                <div class="readout-item">Hex: <code id="hexOut">0x0001</code></div>
-                <div class="readout-item">Decimal: <code id="decOut">1</code></div>
-            </section>
+        <section class="viz" aria-label="Visualizer">
+          <div class="legend" aria-hidden="true">
+            <span class="legend-item"><span class="legend-swatch rmb"></span>RMBs</span>
+            <span class="legend-item"><span class="legend-swatch lmb"></span>New MSB</span>
+          </div>
 
-            <section class="notes">
-                <h2>How it works</h2>
-                <ol>
-                    <li>Take the two right‑most bits (bit0 = LSB and bit1).</li>
-                    <li>XOR them to get <em>newBit</em>.</li>
-                    <li>Right‑shift the 15‑bit integer by one.</li>
-                    <li>Insert <em>newBit</em> as the new left‑most bit (MSB).</li>
-                </ol>
-                <p>This visualization highlights the two RMBs being XORed and animates the result moving to the MSB
-                    position before updating the register.</p>
-            </section>
-        </main>
+          <div id="register" class="register" aria-label="Shift register">
+            <div id="xorBubble" class="xor-bubble" aria-hidden="true"></div>
+          </div>
+        </section>
 
-        <footer class="app-footer">
-            <small>Built for demonstrating a simple 15‑bit LFSR (taps at bit0 and bit1). Not for cryptographic
-                purposes.</small>
-        </footer>
+        <section class="readout" aria-label="Readout">
+          <div class="readout-item">Cycle: <code id="cycleOut">0</code></div>
+          <div class="readout-item">Binary: <code id="binOut"></code></div>
+          <div class="readout-item">Hex: <code id="hexOut"></code></div>
+          <div class="readout-item">Decimal: <code id="decOut"></code></div>
+        </section>
+      </main>
     </div>
-    
-<script src="script.js"></script>
-</body>
 
+    <script src="./script.js"></script>
+  </body>
 </html>
