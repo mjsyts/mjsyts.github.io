@@ -1,53 +1,54 @@
+/* assets/js/codeblocks.js
+   Wrap <pre> blocks with a header bar showing language + copy/expand controls.
+   Robust against Jekyll/Rouge markup that uses class="highlight" and/or data-lang.
+*/
 (() => {
-  const normalizeLang = (raw) => {
-    if (!raw) return "CODE";
+  // ---------- helpers ----------
+  const pickLangTokenFromClasses = (classStr) => {
+    if (!classStr) return "";
 
-    // Try to extract a language token from typical class patterns.
-    // Handles: language-javascript, lang-js, highlight-source-cpp, etc.
+    // Look for common language class patterns across highlighters/renderers
+    // e.g. language-javascript, lang-js, highlight-source-cpp
     const m =
-      raw.match(/(?:^|\s)language-([a-z0-9+-]+)(?=\s|$)/i) ||
-      raw.match(/(?:^|\s)lang(?:uage)?-([a-z0-9+-]+)(?=\s|$)/i) ||
-      raw.match(/(?:^|\s)highlight-source-([a-z0-9+-]+)(?=\s|$)/i);
+      classStr.match(/(?:^|\s)language-([a-z0-9+-]+)(?=\s|$)/i) ||
+      classStr.match(/(?:^|\s)lang(?:uage)?-([a-z0-9+-]+)(?=\s|$)/i) ||
+      classStr.match(/(?:^|\s)highlight-source-([a-z0-9+-]+)(?=\s|$)/i);
 
-    let lang = (m && m[1]) ? m[1] : raw;
+    return (m && m[1]) ? m[1] : "";
+  };
 
-    // If raw was a full class string, last-ditch: pick the last token
-    // that looks language-ish (avoids returning the entire class list).
-    if (lang.includes(" ")) {
-      const parts = lang.split(/\s+/).filter(Boolean);
-      lang = parts.find(p => /^language-|^lang(?:uage)?-|^highlight-source-/i.test(p)) || parts[parts.length - 1];
-      // re-extract if we picked a prefixed token
-      const mm = lang.match(/(?:language-|lang(?:uage)?-|highlight-source-)([a-z0-9+-]+)/i);
-      if (mm) lang = mm[1];
-    }
+  const normalizeLangLabel = (token) => {
+    if (!token) return "CODE";
+    const key = String(token).trim().toLowerCase();
 
-    const key = lang.toLowerCase();
-
-    // Friendly display labels
+    // Display-friendly aliases
     const map = {
+      // JS/TS
       js: "javascript",
       javascript: "javascript",
       ts: "typescript",
       typescript: "typescript",
+
+      // shell-ish
       sh: "shell",
       shell: "shell",
       bash: "shell",
       zsh: "shell",
+
+      // yaml
       yml: "yaml",
       yaml: "yaml",
 
-      // C#
+      // C# (usually csharp/cs in HTML classes)
       cs: "c#",
       csharp: "c#",
-      "c#": "c#",
 
-      // C++
+      // C++ (usually cpp/cc/cxx in HTML classes)
       cpp: "c++",
-      "c++": "c++",
       cc: "c++",
       cxx: "c++",
 
-      // SuperCollider
+      // SuperCollider (common tokens)
       supercollider: "supercollider",
       sclang: "supercollider",
       sc: "supercollider",
@@ -56,9 +57,7 @@
     return (map[key] || key).toUpperCase();
   };
 
-
   const getCodeText = (pre) => {
-    // Prefer <code> innerText if present
     const code = pre.querySelector("code");
     return (code ? code.innerText : pre.innerText).replace(/\s+$/, "");
   };
@@ -71,13 +70,41 @@
     return b;
   };
 
+  const findBestLang = (pre) => {
+    const code = pre.querySelector("code");
+    const figure = pre.closest("figure");
+    const wrapper = pre.closest(".highlight");
+
+    // 1) Best: explicit data-lang from Rouge/kramdown if present
+    const dataLang =
+      code?.dataset?.lang ||
+      pre.dataset?.lang ||
+      figure?.dataset?.lang ||
+      wrapper?.dataset?.lang;
+
+    if (dataLang) return normalizeLangLabel(dataLang);
+
+    // 2) Next: language-* style classes on <code> or <pre>
+    const classToken =
+      pickLangTokenFromClasses(code?.className || "") ||
+      pickLangTokenFromClasses(pre.className || "") ||
+      pickLangTokenFromClasses(figure?.className || "");
+
+    if (classToken) return normalizeLangLabel(classToken);
+
+    // 3) If Rouge only gives you "highlight" etc., DO NOT treat it as a language.
+    return "CODE";
+  };
+
+  // ---------- main enhancer ----------
   const enhancePre = (pre) => {
-    // Avoid double-wrapping if hot reloaded
+    // Avoid double-wrapping
     if (pre.closest(".codeblock")) return;
 
-    const code = pre.querySelector("code");
-    const classStr = (code?.className || pre.className || "");
-    const langLabel = normalizeLang(classStr);
+    // Some themes use <pre class="highlight"> (non-code). Ignore empty blocks.
+    if (!pre.innerText || !pre.innerText.trim()) return;
+
+    const langLabel = findBestLang(pre);
 
     // Build wrapper
     const wrapper = document.createElement("section");
@@ -105,7 +132,7 @@
     const fade = document.createElement("div");
     fade.className = "codeblock__fade";
 
-    // Insert wrapper around pre
+    // Wrap the <pre>
     pre.parentNode.insertBefore(wrapper, pre);
     wrapper.append(bar, body);
     body.append(pre, fade);
@@ -115,8 +142,6 @@
       const text = getCodeText(pre);
       try {
         await navigator.clipboard.writeText(text);
-        copyBtn.textContent = "copied";
-        window.setTimeout(() => (copyBtn.textContent = "copy"), 1100);
       } catch {
         // Fallback
         const ta = document.createElement("textarea");
@@ -125,17 +150,16 @@
         ta.style.left = "-9999px";
         document.body.appendChild(ta);
         ta.select();
-        try { document.execCommand("copy"); } catch { }
+        try { document.execCommand("copy"); } catch {}
         document.body.removeChild(ta);
-        copyBtn.textContent = "copied";
-        window.setTimeout(() => (copyBtn.textContent = "copy"), 1100);
       }
+      copyBtn.textContent = "copied";
+      window.setTimeout(() => (copyBtn.textContent = "copy"), 1100);
     });
 
     // Collapse if tall
     const COLLAPSE_THRESHOLD_PX = 420;
 
-    // Measure after layout
     requestAnimationFrame(() => {
       const fullHeight = pre.scrollHeight;
       if (fullHeight > COLLAPSE_THRESHOLD_PX) {
@@ -147,14 +171,13 @@
           expandBtn.textContent = collapsed ? "expand" : "collapse";
         });
       } else {
-        // Not collapsible: hide expand button
         expandBtn.style.display = "none";
       }
     });
   };
 
   const init = () => {
-    // Most markdown renderers produce pre > code
+    // Only enhance real code blocks (pre, or figure.highlight > pre, etc.)
     document.querySelectorAll("pre").forEach(enhancePre);
   };
 
@@ -164,4 +187,3 @@
     init();
   }
 })();
-
