@@ -1,4 +1,5 @@
-title: M. Josiah Sytsma
+title: "M. Josiah Sytsma"
+
 markdown: kramdown
 theme: null
 lsi: false
@@ -30,8 +31,25 @@ nav:
   - title: Music
     url: /music/
     status: draft
+  - title: Development
+    url: /development/
+    status: live
   - title: Writing
     url: /writing/
     status: draft
 
 show_drafts_nav: false
+
+# Collections
+collections:
+  development:
+    output: true
+    permalink: /development/:name/
+
+# Defaults for collection entries
+defaults:
+  - scope:
+      path: ""
+      type: development
+    values:
+      layout: post

@@ -1,0 +1,16 @@
+:root {
+  --bg: #FAF9F6;
+  --text: #1A1A1A;
+  --text-secondary: #4A4A4A;
+
+  --green: #9FC353;
+  --aqua: #6ABCD5;
+  --gold: #EAB93C;
+  --coral: #DE8D74;
+  --indigo: #7191AF;
+  --blue: #43A0BD;
+
+  --clear: #00000000;
+}
+
+html { scroll-behavior: smooth; }

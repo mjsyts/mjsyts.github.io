@@ -1,0 +1,42 @@
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .75rem 1.25rem;
+  padding: .75rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, .12);
+}
+
+.site-nav a {
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: .03em;
+  color: inherit;
+  opacity: .75;
+  padding: .15rem 0;
+  position: relative;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  opacity: 1;
+}
+
+.site-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -.15rem;
+  height: 1px;
+  background: currentColor;
+  opacity: .5;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 160ms ease;
+}
+
+.site-nav a:hover::after,
+.site-nav a:focus-visible::after {
+  transform: scaleX(1);
+}

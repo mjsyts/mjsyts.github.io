@@ -1,0 +1,85 @@
+const POSTS = [
+  {
+    slug: "/development/lfsr-noise-part-1/",
+    title: "LFSR Noise Generator — Part 1",
+    date: "2025-12-30",
+    tags: ["dsp", "noise", "lfsr", "bitwise", "webaudio", "nes"],
+    desc: "Minimal 15-bit LFSR core and bipolar noise output.",
+    thumb: "/assets/img/dev/lfsr.png"
+  }
+];
+
+const grid = document.getElementById("grid");
+const searchInput = document.getElementById("searchInput");
+const sortSelect = document.getElementById("sortSelect");
+const tagBar = document.getElementById("tagBar");
+const resultsMeta = document.getElementById("resultsMeta");
+
+let activeTag = null;
+
+function render(posts) {
+  grid.innerHTML = "";
+
+  posts.forEach(p => {
+    const el = document.createElement("article");
+    el.className = "sd-card";
+
+    el.innerHTML = `
+      <a href="${p.slug}" class="sd-card__link">
+        <div class="sd-card__thumb">
+          <img src="${p.thumb}" alt="" loading="lazy" />
+        </div>
+        <div class="sd-card__body">
+          <h2 class="sd-card__title">${p.title}</h2>
+          <p class="sd-card__desc">${p.desc}</p>
+        </div>
+      </a>
+    `;
+
+    grid.appendChild(el);
+  });
+
+  resultsMeta.textContent = `${posts.length} post${posts.length === 1 ? "" : "s"}`;
+}
+
+function buildTags() {
+  const tags = [...new Set(POSTS.flatMap(p => p.tags))].sort();
+  tagBar.innerHTML = "";
+
+  tags.forEach(tag => {
+    const btn = document.createElement("button");
+    btn.className = "sd-tag";
+    btn.textContent = tag;
+
+    btn.onclick = () => {
+      activeTag = activeTag === tag ? null : tag;
+      update();
+    };
+
+    tagBar.appendChild(btn);
+  });
+}
+
+function update() {
+  let out = [...POSTS];
+
+  const q = searchInput.value.toLowerCase();
+  if (q) {
+    out = out.filter(p =>
+      p.title.toLowerCase().includes(q) ||
+      p.desc.toLowerCase().includes(q)
+    );
+  }
+
+  if (activeTag) {
+    out = out.filter(p => p.tags.includes(activeTag));
+  }
+
+  render(out);
+}
+
+searchInput.addEventListener("input", update);
+sortSelect.addEventListener("change", update);
+
+buildTags();
+render(POSTS);

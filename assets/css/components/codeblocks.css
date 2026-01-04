@@ -1,0 +1,120 @@
+/* Code blocks: label + copy + collapse */
+
+:root{
+  --code-bg: rgba(0,0,0,.06);
+  --code-border: rgba(0,0,0,.12);
+  --code-text: rgba(0,0,0,.88);
+  --code-muted: rgba(0,0,0,.55);
+  --code-radius: 14px;
+  --code-pad: 14px;
+  --code-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* collapse behavior */
+  --code-collapsed-max: 260px;
+}
+
+/* Wrap created by JS */
+.codeblock {
+  border: 1px solid var(--code-border);
+  background: var(--code-bg);
+  border-radius: var(--code-radius);
+  overflow: hidden;
+  margin: 1.25rem 0;
+}
+
+/* Top bar */
+.codeblock__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--code-border);
+  background: rgba(255,255,255,.35);
+}
+
+.codeblock__lang {
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--code-muted);
+  user-select: none;
+}
+
+.codeblock__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.codeblock__btn {
+  border: 1px solid var(--code-border);
+  background: transparent;
+  border-radius: 999px;
+  padding: 7px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: lowercase;
+  color: var(--code-text);
+}
+
+.codeblock__btn:hover {
+  background: rgba(255,255,255,.45);
+}
+
+/* The actual code area */
+.codeblock pre {
+  margin: 0;
+  padding: var(--code-pad);
+  font-family: var(--code-font);
+  font-size: .9rem;
+  line-height: 1.5;
+  color: var(--code-text);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  tab-size: 2;
+}
+
+/* Rouge sometimes wraps */
+.codeblock pre code {
+  font-family: inherit;
+}
+
+/* Collapsing */
+.codeblock.is-collapsible .codeblock__body {
+  position: relative;
+}
+
+.codeblock.is-collapsible.is-collapsed pre {
+  max-height: var(--code-collapsed-max);
+  overflow: hidden;
+}
+
+.codeblock__fade {
+  display: none;
+}
+
+.codeblock.is-collapsible.is-collapsed .codeblock__fade {
+  display: block;
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 64px;
+  background: linear-gradient(to bottom, rgba(250,249,246,0), rgba(250,249,246,.95));
+  pointer-events: none;
+}
+
+/* Inline code (prose) */
+p code, li code, .post code {
+  font-family: var(--code-font);
+  font-size: .92em;
+  padding: .12em .35em;
+  border-radius: 8px;
+  background: rgba(0,0,0,.05);
+  border: 1px solid rgba(0,0,0,.08);
+}
+
+/* Accessibility */
+.codeblock__btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}

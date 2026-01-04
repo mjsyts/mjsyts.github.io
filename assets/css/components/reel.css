@@ -1,0 +1,10 @@
+.reel-section { margin-bottom: 1.75rem; }
+
+.reel iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  border: none;
+  background: #000;
+  display: block;
+}

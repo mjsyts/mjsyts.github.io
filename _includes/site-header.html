@@ -1,16 +1,16 @@
 <header class="site-header">
   <div class="brand">
-    <span class="logo" aria-hidden="true">
+    <span class="logo" aria-label="Site logo">
       {% include logo_layered.svg %}
     </span>
 
-    <div class="brand-text">
-      <span class="brand-title">{{ site.title | default: "M. Josiah Sytsma" }}</span>
-      <span class="brand-tagline">Adaptive by nature. Meticulous by craft.</span>
+    <div class="brand-core">
+      <div class="brand-title">{{ site.title | default: "M. Josiah Sytsma" }}</div>
+      <div class="brand-tagline">Adaptive by nature. Meticulous by craft.</div>
     </div>
-  </div>
 
-  <span class="site-kicker">sound design • music • implementation • dsp</span>
+    <div class="site-kicker">sound design • music • implementation • dsp</div>
+  </div>
 
   {% include nav.html %}
 </header>
