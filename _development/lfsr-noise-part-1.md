@@ -47,12 +47,15 @@ This version is a fixed 15 bit shift register stepped at the sample rate. This v
 2. Right‑shift
 3. Insert the XOR result as the new left‑most bit (MSB).
 
-<iframe
-  class="applet-frame"
-  src="{{ '/applets/lfsr-15/' | relative_url }}"
-  loading="lazy"
-  title="15-bit LFSR Visualizer"
-></iframe>
+<div class="applet lfsr-applet">
+  <iframe
+    class="applet__frame"
+    src="{{ '/applets/lfsr-15/' | relative_url }}"
+    title="LFSR visualizer"
+    loading="lazy"
+    scrolling="no"
+  ></iframe>
+</div>
 
 ---
 
