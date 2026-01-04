@@ -145,7 +145,6 @@ That's it. Atomically small, but this simplicity will have significant implicati
 ---
 
 ## Listening to the Output
-
 <div class="applet lfsr-applet">
   <iframe
     class="applet__frame"
@@ -155,7 +154,6 @@ That's it. Atomically small, but this simplicity will have significant implicati
     scrolling="no"
   ></iframe>
 </div>
-
 ---
 
 ## Limitations of This Version
