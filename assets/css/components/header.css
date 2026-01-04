@@ -86,8 +86,17 @@
   letter-spacing: 0.1em;
 }
 
+.site-kicker{
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: var(--text-secondary);
+  opacity: 0.9;
+}
+
 @media (max-width: 800px) {
   .site-header { align-items: flex-start; }
   .header-right { width: 100%; margin-top: 0.5rem; text-align: left; }
   h1 { font-size: 2.2rem; }
 }
+
