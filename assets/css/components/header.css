@@ -1,30 +1,28 @@
-/* Header container */
-.site-header {
+/* header stacks: brand row on top, nav row under */
+.site-header{
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
+  flex-direction: column;
+  gap: 0.6rem;
   margin-bottom: 1.2rem;
 }
 
-/* Brand row: logo | (name + tagline) | kicker */
-.brand {
+/* brand row: logo | (name+tagline) | kicker */
+.brand{
   display: flex;
   align-items: center;
   gap: 1rem;
   min-width: 0;
 }
 
-/* Name + tagline stack */
-.brand-core {
+.brand-core{
   display: flex;
   flex-direction: column;
   line-height: 1.05;
   min-width: 0;
 }
 
-/* Title — unchanged */
-.brand-title {
+/* keep your title formatting */
+.brand-title{
   font-family: "Pickllle", system-ui, sans-serif;
   font-size: 2.6rem;
   margin: 0;
@@ -34,20 +32,19 @@
   text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
 }
 
-/* Tagline — clearly subordinate */
-.brand-tagline {
+.brand-tagline{
   margin-top: 0.2rem;
   font-size: 0.78rem;
-  letter-spacing: 0.05em;
-  text-transform: lowercase;
   color: var(--text-secondary);
-  opacity: 0.85;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  opacity: 0.9;
 }
 
-/* Kicker — larger, parallel identity */
-.site-kicker {
-  margin-left: 1.75rem;
-  font-size: 1.05rem;        /* intentionally larger than tagline */
+/* kicker: to the right of the whole brand-core block, and more prominent */
+.site-kicker{
+  margin-left: 1.5rem;
+  font-size: 1.05rem;
   letter-spacing: 0.12em;
   text-transform: lowercase;
   color: var(--text-primary);
@@ -55,8 +52,8 @@
   line-height: 1;
 }
 
-/* Logo */
-.logo {
+/* logo */
+.logo{
   width: 96px;
   height: 96px;
   border-radius: 24px;
@@ -68,62 +65,45 @@
 }
 
 .logo svg,
-.logo img {
+.logo img{
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.logo a {
+.logo a{
   display: flex;
   width: 100%;
   height: 100%;
 }
 
-.site-header{
+/* nav: always under header, align right (change to flex-start if you want left) */
+.site-nav{
   display: flex;
-  align-items: center;
   gap: 1rem;
-  margin-bottom: 1.2rem;
-
-  /* key change */
+  align-self: flex-end;
   flex-wrap: wrap;
 }
 
-/* keep brand on the first row */
-.site-header > .brand{
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-/* force nav to the next row */
-.site-header > nav,
-.site-header > .site-nav {
-  flex: 0 0 100%;
-}
-
-
-/* Responsive: kicker drops under, but stays visually strong */
-@media (max-width: 800px) {
-  .site-header {
-    align-items: flex-start;
+/* mobile: kicker drops under the name/tagline, nav aligns left */
+@media (max-width: 800px){
+  .brand{
     flex-wrap: wrap;
+    row-gap: 0.4rem;
   }
 
-  .brand {
-    flex-wrap: wrap;
-    row-gap: 0.5rem;
-  }
-
-  .site-kicker {
+  .site-kicker{
     margin-left: 0;
     flex-basis: 100%;
+    white-space: normal;
     font-size: 0.95rem;
-    letter-spacing: 0.1em;
   }
 
-  .brand-title {
+  .brand-title{
     font-size: 2.2rem;
   }
-}
 
+  .site-nav{
+    align-self: flex-start;
+  }
+}
