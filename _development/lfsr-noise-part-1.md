@@ -73,6 +73,7 @@ constructor() {
   this.state = 0x7fff;
 }
 ```
+{: data-lang="javascript" }
 Then the core process loop:
 
 ```javascript
@@ -93,6 +94,7 @@ const amp = (ampParam.length === 1) ? ampParam[0] : ampParam[i];
 // ...and then scale by the amplitude value.
 channel[i] = sample * amp;
 ```
+{: data-lang="javascript" }
 
 So the whole thing is:
 
@@ -139,6 +141,7 @@ class LfsrNoiseProcessor extends AudioWorkletProcessor {
 
 registerProcessor('lfsr-noise', LfsrNoiseProcessor);
 ```
+{: data-lang="javascript" }
 
 That's it. Atomically small, but this simplicity will have significant implications later on.
 
