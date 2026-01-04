@@ -67,7 +67,7 @@ This is the smallest working core of our LFSR noise generator in WebAudio.
 
 In the constructor:
 
-```js
+```javascript
 constructor() {
   super();
   this.state = 0x7fff;
@@ -75,7 +75,7 @@ constructor() {
 ```
 Then the core process loop:
 
-```js
+```javascript
 // Get the two least significant bits for feedback. lsb0 will also become our output value.
 const lsb0 = this.state & 1;
 const lsb1 = (this.state >> 1) & 1;
@@ -96,7 +96,7 @@ channel[i] = sample * amp;
 
 So the whole thing is:
 
-```js
+```javascript
 class LfsrNoiseProcessor extends AudioWorkletProcessor {
   static get parameterDescriptors() {
     return [{
