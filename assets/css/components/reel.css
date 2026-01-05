@@ -1,3 +1,7 @@
+/* Reel embed */
+
+:root { --header-h: 0px; }
+
 .reel-section { margin-bottom: 1.75rem; }
 
 .reel iframe {
@@ -7,4 +11,13 @@
   border: none;
   background: #000;
   display: block;
+}
+
+/* Mobile: fill the visible viewport *minus* the header */
+@media (max-width: 800px) {
+  .reel iframe {
+    height: calc(100svh - var(--header-h));
+    max-height: 100svh;
+    aspect-ratio: auto;
+  }
 }
