@@ -151,7 +151,7 @@ That's it. Atomically small, but this simplicity will have significant implicati
 <div class="applet lfsr-applet">
   <iframe
     class="applet__frame"
-    src="/applets//demos/lfsr/p1/"
+    src="/applets/demos/lfsr/p1/"
     title="LFSR Noise — WebAudio demo"
     loading="lazy"
     scrolling="no"

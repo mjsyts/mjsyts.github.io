@@ -1,0 +1,17 @@
+.page-back {
+  margin-top: 4rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.page-back__link {
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.page-back__link:hover {
+  color: var(--text-primary);
+}
