@@ -1,36 +1,71 @@
-.site-header{
+/* =========================================================
+   Site Header
+   ========================================================= */
+
+.site-header {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.75rem;
   margin-bottom: 1.2rem;
 }
 
-.brand{
+/* ---------------------------------------------------------
+   Brand row
+   --------------------------------------------------------- */
+
+.brand {
   display: flex;
   align-items: center;
   gap: 1rem;
   min-width: 0;
 }
 
-.brand-core{
+.logo {
+  width: 96px;
+  height: 96px;
+  border-radius: 24px;
+  overflow: hidden;
   display: flex;
-  flex-direction: column;
-  line-height: 1.05;
-  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
 }
 
-.brand-title{
+.logo img,
+.logo svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* JS swap */
+.logo-svg { display: none; }
+.js .logo-svg { display: block; }
+.js .logo-fallback { display: none; }
+
+.brand-core {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.05;
+}
+
+.brand-title {
   font-family: "Pickllle", system-ui, sans-serif;
   font-size: 2.6rem;
   margin: 0;
   color: var(--blue);
   letter-spacing: 0.04em;
-  font-variation-settings: "JMBL" 206, "COUT" 225, "STGR" 111;
+  font-variation-settings:
+    "JMBL" 206,
+    "COUT" 225,
+    "STGR" 111;
   text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
   white-space: nowrap;
 }
 
-.brand-tagline{
+.brand-tagline {
   margin-top: 0.2rem;
   font-size: 0.78rem;
   color: var(--text-secondary);
@@ -39,7 +74,11 @@
   opacity: 0.9;
 }
 
-.site-kicker{
+/* ---------------------------------------------------------
+   Kicker
+   --------------------------------------------------------- */
+
+.site-kicker {
   margin-left: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -52,67 +91,72 @@
   line-height: 1.25;
 }
 
-.kicker-line{
+.kicker-line {
   white-space: nowrap;
 }
 
-.logo{
-  width: 96px;
-  height: 96px;
-  border-radius: 24px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-}
+/* ---------------------------------------------------------
+   Nav
+   --------------------------------------------------------- */
 
-.logo img,
-.logo svg{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.logo-svg{
-  display: none;
-}
-
-.js .logo-svg{
-  display: block;
-}
-
-.js .logo-fallback{
-  display: none;
-}
-
-.site-nav{
+.site-nav {
   display: flex;
   gap: 1rem;
-  align-self: flex-start;
   flex-wrap: wrap;
+  align-self: flex-start;
 }
 
-@media (max-width: 800px){
-  .brand{
-    flex-wrap: wrap;
-    row-gap: 0.4rem;
+/* =========================================================
+   Mobile tightening
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+  .site-header {
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
   }
 
-  .site-kicker{
+  .brand {
+    gap: 0.75rem;
+  }
+
+  .logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+  }
+
+  .brand-title {
+    font-size: 2.05rem;
+    line-height: 1;
+  }
+
+  .brand-tagline {
+    font-size: 0.82rem;
+    margin-top: 0.15rem;
+  }
+
+  /* kicker becomes inline + compact */
+  .site-kicker {
     margin-left: 0;
     height: auto;
-    flex-basis: 100%;
     font-size: 0.9rem;
     letter-spacing: 0.1em;
+    line-height: 1.2;
   }
 
-  .brand-title{
-    font-size: 2.2rem;
+  .kicker-line {
+    white-space: normal;
   }
 
-  .site-nav{
-    align-self: flex-start;
+  /* nav shrinks vertically */
+  .site-nav {
+    gap: 0.6rem;
+    margin-top: 0.25rem;
+  }
+
+  .site-nav a {
+    padding: 0.45rem 0.7rem;
   }
 }

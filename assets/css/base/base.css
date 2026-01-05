@@ -29,3 +29,11 @@ h2{
   color: var(--text-primary);
 }
 
+@media (max-width: 768px) {
+  .wrap {
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+

@@ -14,8 +14,3 @@
 
 @import url("./pages/sd-archive.css");
 @import url("./pages/post.css");
-
-/* === MOBILE OVERFLOW DEBUG (temporary) === */
-* {
-  outline: 1px solid rgba(255, 0, 0, 0.5);
-}
