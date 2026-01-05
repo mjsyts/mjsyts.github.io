@@ -1,6 +1,6 @@
 /* =========================================================
    15-bit LFSR Visualizer
-   Self-contained, iframe-safe, compact
+   Self-contained, iframe-safe, mobile-safe
    ========================================================= */
 
 @font-face {
@@ -9,30 +9,40 @@
   font-display: swap;
 }
 
-/* --- Hard reset so iframe never goes white --- */
-:root {
-  color-scheme: dark;
-}
+/* --- Applet reset: allow vertical scroll, never horizontal scroll --- */
+:root { color-scheme: dark; }
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
 
 html,
 body {
-  height: 100%;
   margin: 0;
-  overflow: hidden;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
   background: #070a12;
   color: rgba(255, 255, 255, 0.92);
+
+  /* Key change: let the content scroll if iframe is shorter */
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  /* iOS: smoother scroll in iframe */
+  -webkit-overflow-scrolling: touch;
 }
 
-body {
-  display: flex;
-}
+body { display: block; }
 
 /* =========================================================
    Root wrapper
    ========================================================= */
 
 .applet--lfsr15 {
-  flex: 1;
+  width: 100%;
+  max-width: 100%;
   min-width: 0;
 
   /* palette */
@@ -47,9 +57,9 @@ body {
 
   --slot: rgba(0, 0, 0, 0.45);
 
-  --accent: #7bb7ff;  /* play / focus */
-  --good: #39d98a;    /* lmb */
-  --warn: #ff9a3c;    /* rmb */
+  --accent: #7bb7ff; /* play / focus */
+  --good: #39d98a;   /* lmb */
+  --warn: #ff9a3c;   /* rmb */
 
   --radius: 14px;
   --radius-sm: 9px;
@@ -59,17 +69,13 @@ body {
 
   background: var(--bg);
   color: var(--text);
+
+  /* padding that won’t cause horizontal overflow */
   padding: 0.75rem;
 }
 
-.applet--lfsr15 *,
-.applet--lfsr15 *::before,
-.applet--lfsr15 *::after {
-  box-sizing: border-box;
-}
-
 /* =========================================================
-   Layout (IMPORTANT: no vertical stretching)
+   Layout (no forced height; content can grow)
    ========================================================= */
 
 .applet--lfsr15 .app-main {
@@ -77,19 +83,19 @@ body {
   flex-direction: column;
   gap: 10px;
   justify-content: flex-start;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 /* Panels */
 .applet--lfsr15 .controls,
 .applet--lfsr15 .viz,
 .applet--lfsr15 .readout-item {
-  background: linear-gradient(
-    180deg,
-    var(--panel),
-    rgba(255, 255, 255, 0.045)
-  );
+  background: linear-gradient(180deg, var(--panel), rgba(255, 255, 255, 0.045));
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  max-width: 100%;
 }
 
 /* =========================================================
@@ -109,6 +115,8 @@ body {
   align-items: center;
   gap: 0.45rem;
   flex-wrap: wrap;
+  width: 100%;
+  min-width: 0;
 }
 
 .applet--lfsr15 .seed-label,
@@ -124,7 +132,11 @@ body {
   border: 1px solid var(--border-soft);
   border-radius: 8px;
   padding: 0.4rem 0.55rem;
-  min-width: 200px;
+
+  /* Key change: don’t force width; shrink nicely */
+  flex: 1 1 220px;
+  min-width: 0;
+
   font-family: var(--mono);
   font-size: 0.95rem;
   color: var(--text);
@@ -145,35 +157,37 @@ body {
 }
 
 .applet--lfsr15 .btn.primary {
-  background: linear-gradient(
-    180deg,
-    rgba(123, 183, 255, 0.28),
-    rgba(123, 183, 255, 0.14)
-  );
+  background: linear-gradient(180deg, rgba(123, 183, 255, 0.28), rgba(123, 183, 255, 0.14));
   border-color: rgba(123, 183, 255, 0.6);
 }
 
+/* On narrow screens, don’t push the row wide */
 .applet--lfsr15 .speed-label {
   margin-left: auto;
 }
 
 /* =========================================================
-   Visualizer (shrink to content)
+   Visualizer
    ========================================================= */
 
 .applet--lfsr15 .viz {
-  flex: 0 0 auto;
   padding: 0.6rem;
   display: flex;
   flex-direction: column;
   gap: 6px;
+
+  /* Never allow horizontal spill */
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow: hidden;
 }
 
 /* Legend */
 .applet--lfsr15 .legend {
   display: flex;
-  gap: 0.9rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   font-family: var(--ui);
   font-weight: 900;
   letter-spacing: 0.06em;
@@ -193,30 +207,23 @@ body {
   height: 12px;
   border-radius: 2px;
 }
+.applet--lfsr15 .legend-swatch.rmb { background: var(--warn); }
+.applet--lfsr15 .legend-swatch.lmb { background: var(--good); }
 
-.applet--lfsr15 .legend-swatch.rmb {
-  background: var(--warn);
-}
-
-.applet--lfsr15 .legend-swatch.lmb {
-  background: var(--good);
-}
-
-/* Register grid */
+/* Register grid (15 bits) */
 .applet--lfsr15 .register {
   display: grid;
   grid-template-columns: repeat(15, minmax(0, 1fr));
   gap: 6px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 /* Slot */
 .applet--lfsr15 .bit {
   position: relative;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.04),
-    var(--slot)
-  );
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), var(--slot));
   border: 1px solid var(--border-soft);
   border-radius: var(--radius-sm);
 
@@ -225,6 +232,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  min-width: 0;
 }
 
 /* Value */
@@ -251,17 +260,9 @@ body {
 }
 
 /* Highlights */
-.applet--lfsr15 .bit.rmb-active {
-  border-color: var(--warn);
-}
-
-.applet--lfsr15 .bit.lmb-target {
-  border-color: var(--good);
-}
-
-.applet--lfsr15 .bit.just-updated {
-  outline: 2px solid var(--accent);
-}
+.applet--lfsr15 .bit.rmb-active { border-color: var(--warn); }
+.applet--lfsr15 .bit.lmb-target { border-color: var(--good); }
+.applet--lfsr15 .bit.just-updated { outline: 2px solid var(--accent); }
 
 /* XOR bubble */
 .applet--lfsr15 .xor-bubble {
@@ -277,19 +278,26 @@ body {
 }
 
 /* =========================================================
-   Readout (label above value)
+   Readout (wraps on mobile; values can break lines)
    ========================================================= */
 
 .applet--lfsr15 .readout {
   display: grid;
-  grid-template-columns: repeat(4, minmax(130px, 1fr));
   gap: 6px;
+
+  /* Key change: fluid columns that collapse naturally */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .applet--lfsr15 .readout-item {
   padding: 0.45rem 0.55rem;
   display: grid;
   gap: 0.25rem;
+  min-width: 0;
 }
 
 .applet--lfsr15 .readout-label {
@@ -305,4 +313,30 @@ body {
   font-family: var(--mono);
   font-weight: 900;
   font-size: 0.95rem;
+
+  /* Key change: allow hex/decimal to wrap instead of pushing layout */
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+/* =========================================================
+   Mobile tune: make the register fit and reduce padding
+   ========================================================= */
+
+@media (max-width: 420px) {
+  .applet--lfsr15 { padding: 0.6rem; }
+
+  .applet--lfsr15 .register { gap: 4px; }
+
+  .applet--lfsr15 .bit { min-height: 30px; }
+
+  .applet--lfsr15 .bit .value { font-size: 0.9rem; }
+
+  /* Speed label shouldn’t force the row wide */
+  .applet--lfsr15 .speed-label {
+    margin-left: 0;
+    width: 100%;
+  }
 }
