@@ -1,34 +1,6 @@
-// ====== 1) EDIT THIS LIST TO ADD NEW POSTS ======
-const POSTS = [
-  {
-    id: "JqqnvMNVC2o",
-    title: "Atomic Heart Redesign",
-    date: "2025-12-24",
-    tags: ["sfx", "gaming", "synthesis", "supercollider", "redesign", "combat", "foley", "vocal fx"],
-    desc: "Full redesign of Atomic Heart hangar cutscene. Slow motion segment added for tension. Robot weapon sounds synthesized in SuperCollider."
-  },
-  {
-    id: "-nG8t3iuY04",
-    title: "Destroy All Humans Redesign",
-    date: "2025-11-14",
-    tags: ["ui", "sfx", "gaming", "supercollider", "redesign", "combat", "foley"],
-    desc: "Redesign of Destroy All Humans showcasing alien weapon/powers synthesized in SuperCollider."
-  },
-  {
-    id: "hldZv1rXLM4",
-    title: "Horror Sound Design: Project MKHEXE",
-    date: "2025-10-30",
-    tags: ["ambience", "tension", "combat", "film", "foley", "horror", "infrasound", "sfx"],
-    desc: "Creating tension, atmosphere, and narrative support through sound design without music. Competition entry for '25 Sundance Collab x Dolby Creator Lab."
-  },
-  {
-    id: "wBetF3QsMGo",
-    title: "Game Sound Design Reel Dec. '25",
-    date: "2025-12-21",
-    tags: ["gaming", "combat", "tension", "horror", "infrasound", "creature", "supercollider", "reel", "ambience", "foley", "sfx", "vocal fx"],
-    desc: "Game sound design reel #1. Selections include Atomic Heart, Perfect Dark, Wandering Village, PT, and Have a Nice Death."
-  }
-];
+---
+---
+const POSTS = {{ site.data.sound_design.items | jsonify }};
 
 const PAGE_SIZE = 9;
 const YT_BASE = "https://www.youtube-nocookie.com/embed/";

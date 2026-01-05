@@ -1,13 +1,6 @@
-const POSTS = [
-  {
-    slug: "/development/lfsr-noise-part-1/",
-    title: "LFSR Noise Generator — Part 1",
-    date: "2025-12-30",
-    tags: ["dsp", "noise", "lfsr", "bitwise", "webaudio", "nes"],
-    desc: "Minimal 15-bit LFSR core and bipolar noise output.",
-    thumb: "/assets/img/dev/lfsr.png"
-  }
-];
+---
+---
+const POSTS = {{ site.data.development.items | jsonify }};
 
 const grid = document.getElementById("grid");
 const searchInput = document.getElementById("searchInput");
