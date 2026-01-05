@@ -49,13 +49,12 @@ This version is a fixed 15 bit shift register stepped at the sample rate. This v
 
 You can use the applet to see what's happening internally:
 
-<div class="applet lfsr-applet">
+<div class="applet lfsr15-viz">
   <iframe
     class="applet__frame"
     src="{{ '/applets/lfsr-15/' | relative_url }}"
     title="LFSR visualizer"
     loading="lazy"
-    scrolling="no"
   ></iframe>
 </div>
 
@@ -148,13 +147,12 @@ That's it. Atomically small, but this simplicity will have significant implicati
 ---
 
 ## Listening to the Output
-<div class="applet lfsr-applet">
+<div class="applet lfsr15-audio">
   <iframe
     class="applet__frame"
-    src="/applets/demos/lfsr/p1/"
+    src="{{ '/applets/demos/lfsr/p1/' | relative_url }}"
     title="LFSR Noise — WebAudio demo"
     loading="lazy"
-    scrolling="no"
   ></iframe>
 </div>
 ---

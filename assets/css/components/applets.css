@@ -28,7 +28,11 @@
   }
 }
 
-/* Compact WebAudio demo embed */
-.applet.lfsr-applet .applet__frame {
-  height: clamp(280px, 38svh, 380px);
+.applet.lfsr15-viz .applet__frame {
+  height: clamp(640px, 88svh, 980px);
 }
+
+.applet.lfsr15-audio .applet__frame {
+  height: clamp(320px, 44svh, 460px);
+}
+
