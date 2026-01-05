@@ -1,4 +1,3 @@
-/* header stacks: brand row on top, nav row under */
 .site-header{
   display: flex;
   flex-direction: column;
@@ -6,7 +5,6 @@
   margin-bottom: 1.2rem;
 }
 
-/* brand row: logo | (name+tagline) | kicker */
 .brand{
   display: flex;
   align-items: center;
@@ -14,7 +12,6 @@
   min-width: 0;
 }
 
-/* Name + tagline stack */
 .brand-core{
   display: flex;
   flex-direction: column;
@@ -22,7 +19,6 @@
   min-width: 0;
 }
 
-/* Title — keep your formatting, but force ONE line */
 .brand-title{
   font-family: "Pickllle", system-ui, sans-serif;
   font-size: 2.6rem;
@@ -31,12 +27,9 @@
   letter-spacing: 0.04em;
   font-variation-settings: "JMBL" 206, "COUT" 225, "STGR" 111;
   text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
-
-  /* key change */
   white-space: nowrap;
 }
 
-/* Tagline — subordinate */
 .brand-tagline{
   margin-top: 0.2rem;
   font-size: 0.78rem;
@@ -46,19 +39,23 @@
   opacity: 0.9;
 }
 
-/* Kicker — prominent, and allowed to WRAP */
 .site-kicker{
   margin-left: 1.5rem;
-  font-size: 1.05rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 96px;
+  font-size: 0.95rem;
   letter-spacing: 0.12em;
   text-transform: lowercase;
   color: var(--text-primary);
-  line-height: 1.2;
-
-  /* key change: do NOT force nowrap */
+  line-height: 1.25;
 }
 
-/* Logo */
+.kicker-line{
+  white-space: nowrap;
+}
+
 .logo{
   width: 96px;
   height: 96px;
@@ -70,20 +67,26 @@
   flex: 0 0 auto;
 }
 
-.logo svg,
-.logo img{
+.logo img,
+.logo svg{
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-.logo a{
-  display: flex;
-  width: 100%;
-  height: 100%;
+.logo-svg{
+  display: none;
 }
 
-/* Nav — always under header */
+.js .logo-svg{
+  display: block;
+}
+
+.js .logo-fallback{
+  display: none;
+}
+
 .site-nav{
   display: flex;
   gap: 1rem;
@@ -91,7 +94,6 @@
   flex-wrap: wrap;
 }
 
-/* Mobile tweaks */
 @media (max-width: 800px){
   .brand{
     flex-wrap: wrap;
@@ -100,8 +102,9 @@
 
   .site-kicker{
     margin-left: 0;
+    height: auto;
     flex-basis: 100%;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     letter-spacing: 0.1em;
   }
 
@@ -113,4 +116,3 @@
     align-self: flex-start;
   }
 }
-

@@ -1,15 +1,31 @@
 <header class="site-header">
   <div class="brand">
     <span class="logo" aria-label="Site logo">
-      {% include logo_layered.svg %}
+      <img
+        src="{{ '/assets/images/chameleon_logo.png' | relative_url }}"
+        alt="Chameleon logo"
+        class="logo-fallback"
+        loading="eager"
+      />
+
+      <span class="logo-svg" aria-hidden="true">
+        {% include logo_layered.svg %}
+      </span>
     </span>
 
     <div class="brand-core">
-      <div class="brand-title">{{ site.title | default: "M. Josiah Sytsma" }}</div>
-      <div class="brand-tagline">Adaptive by nature. Meticulous by craft.</div>
+      <div class="brand-title">
+        {{ site.title | default: "M. Josiah Sytsma" }}
+      </div>
+      <div class="brand-tagline">
+        Adaptive by nature. Meticulous by craft.
+      </div>
     </div>
 
-    <div class="site-kicker">sound design • music • implementation • dsp</div>
+    <div class="site-kicker">
+      <span class="kicker-line">sound design • music</span>
+      <span class="kicker-line">implementation • dsp</span>
+    </div>
   </div>
 
   {% include nav.html %}
