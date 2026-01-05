@@ -5,8 +5,8 @@
 }
 
 .page-back__link {
-  font-size: 0.8rem;
-  letter-spacing: 0.14em;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
   text-transform: lowercase;
   color: var(--text-secondary);
   text-decoration: none;
