@@ -28,11 +28,18 @@
   }
 }
 
-.applet.lfsr15-viz .applet__frame {
-  height: clamp(420px, 62svh, 620px);
+/* Visualizer: fixed + tighter on desktop */
+.applet.lfsr15-viz .applet__frame{
+  height: clamp(320px, 52svh, 520px);
+}
+
+@media (min-width: 900px){
+  .applet.lfsr15-viz .applet__frame{
+    height: 430px;
+  }
 }
 
 .applet.lfsr15-audio .applet__frame {
-  height: clamp(320px, 44svh, 460px);
+  height: clamp(280px, 38svh, 400px);
 }
 
