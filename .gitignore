@@ -1,0 +1,11 @@
+
+# Jekyll build output
+_site/
+
+# Caches
+.jekyll-cache/
+.sass-cache/
+.bundle/
+
+# OS / editor
+.DS_Store
