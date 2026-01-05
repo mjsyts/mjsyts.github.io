@@ -1,39 +1,34 @@
 /* =========================================================
-   Applet Embeds (tight + specific)
+   Applet Embeds (responsive, mobile-safe)
    ========================================================= */
 
 .applet {
   width: 100%;
   margin: 1.25rem 0 2rem;
+  max-width: 100%;
+  overflow: hidden; /* prevents horizontal spill */
 }
 
-/* Default: keep tall for complex applets like the visualizer */
 .applet__frame {
-  width: 100%;
-  height: min(520px, 66vh);
+  display: block;
+  width: 100% !important;
+  max-width: 100%;
+  min-width: 0;
+  height: clamp(520px, 66svh, 760px);
+
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 18px;
   overflow: hidden;
-  display: block;
 }
 
 /* Slightly more room on larger screens */
 @media (min-width: 900px) {
   .applet__frame {
-    height: min(560px, 70vh);
+    height: clamp(560px, 70vh, 900px);
   }
 }
 
-/* ---------------------------------------------------------
-   Overrides: WebAudio demo embed should be compact
-   --------------------------------------------------------- */
-
+/* Compact WebAudio demo embed */
 .applet.lfsr-applet .applet__frame {
-  height: 260px; /* adjust to taste */
-}
-
-@media (min-width: 900px) {
-  .applet.lfsr-applet .applet__frame {
-    height: 300px;
-  }
+  height: clamp(280px, 38svh, 380px);
 }

@@ -1,38 +1,123 @@
-:root { color-scheme: light dark; }
+/* =========================================================
+   Applet base
+   ========================================================= */
 
-body {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-  margin: 1rem;
+:root {
+  color-scheme: light dark;
 }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* =========================================================
+   Panel container
+   ========================================================= */
 
 .panel {
-  display: inline-block;
-  padding: 1rem 1.25rem;
-  border: 1px solid color-mix(in oklab, CanvasText 25%, Canvas 75%);
-  border-radius: 10px;
-  box-shadow: 0 2px 6px color-mix(in oklab, CanvasText 10%, Canvas 90%);
+  width: 100%;
   max-width: 520px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+
+  border: 1px solid color-mix(in oklab, CanvasText 25%, Canvas 75%);
+  border-radius: 12px;
+  background: Canvas;
+  box-shadow: 0 2px 6px color-mix(in oklab, CanvasText 10%, Canvas 90%);
 }
 
-h2 { margin: 0 0 .75rem 0; font-weight: 600; }
+/* =========================================================
+   Typography
+   ========================================================= */
+
+h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+small {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: color-mix(in oklab, CanvasText 55%, Canvas 45%);
+}
+
+/* =========================================================
+   Control rows
+   ========================================================= */
 
 .row {
   display: flex;
   align-items: center;
-  gap: .75rem;
-  margin: .75rem 0;
+  gap: 0.75rem;
+  margin: 0.75rem 0;
+  width: 100%;
 }
 
-label { font-weight: 600; min-width: 100px; }
-input[type="range"] { flex: 1 1 auto; min-width: 240px; }
+label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+/* Range sliders */
+input[type="range"] {
+  flex: 1 1 0;
+  min-width: 0; /* critical for mobile */
+}
+
+/* =========================================================
+   Buttons
+   ========================================================= */
 
 button {
-  padding: .5rem .9rem;
+  appearance: none;
   border: 1px solid color-mix(in oklab, CanvasText 20%, Canvas 80%);
-  border-radius: 8px;
-  background: color-mix(in oklab, Canvas 90%, CanvasText 10%);
+  border-radius: 10px;
+  padding: 0.5rem 0.9rem;
+
+  background: color-mix(in oklab, Canvas 92%, CanvasText 8%);
+  color: CanvasText;
+  font-size: 0.85rem;
+  font-weight: 500;
+
   cursor: pointer;
 }
-button:disabled { opacity: .6; cursor: not-allowed; }
 
-small { color: color-mix(in oklab, CanvasText 50%, Canvas 50%); }
+button:hover:not(:disabled) {
+  background: color-mix(in oklab, Canvas 88%, CanvasText 12%);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   Mobile refinement
+   ========================================================= */
+
+@media (max-width: 420px) {
+  .row {
+    flex-wrap: wrap;
+  }
+
+  label {
+    width: 100%;
+  }
+}
