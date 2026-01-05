@@ -65,7 +65,7 @@ You can use the applet to see what's happening internally:
 
 This is the smallest working core of our LFSR noise generator in WebAudio.
 
-In the constructor:
+We need to keep track of the shift register over the lifetime of the processor instance, so in the constructor:
 
 ```javascript
 constructor() {
