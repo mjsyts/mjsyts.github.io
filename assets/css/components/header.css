@@ -62,7 +62,7 @@
     "COUT" 225,
     "STGR" 111;
   text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
-  white-space: nowrap;
+  white-space: nowrap; /* desktop intent */
 }
 
 .brand-tagline {
@@ -92,7 +92,7 @@
 }
 
 .kicker-line {
-  white-space: nowrap;
+  white-space: nowrap; /* desktop intent */
 }
 
 /* ---------------------------------------------------------
@@ -107,7 +107,7 @@
 }
 
 /* =========================================================
-   Mobile tightening
+   Mobile tightening + overflow fix
    ========================================================= */
 
 @media (max-width: 800px) {
@@ -117,8 +117,13 @@
     margin-bottom: 0.75rem;
   }
 
+  /* CRITICAL FIX:
+     allow brand row to stack so it cannot exceed viewport */
   .brand {
-    gap: 0.75rem;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
   }
 
   .logo {
@@ -127,9 +132,15 @@
     border-radius: 16px;
   }
 
+  .brand-core {
+    align-items: center;
+  }
+
   .brand-title {
     font-size: 2.05rem;
     line-height: 1;
+    white-space: normal;        /* override desktop nowrap */
+    overflow-wrap: anywhere;    /* prevent horizontal scroll */
   }
 
   .brand-tagline {
@@ -137,26 +148,31 @@
     margin-top: 0.15rem;
   }
 
-  /* kicker becomes inline + compact */
+  /* kicker becomes compact + centered */
   .site-kicker {
     margin-left: 0;
     height: auto;
     font-size: 0.9rem;
     letter-spacing: 0.1em;
     line-height: 1.2;
+    text-align: center;
+    align-items: center;
   }
 
   .kicker-line {
-    white-space: normal;
+    white-space: normal; /* allow wrap on mobile */
   }
 
   /* nav shrinks vertically */
   .site-nav {
+    align-self: center;
+    justify-content: center;
     gap: 0.6rem;
     margin-top: 0.25rem;
   }
 
   .site-nav a {
     padding: 0.45rem 0.7rem;
+    font-size: 0.75rem;
   }
 }
