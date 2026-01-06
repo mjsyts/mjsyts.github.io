@@ -10,7 +10,7 @@ excerpt: "PLACEHOLDER_EXCERPT"
 
 ## Introduction
 
-I started working on GameBoy/NES audio emulation in early 2022 with SuperCollider. On paper it's pretty straightforward, but SC doesn't really support the style of noise generation from the 8-bit Nintendo consoles. After I started C++ coursework at Johns Hopkins, I decided I'd make something more useful than a command line Texas Hold 'Em game. I wanted to augment the idea behind Nintendo's noise generator, adding more granular control. You can find the SuperCollider plugin [here](https://github.com/mjsyts/LFSRNoiseUGens).
+I started working on GameBoy/NES audio emulation in early 2022 with SuperCollider. On paper it's pretty straightforward, but SC doesn't really support the style of noise generation from the 8-bit Nintendo consoles. After completing C++ coursework at Johns Hopkins, I took the core structure of this noise generator, added more granular control, and packaged it into a SC UGen. You can find the SuperCollider plugin [here](https://github.com/mjsyts/LFSRNoiseUGens).
 
 What I love about this noise generator is the massive amount of variety you can squeeze out of something that is extremely elegant and almost trivial computationally. The same audio processing algorithm can give results that range from white noise to incredibly rich, but still relatively stable tones.
 
@@ -27,7 +27,7 @@ You keep an integer "register" (a fixed number of bits). On each step:
 4. Insert the feedback bit back into the register.
 5. Take one bit (usually the least-significant bit) as the **output** for that step.
 
-Because the next state depends on the current state, it's fully deterministic. Certain taps will cause a very long sequence of unique register states before repeating, so the output is pseudo-random. All that happens is a bitshift operation and an XOR -- extremely lightweight and extremely fast. Once you map the output stream of 1's and 0's to a bipolar range to avoid DC offset, you have a really nice audio source.
+Because the next state depends on the current state, it's fully deterministic. Certain taps will cause a very long sequence of unique register states before repeating, so the output is pseudo-random. All that happens is a bitshift operation and an XOR, which is about as cheap as arithmetic gets on modern CPUs. Once you map the output stream of 1's and 0's to a bipolar range to avoid DC offset, you have a really nice audio source.
 
 ---
 
@@ -43,6 +43,8 @@ This version is a fixed 15 bit shift register stepped at the sample rate. This v
 
 ## Core Algorithm (Step by Step)
 
+The NES and GameBoy use the same core LFSR structure:
+
 1. XOR the two right‑most bits (LSB &amp; bit1)
 2. Right‑shift
 3. Insert the XOR result as the new left‑most bit (MSB).
@@ -52,7 +54,7 @@ You can use the applet to see what's happening internally:
 <div class="applet lfsr15-viz">
   <iframe
     class="applet__frame"
-    src="{{ '/applets/lfsr-15/' | relative_url }}"
+    src="{{ '/applets/lfsr/p1/viz/' | relative_url }}"
     title="LFSR visualizer"
     loading="lazy"
   ></iframe>
@@ -150,7 +152,7 @@ That's it. Atomically small, but this simplicity will have significant implicati
 <div class="applet lfsr15-audio">
   <iframe
     class="applet__frame"
-    src="{{ '/applets/demos/lfsr/p1/' | relative_url }}"
+    src="{{ '/applets/lfsr/p1/audio/' | relative_url }}"
     title="LFSR Noise — WebAudio demo"
     loading="lazy"
   ></iframe>

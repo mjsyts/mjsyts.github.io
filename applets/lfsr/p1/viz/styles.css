@@ -1,0 +1,196 @@
+.applet--lfsr15{
+  --good: #39d98a;
+  --warn: #ff9a3c;
+  --slot: rgba(0, 0, 0, 0.45);
+
+  background: transparent;
+  padding: 0.75rem;
+}
+
+/* ============================
+   Controls: FORCE the layout
+   ============================ */
+
+.applet--lfsr15 .seed-row,
+.applet--lfsr15 .run-row{
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.45rem !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  flex-wrap: nowrap !important;
+}
+
+.applet--lfsr15 .controls > * + *{
+  margin-top: 0.65rem;
+}
+
+.applet--lfsr15 .btn-group{
+  display: inline-flex !important;
+  gap: 0.45rem !important;
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+}
+
+/* Seed input: DO NOT allow width:100% to win */
+.applet--lfsr15 #seedInput{
+  width: auto !important;
+  flex: 1 1 420px !important;
+  min-width: 220px !important;
+  max-width: 100% !important;
+}
+
+/* Speed: keep label + slider on the right */
+.applet--lfsr15 .speed-label{
+  margin-left: auto !important;
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+}
+
+.applet--lfsr15 #speedRange{
+  width: auto !important;
+  flex: 0 0 320px !important;
+  min-width: 240px !important;
+}
+
+/* Stack only when genuinely narrow */
+@media (max-width: 560px){
+  .applet--lfsr15 .seed-row,
+  .applet--lfsr15 .run-row{
+    flex-wrap: wrap !important;
+  }
+
+  .applet--lfsr15 #seedInput{
+    width: 100% !important;
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
+  }
+
+  .applet--lfsr15 .speed-label{
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+
+  .applet--lfsr15 #speedRange{
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+/* ============================
+   Visualizer
+   ============================ */
+
+.applet--lfsr15 .viz{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.applet--lfsr15 .legend{
+  font-family: var(--ui);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.applet--lfsr15 .legend-item{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.applet--lfsr15 .legend-swatch{
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+.applet--lfsr15 .legend-swatch.rmb{ background: var(--warn); }
+.applet--lfsr15 .legend-swatch.lmb{ background: var(--good); }
+
+.applet--lfsr15 .register{
+  display: grid;
+  grid-template-columns: repeat(15, minmax(0, 1fr));
+  gap: 6px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.applet--lfsr15 .bit{
+  position: relative;
+
+  background: var(--panel);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+
+  min-height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+}
+
+.applet--lfsr15 .bit .value{
+  font-family: var(--mono);
+  font-weight: 900;
+  font-size: 0.95rem;
+  transform: translateY(5px);
+}
+
+.applet--lfsr15 .bit .index{
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 900;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+/* Remove border-only highlights */
+.applet--lfsr15 .bit.rmb-active,
+.applet--lfsr15 .bit.lmb-target{
+  border-color: var(--border-soft);
+}
+
+/* Full-tile highlights */
+.applet--lfsr15 .bit.rmb-active{
+  background: color-mix(in oklab, var(--warn) 18%, var(--panel));
+}
+
+.applet--lfsr15 .bit.lmb-target{
+  background: color-mix(in oklab, var(--good) 18%, var(--panel));
+}
+
+.applet--lfsr15 .xor-bubble{
+  position: absolute;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.25rem 0.55rem;
+  font-family: var(--mono);
+  font-weight: 900;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 420px){
+  .applet--lfsr15 .register{ gap: 4px; }
+  .applet--lfsr15 .bit{ min-height: 30px; }
+  .applet--lfsr15 .bit .value{ font-size: 0.9rem; }
+}

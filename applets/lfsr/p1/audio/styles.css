@@ -1,0 +1,84 @@
+/* =========================================================
+   Applet base
+   ========================================================= */
+
+/* header row: title left, sample rate right */
+.audio-head{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  min-width: 0;
+}
+
+.audio-title{
+  font-size: 0.95rem;
+}
+
+.audio-sr{
+  font-family: var(--mono);
+  font-weight: 900;
+  font-size: 0.95rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* transport row (buttons) */
+.audio-transport{
+  margin: 0.45rem 0 0.65rem;
+}
+
+/* amplitude row */
+.audio-row{
+  align-items: center;
+}
+
+.audio-row .label{
+  flex: 0 0 auto;
+}
+
+.audio-row .range{
+  /* allow the slider to be long like your screenshot */
+  flex: 1 1 420px;
+  min-width: 220px;
+}
+
+.audio-val{
+  font-family: var(--mono);
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* Kill extra vertical breathing room for audio app */
+.app-main{
+  gap: 0;
+}
+
+.audio-panel{
+  padding: 0.55rem 0.65rem;
+}
+
+.audio-panel .row{
+  margin: 0.25rem 0;
+}
+
+
+/* mobile: let the header wrap and keep the slider comfortable */
+@media (max-width: 520px){
+  .audio-head{
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .audio-sr{
+    width: 100%;
+  }
+
+  .audio-row .range{
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+}

@@ -4,7 +4,7 @@
 
 .applet {
   width: 100%;
-  margin: 1.25rem 0 2rem;
+  margin: 1.25rem 0;
   max-width: 100%;
   overflow: hidden; /* prevents horizontal spill */
 }
@@ -35,11 +35,18 @@
 
 @media (min-width: 900px){
   .applet.lfsr15-viz .applet__frame{
-    height: 430px;
+    height: min(300px, 42vh);
   }
 }
 
-.applet.lfsr15-audio .applet__frame {
-  height: clamp(280px, 38svh, 400px);
+/* Audio demo: short */
+.applet.lfsr15-audio > .applet__frame{
+  height: clamp(190px, 24svh, 240px);
+}
+
+@media (min-width: 900px){
+  .applet.lfsr15-audio > .applet__frame{
+    height: 220px;
+  }
 }
 

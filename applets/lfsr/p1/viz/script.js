@@ -123,7 +123,31 @@
     return Number.isFinite(v) && v > 0 ? v : 1;
   }
 
-  function animateBubble(lsbCell, bit1Cell, msbCell, value, spd) {
+  function timings() {
+    const spd = speedFactor();
+
+    // One "step" should always be readable.
+    // Tune these two numbers to taste.
+    const stepPeriodMs = Math.round(520 / spd); // total time per step
+    const bubbleMs = Math.round(320 / spd);     // bubble travel inside that step
+
+    // Make sure bubble never exceeds the step period.
+    const bubbleClamped = Math.min(bubbleMs, stepPeriodMs - 80);
+
+    // Highlight stays on for most of the step, but never longer than the step.
+    const highlightMs = Math.max(180, Math.round(stepPeriodMs * 0.85));
+
+    return {
+      spd,
+      stepPeriodMs,
+      bubbleMs: Math.max(120, bubbleClamped),
+      highlightMs: Math.min(highlightMs, stepPeriodMs),
+    };
+  }
+
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  function animateBubble(lsbCell, bit1Cell, msbCell, value, dur) {
     return new Promise((resolve) => {
       const regRect = registerEl.getBoundingClientRect();
       const lsbRect = lsbCell.getBoundingClientRect();
@@ -138,7 +162,6 @@
 
       bubbleEl.textContent = String(value);
 
-      const dur = Math.round(520 / spd);
       bubbleEl.style.transitionDuration = `${dur}ms`;
       bubbleEl.style.left = `${startX}px`;
       bubbleEl.style.top = `${startY}px`;
@@ -176,11 +199,13 @@
     const bit1Cell = cells[cells.length - 2]; // bit1
     const lsbCell = cells[cells.length - 1]; // bit0
 
+    const t = timings();
+
     clearHighlights();
     highlightRMBs(msbCell, lsbCell, bit1Cell);
 
     if (animated) {
-      await animateBubble(lsbCell, bit1Cell, msbCell, newBit, speedFactor());
+      await animateBubble(lsbCell, bit1Cell, msbCell, newBit, t.bubbleMs);
     }
 
     // shift right, insert at MSB
@@ -190,7 +215,10 @@
     cycle++;
     renderState();
 
-    msbCell.classList.add("just-updated");
+    // Hold highlights long enough to register, then clear even if user pauses
+    const remaining = Math.max(0, t.highlightMs - (animated ? t.bubbleMs : 0));
+    if (remaining) await sleep(remaining);
+
     clearHighlights();
   }
 
@@ -207,11 +235,17 @@
 
     try {
       while (playing) {
+        const t = timings();
+        const t0 = performance.now();
+
         await step(true);
-        const spd = speedFactor();
-        const pause = Math.round(110 / spd);
-        await new Promise((r) => setTimeout(r, pause));
+
+        // Enforce the overall step period (bubble + hold already consumed part of it)
+        const elapsed = performance.now() - t0;
+        const rest = Math.max(0, t.stepPeriodMs - elapsed);
+        if (rest) await sleep(rest);
       }
+
     } catch (err) {
       console.error("[lfsr-15] playLoop stopped due to error:", err);
       playing = false;

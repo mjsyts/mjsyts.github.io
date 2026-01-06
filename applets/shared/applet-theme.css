@@ -1,0 +1,305 @@
+@font-face {
+  font-family: "Pickllle";
+  src: url("/assets/fonts/Pickllle.ttf") format("truetype");
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  /* changed: don't repaint a new page inside the iframe */
+  background: transparent;
+  color: inherit;
+}
+
+img,
+svg,
+canvas,
+video,
+iframe {
+  max-width: 100%;
+  display: block;
+}
+
+.applet {
+  /* changed: neutral light tokens that sit inside your page */
+  --bg: transparent;
+
+  --panel: rgba(255, 255, 255, 0.72);
+  --panel-soft: rgba(255, 255, 255, 0.52);
+
+  --border: rgba(17, 17, 17, 0.14);
+  --border-soft: rgba(17, 17, 17, 0.10);
+
+  --text: rgba(17, 17, 17, 0.92);
+  --muted: rgba(17, 17, 17, 0.62);
+
+  /* changed: use a calmer “site-ish” blue */
+  --accent: rgba(45, 92, 140, 1);
+
+  --radius: 14px;
+  --radius-sm: 9px;
+
+  --ui: "Pickllle", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  background: var(--bg);
+  color: var(--text);
+  padding: 0.75rem;
+}
+
+.applet-wrap {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  min-width: 0;
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+/* -----------------------------
+   Rows
+   ----------------------------- */
+
+/* Default: instrument-friendly */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: nowrap;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Opt-in wrapping when you actually want it */
+.row.wrap {
+  flex-wrap: wrap;
+}
+
+.spacer {
+  margin-left: auto;
+}
+
+/* -----------------------------
+   Panels
+   ----------------------------- */
+
+.panel {
+  /* changed: lighter second stop so it feels like your page, not a widget */
+  background: linear-gradient(180deg, var(--panel), rgba(255, 255, 255, 0.58));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  max-width: 100%;
+  min-width: 0;
+}
+
+.panel--padded {
+  padding: 0.55rem 0.7rem;
+}
+
+/* -----------------------------
+   Labels
+   ----------------------------- */
+
+.label {
+  font-family: var(--ui);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: var(--muted);
+  flex: 0 0 auto;
+}
+
+/* -----------------------------
+   Inputs
+   ----------------------------- */
+
+.input {
+  background: var(--panel-soft);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 0.4rem 0.55rem;
+
+  width: 100%;
+  min-width: 0;
+
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  color: var(--text);
+  outline: none;
+}
+
+/* When an input is placed inside a .row, treat it like a flex item */
+.row .input {
+  width: auto;
+  flex: 1 1 220px;
+}
+
+.input:focus {
+  /* changed: light theme focus */
+  border-color: rgba(45, 92, 140, 0.45);
+  box-shadow: 0 0 0 2px rgba(45, 92, 140, 0.18);
+}
+
+/* -----------------------------
+   Ranges
+   ----------------------------- */
+
+.range {
+  width: 100%;
+  margin: 0;
+  min-width: 0;
+  accent-color: var(--accent);
+}
+
+/* When a range is placed inside a .row, keep it compact by default */
+.row .range {
+  width: auto;
+  flex: 0 0 clamp(220px, 32vw, 320px);
+  min-width: 200px;
+}
+
+/* Optional: force a range to be compact even outside a row */
+.range.compact {
+  width: auto;
+  flex: 0 0 clamp(220px, 32vw, 320px);
+  min-width: 200px;
+}
+
+/* -----------------------------
+   Buttons
+   ----------------------------- */
+
+.btn {
+  /* changed: light button surface */
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 0.4rem 0.65rem;
+  cursor: pointer;
+
+  font-family: var(--ui);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(45, 92, 140, 0.18);
+}
+
+.btn.primary {
+  /* changed: light primary */
+  background: linear-gradient(180deg, rgba(45, 92, 140, 0.18), rgba(45, 92, 140, 0.10));
+  border-color: rgba(45, 92, 140, 0.38);
+}
+
+/* -----------------------------
+   Surfaces
+   ----------------------------- */
+
+.surface {
+  padding: 0.6rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+
+  /* changed: match panel */
+  background: linear-gradient(180deg, var(--panel), rgba(255, 255, 255, 0.58));
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* -----------------------------
+   Readout grid
+   ----------------------------- */
+
+.readout {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.readout-item {
+  /* changed: match panel */
+  background: linear-gradient(180deg, var(--panel), rgba(255, 255, 255, 0.58));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.45rem 0.55rem;
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.readout-label {
+  font-family: var(--ui);
+  font-weight: 900;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: var(--muted);
+}
+
+.readout-value {
+  font-family: var(--mono);
+  font-weight: 900;
+  font-size: 0.95rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+/* -----------------------------
+   Mobile
+   ----------------------------- */
+
+@media (max-width: 420px) {
+  .applet {
+    padding: 0.6rem;
+  }
+
+  /* Rows can wrap on phones */
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .row .range {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+}

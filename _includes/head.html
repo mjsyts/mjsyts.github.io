@@ -7,6 +7,12 @@
   {% if page.title %}{{ page.title }} · {% endif %}{{ site.title | default: "M. Josiah Sytsma" }}
 </title>
 
+<meta name="description" content="{% if page.description %}
+    {{ page.description }}
+  {% else %}
+    Music, sound design, and audio systems by M. Josiah Sytsma
+  {% endif %}">
+
 <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
 {% include favicon.html %}
