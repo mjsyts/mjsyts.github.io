@@ -1,0 +1,58 @@
+<!-- applets/lfsr/p2/index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>15-bit LFSR Noise — Part 2</title>
+
+  <link rel="stylesheet" href="../../shared/applet-theme.css" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <div class="applet">
+    <div class="applet-wrap">
+      <main class="app-main">
+        <section class="panel panel--padded">
+          <div class="row wrap">
+            <div class="title">15-bit lfsr noise</div>
+            <span class="spacer"></span>
+            <div class="meta">
+              <span class="meta-label">sample rate:</span>
+              <span id="sr" class="meta-value">—</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel panel--padded">
+          <div class="row wrap">
+            <button id="start" class="btn primary">start</button>
+            <button id="stop" class="btn" disabled>stop</button>
+            <span class="spacer"></span>
+            <div id="status" class="status">idle</div>
+          </div>
+
+          <div class="row wrap">
+            <div class="label">amplitude</div>
+            <input id="amp" class="range" type="range" min="0" max="1" step="0.001" value="0.10" />
+            <div class="value mono"><span id="ampVal">0.10</span></div>
+          </div>
+
+          <div class="row wrap">
+            <div class="label">frequency</div>
+            <input id="freq" class="range" type="range" min="0" max="44100" step="1" value="440" />
+            <div class="value mono"><span id="freqVal">440</span><span class="unit"> Hz</span></div>
+          </div>
+
+          <p class="hint">
+            frequency here is the lfsr clock (how often the register advances), not a single pitch.
+          </p>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

@@ -5,3 +5,10 @@ items:
     tags: ["dsp", "noise", "lfsr", "bitwise", "webaudio", "nes", "gameboy"]
     desc: "Minimal 15-bit LFSR core and bipolar noise output."
     thumb: "/assets/img/dev/lfsr.png"
+
+  - slug: "/development/lfsr-noise-part-2/"
+    title: "LFSR Noise Generator — Part 2"
+    date: "2025-01-06"
+    tags: ["dsp", "noise", "lfsr", "bitwise", "webaudio", "nes", "gameboy"]
+    desc: "Adding a frequency control to the LFSR noise generator."
+    thumb: "/assets/img/dev/lfsr.png"

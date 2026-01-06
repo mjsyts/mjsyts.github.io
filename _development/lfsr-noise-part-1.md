@@ -66,7 +66,7 @@ You can use the applet to see what's happening internally:
 
 This is the smallest working core of our LFSR noise generator in WebAudio.
 
-We need to keep track of the shift register over the lifetime of the processor instance, so in the constructor:
+We need to keep track of the shift register over the lifetime of the processor instance. The GameBoy and NES have a 15-bit shift register with all bits set to 1 initially (```0x7fff```), so in the constructor:
 
 ```javascript
 constructor() {
@@ -172,5 +172,5 @@ Again, this version has no control over:
 
 ## What Comes Next
 
-Now that we have a simple working core, we can add controls for frequency, register width, seed, and a reset trigger to set the state back to the seed. We also need to handle terminal states.
+Now that we have a simple working core, the next step is to make it "playable" by adding a frequency control.
 
