@@ -55,13 +55,13 @@
   color: var(--muted);
 }
 
-.hint{
+/* .hint{
   margin: 0.6rem 0 0;
   color: var(--muted);
   font-family: var(--ui);
   font-weight: 900;
   letter-spacing: 0.02em;
-}
+} */
 
 .btn[disabled]{
   opacity: 0.55;
