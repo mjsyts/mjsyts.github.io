@@ -24,7 +24,7 @@
 /* Slightly more room on larger screens */
 @media (min-width: 900px) {
   .applet__frame {
-    height: clamp(560px, 70vh, 900px);
+    height: clamp(300px, 40vh, 460px);
   }
 }
 
