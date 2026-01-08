@@ -1,69 +1,107 @@
-let ctx = null;
-let node = null;
+// applets/lfsr/p1/app.js
 
-const startBtn = document.getElementById('startBtn');
-const stopBtn  = document.getElementById('stopBtn');
-const ampSlider = document.getElementById('amp');
-const ampVal = document.getElementById('ampVal');
-const srLabel = document.getElementById('sr');
+(() => {
+  const $ = (id) => document.getElementById(id);
 
-function setAmpUI(v) {
-  ampVal.textContent = v.toFixed(2);
-}
+  // Match your current HTML ids, but fall back to shorter ids if you later normalize
+  const startBtn = $("startBtn") || $("start");
+  const stopBtn  = $("stopBtn")  || $("stop");
+  const srEl     = $("sr");
+  const statusEl = $("status"); // optional
 
-async function ensureContext() {
-  if (!ctx) {
-    ctx = new (window.AudioContext || window.webkitAudioContext)();
-    srLabel.textContent = `Sample rate: ${ctx.sampleRate.toFixed(0)} Hz`;
+  const amp    = $("amp");
+  const ampVal = $("ampVal");
+
+  if (!startBtn || !stopBtn || !srEl || !amp || !ampVal) {
+    console.warn("[P1] Missing required elements. Check your HTML ids.");
+    return;
   }
-  if (ctx.state !== 'running') {
-    await ctx.resume(); // must be inside user gesture (Start button)
+
+  let ctx = null;
+  let node = null;
+
+  const WORKLET_URL  = new URL("./processor.js", window.location.href);
+  const WORKLET_NAME = "lfsr-noise";     // must match registerProcessor() name in processor.js
+  const PARAM_AMP    = "amplitude";      // must match the AudioParam name in processor.js
+
+  function setStatus(t) {
+    if (statusEl) statusEl.textContent = t;
   }
-}
 
-function setAmp(v) {
-  setAmpUI(v);
-  if (!node || !node.parameters) return;
-  const p = node.parameters.get('amplitude');
-  if (p) p.setValueAtTime(v, ctx.currentTime);
-}
+  function setRunningUI(running) {
+    startBtn.disabled = running;
+    stopBtn.disabled = !running;
+  }
 
-ampSlider.addEventListener('input', () => setAmp(parseFloat(ampSlider.value)));
+  function updateReadouts() {
+    ampVal.textContent = Number(amp.value).toFixed(2);
+  }
 
-startBtn.addEventListener('click', async () => {
-  try {
-    await ensureContext();
+  async function ensureAudioGraph() {
+    if (ctx) return;
 
-    if (!node) {
-      // Path from: /applets/demos/lfsr/p1/  to: /applets/dsp/lfsr/processor.js
-      const workletPath = '../../../dsp/lfsr/processor.js';
-      await ctx.audioWorklet.addModule(workletPath);
+    setStatus("init…");
 
-      node = new AudioWorkletNode(ctx, 'lfsr-noise', {
-        numberOfInputs: 0,
-        numberOfOutputs: 1,
-        outputChannelCount: [1]
-      });
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    ctx = new AudioCtx();
 
-      // set initial amp from UI
-      setAmp(parseFloat(ampSlider.value));
-    }
+    // Keep the label in the UI
+    srEl.textContent = `sample rate: ${ctx.sampleRate}`;
+
+    await ctx.audioWorklet.addModule(WORKLET_URL);
+
+    node = new AudioWorkletNode(ctx, WORKLET_NAME, {
+      numberOfInputs: 0,
+      numberOfOutputs: 1,
+      outputChannelCount: [1],
+    });
 
     node.connect(ctx.destination);
-    startBtn.disabled = true;
-    stopBtn.disabled = false;
-  } catch (err) {
-    console.error(err);
-    alert(`Audio start failed: ${err?.message || err}`);
-  }
-});
 
-stopBtn.addEventListener('click', async () => {
-  try {
-    if (node) node.disconnect();
-    startBtn.disabled = false;
-    stopBtn.disabled = true;
-  } catch (err) {
-    console.error(err);
+    // Push initial param
+    const p = node.parameters.get(PARAM_AMP);
+    if (p) p.value = Number(amp.value);
+
+    setStatus("ready");
   }
-});
+
+  async function start() {
+    await ensureAudioGraph();
+
+    // Ensure params are up to date
+    const p = node?.parameters.get(PARAM_AMP);
+    if (p) p.value = Number(amp.value);
+
+    if (ctx && ctx.state !== "running") {
+      setStatus("resume…");
+      await ctx.resume();
+    }
+
+    setRunningUI(true);
+    setStatus("running");
+  }
+
+  async function stop() {
+    if (!ctx) return;
+
+    setStatus("stop…");
+    await ctx.suspend();
+
+    setRunningUI(false);
+    setStatus("stopped");
+  }
+
+  startBtn.addEventListener("click", () => start().catch(console.error));
+  stopBtn.addEventListener("click", () => stop().catch(console.error));
+
+  amp.addEventListener("input", () => {
+    updateReadouts();
+    const p = node?.parameters.get(PARAM_AMP);
+    if (p) p.value = Number(amp.value);
+  });
+
+  // Initial UI state
+  updateReadouts();
+  setRunningUI(false);
+  setStatus("idle");
+})();

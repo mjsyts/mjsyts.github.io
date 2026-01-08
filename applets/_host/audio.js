@@ -77,3 +77,74 @@ export class AudioEngine {
     return true;
   }
 }
+
+export function bindAudioUI({
+  engine,
+  startId = "start",
+  stopId = "stop",
+  srId = "sr",
+  statusId = "status",
+  params = [], // [{ id:"amp", unit:"", format:v=>..., onInput:(v)=>... }]
+} = {}) {
+  const $ = (id) => document.getElementById(id);
+
+  const startBtn = $(startId);
+  const stopBtn = $(stopId);
+  const srEl = $(srId);
+  const statusEl = $(statusId);
+
+  const setStatus = (t) => { if (statusEl) statusEl.textContent = t; };
+  const setRunningUI = (running) => {
+    if (startBtn) startBtn.disabled = running;
+    if (stopBtn) stopBtn.disabled = !running;
+  };
+
+  const updateOne = (p) => {
+    const input = $(p.id);
+    const out = $(p.id + "Val");
+    if (!input) return;
+
+    const raw = Number(input.value);
+    const text = p.format ? p.format(raw) : String(raw);
+    if (out) out.textContent = (p.unit ? `${text}${p.unit}` : text);
+
+    if (p.onInput) p.onInput(raw);
+  };
+
+  const updateAll = () => params.forEach(updateOne);
+
+  params.forEach((p) => {
+    const input = $(p.id);
+    if (!input) return;
+    input.addEventListener("input", () => updateOne(p));
+  });
+
+  if (startBtn) startBtn.addEventListener("click", async () => {
+    try {
+      setStatus("init…");
+      await engine.init();
+      if (srEl) srEl.textContent = `sample rate: ${engine.sampleRate}`;
+      await engine.start();
+      setRunningUI(true);
+      setStatus("running");
+    } catch (e) {
+      console.error(e);
+      setStatus("error");
+      setRunningUI(false);
+    }
+  });
+
+  if (stopBtn) stopBtn.addEventListener("click", async () => {
+    setStatus("stop…");
+    await engine.stop();
+    setRunningUI(false);
+    setStatus("stopped");
+  });
+
+  // initial
+  setRunningUI(false);
+  setStatus("idle");
+  updateAll();
+
+  return { setStatus, setRunningUI, updateAll, updateOne };
+}

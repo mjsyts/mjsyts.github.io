@@ -1,107 +1,52 @@
-// applets/lfsr/p2/main.js
-const $ = (s) => document.querySelector(s);
+import { AudioEngine, bindAudioUI } from "/applets/_host/audio.js";
 
-const startBtn = $("#start");
-const stopBtn  = $("#stop");
-const statusEl = $("#status");
-const srEl     = $("#sr");
+const engine = new AudioEngine();
 
-const amp = $("#amp");
-const freq = $("#freq");
-const ampVal = $("#ampVal");
-const freqVal = $("#freqVal");
-
-let ctx = null;
-let node = null;
-
-function setStatus(t) { statusEl.textContent = t; }
-
-function setRunningUI(running) {
-  startBtn.disabled = running;
-  stopBtn.disabled = !running;
-}
-
-function updateReadouts() {
-  ampVal.textContent = Number(amp.value).toFixed(2);
-  freqVal.textContent = String(Math.round(Number(freq.value)));
-}
-
-function clampFreqMax() {
-  // UI max = min(44100, sampleRate)
-  const maxHz = Math.min(44100, ctx.sampleRate);
-  freq.max = String(maxHz);
-
-  if (Number(freq.value) > maxHz) freq.value = String(maxHz);
-  updateReadouts();
-}
-
-async function ensureAudioGraph() {
-  if (ctx) return;
-
-  setStatus("init…");
-
-  const AudioCtx = window.AudioContext || window.webkitAudioContext;
-  ctx = new AudioCtx();
-
-  srEl.textContent = String(ctx.sampleRate);
-
-  // load processor.js from this same directory
-  await ctx.audioWorklet.addModule(new URL("./processor.js", window.location.href));
-
-  node = new AudioWorkletNode(ctx, "lfsr-noise", {
+async function buildNode() {
+  await engine.loadWorklet(new URL("./processor.js", window.location.href));
+  const node = new AudioWorkletNode(engine.ctx, "lfsr-noise", {
     numberOfInputs: 0,
     numberOfOutputs: 1,
     outputChannelCount: [1],
   });
-
-  node.connect(ctx.destination);
-
-  clampFreqMax();
-
-  node.parameters.get("amplitude").value = Number(amp.value);
-  node.parameters.get("frequency").value = Number(freq.value);
-
-  setStatus("ready");
+  engine.setNode(node);
+  engine.connect();
+  return node;
 }
 
-async function start() {
-  await ensureAudioGraph();
+let node = null;
 
-  node.parameters.get("amplitude").value = Number(amp.value);
-  node.parameters.get("frequency").value = Number(freq.value);
+bindAudioUI({
+  engine,
+  params: [
+    {
+      id: "amp",
+      format: (v) => v.toFixed(2),
+      onInput: (v) => { if (node) engine.setParam("amplitude", v); }
+    },
+    {
+      id: "freq",
+      unit: " Hz",
+      format: (v) => String(Math.round(v)),
+      onInput: (v) => { if (node) engine.setParam("frequency", v); }
+    }
+  ]
+});
 
-  if (ctx.state !== "running") {
-    setStatus("resume…");
-    await ctx.resume();
+// build graph lazily on first start
+document.getElementById("start")?.addEventListener("click", async () => {
+  if (node) return;
+  node = await buildNode();
+
+  // clamp UI max to min(44100, sampleRate)
+  const freq = document.getElementById("freq");
+  if (freq) {
+    const maxHz = Math.min(44100, engine.sampleRate);
+    freq.max = String(maxHz);
+    if (Number(freq.value) > maxHz) freq.value = String(maxHz);
   }
 
-  setRunningUI(true);
-  setStatus("running");
-}
-
-async function stop() {
-  if (!ctx) return;
-
-  setStatus("stop…");
-  await ctx.suspend();
-
-  setRunningUI(false);
-  setStatus("stopped");
-}
-
-startBtn.addEventListener("click", () => { start().catch(console.error); });
-stopBtn.addEventListener("click",  () => { stop().catch(console.error); });
-
-amp.addEventListener("input", () => {
-  updateReadouts();
-  if (node) node.parameters.get("amplitude").value = Number(amp.value);
-});
-
-freq.addEventListener("input", () => {
-  updateReadouts();
-  if (node) node.parameters.get("frequency").value = Number(freq.value);
-});
-
-updateReadouts();
-setRunningUI(false);
-setStatus("idle");
+  // push initial params
+  engine.setParam("amplitude", Number(document.getElementById("amp")?.value ?? 0.1));
+  engine.setParam("frequency", Number(document.getElementById("freq")?.value ?? 440));
+}, { once: true });
