@@ -1,22 +1,68 @@
-/* Subtle Rouge adjustments to match site tone */
+/* =========================================================
+   Rouge overrides using site palette
+   Keeps syntax subtle and consistent with branding
+   ========================================================= */
 
-/* Comments */
+/* Base code text */
+.highlight {
+  color: var(--text);
+}
+
+/* Comments — de-emphasized */
 .highlight .c,
 .highlight .c1,
-.highlight .cm {
+.highlight .cm,
+.highlight .cp {
+  color: var(--text-secondary);
   opacity: 0.75;
 }
 
-/* Keywords */
+/* Keywords (control flow, declarations) */
 .highlight .k,
 .highlight .kd,
-.highlight .kn {
+.highlight .kn,
+.highlight .kp,
+.highlight .kr {
+  color: var(--indigo);
   font-weight: 600;
+}
+
+/* Types, class names, builtins */
+.highlight .kt,
+.highlight .nc,
+.highlight .nb {
+  color: var(--blue);
 }
 
 /* Strings */
 .highlight .s,
 .highlight .s1,
-.highlight .s2 {
-  opacity: 0.9;
+.highlight .s2,
+.highlight .sb,
+.highlight .sd {
+  color: var(--coral);
+}
+
+/* Numbers */
+.highlight .m,
+.highlight .mi,
+.highlight .mf {
+  color: var(--gold);
+}
+
+/* Constants / literals (true, false, nullptr, etc.) */
+.highlight .kc,
+.highlight .no {
+  color: var(--aqua);
+}
+
+/* Function names */
+.highlight .nf {
+  color: var(--green);
+}
+
+/* Operators and punctuation — stay neutral */
+.highlight .o,
+.highlight .p {
+  color: var(--text);
 }
