@@ -1,0 +1,31 @@
+/* =========================================================
+   Code UI Tokens (global)
+   Used by:
+   - inline code (prose)
+   - .codeblock (single blocks)
+   - .codegroup (tabbed groups)
+   ========================================================= */
+
+:root{
+  /* palette */
+  --code-bg: rgba(0,0,0,.06);
+  --code-border: rgba(0,0,0,.12);
+  --code-text: rgba(0,0,0,.88);
+  --code-muted: rgba(0,0,0,.55);
+
+  /* geometry + type */
+  --code-radius: 14px;
+  --code-pad: 14px;
+  --code-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* collapse behavior */
+  --code-collapsed-max: 260px;
+
+  /* shared top-bar look */
+  --codebar-bg: rgba(255,255,255,.35);
+  --codebtn-hover-bg: rgba(255,255,255,.45);
+
+  /* fade overlay (avoid hardcoding your paper color in components) */
+  --code-fade-from: rgba(250,249,246,0);
+  --code-fade-to: rgba(250,249,246,.95);
+}

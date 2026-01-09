@@ -12,3 +12,10 @@ items:
     tags: ["dsp", "noise", "lfsr", "bitwise", "webaudio", "nes", "gameboy"]
     desc: "Adding a frequency control to the LFSR noise generator."
     thumb: "/assets/img/dev/lfsr.png"
+
+  - slug: "/development/lfsr-noise-part-3/"
+    title: "LFSR Noise Generator — Part 3"
+    date: "2025-01-08"
+    tags: ["dsp", "noise", "lfsr", "bitwise", "webaudio", "nes", "gameboy"]
+    desc: "Adding variable register width and reset logic."
+    thumb: "/assets/img/dev/lfsr.png"

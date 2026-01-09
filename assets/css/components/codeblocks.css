@@ -1,120 +1,215 @@
-/* Code blocks: label + copy + collapse */
+/* =========================================================
+   Code Blocks & Code Groups
+   Depends on: base/code-tokens.css
+   ========================================================= */
 
-:root{
-  --code-bg: rgba(0,0,0,.06);
-  --code-border: rgba(0,0,0,.12);
-  --code-text: rgba(0,0,0,.88);
-  --code-muted: rgba(0,0,0,.55);
-  --code-radius: 14px;
-  --code-pad: 14px;
-  --code-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
-  /* collapse behavior */
-  --code-collapsed-max: 260px;
-}
+/* =========================================================
+   Shared primitives
+   ========================================================= */
 
-/* Wrap created by JS */
-.codeblock {
+.codeblock,
+.codegroup{
+  margin: 1.25rem 0;
+  border-radius: var(--code-radius);
   border: 1px solid var(--code-border);
   background: var(--code-bg);
-  border-radius: var(--code-radius);
   overflow: hidden;
-  margin: 1.25rem 0;
 }
 
-/* Top bar */
-.codeblock__bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: .75rem;
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--code-border);
-  background: rgba(255,255,255,.35);
-}
 
-.codeblock__lang {
-  font-size: 12px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--code-muted);
-  user-select: none;
-}
+/* =========================================================
+   Buttons (shared)
+   ========================================================= */
 
-.codeblock__actions {
-  display: flex;
-  gap: 8px;
-}
-
-.codeblock__btn {
+.codeblock__btn{
   border: 1px solid var(--code-border);
   background: transparent;
   border-radius: 999px;
   padding: 7px 10px;
   cursor: pointer;
+
   font-size: 12px;
   letter-spacing: .08em;
   text-transform: lowercase;
   color: var(--code-text);
 }
 
-.codeblock__btn:hover {
-  background: rgba(255,255,255,.45);
+.codeblock__btn:hover{
+  background: var(--codebtn-hover-bg);
 }
 
-/* The actual code area */
-.codeblock pre {
+.codeblock__btn:focus-visible{
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   Header bars
+   ========================================================= */
+
+.codeblock__bar,
+.codegroup__bar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+
+  padding: 10px 12px;
+  background: var(--codebar-bg);
+  border-bottom: 1px solid var(--code-border);
+}
+
+.codeblock__lang{
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--code-muted);
+  /* user-select: none; */
+}
+
+.codeblock__actions,
+.codegroup__actions{
+  display: flex;
+  gap: 8px;
+}
+
+
+/* =========================================================
+   Standalone code blocks (.codeblock)
+   ========================================================= */
+
+.codeblock__body{
+  position: relative;
+}
+
+.codeblock pre{
   margin: 0;
   padding: var(--code-pad);
+
   font-family: var(--code-font);
   font-size: .9rem;
   line-height: 1.5;
   color: var(--code-text);
+
   overflow: auto;
-  -webkit-overflow-scrolling: touch;
   tab-size: 2;
 }
 
-/* Rouge sometimes wraps */
-.codeblock pre code {
-  font-family: inherit;
-}
-
-/* Collapsing */
-.codeblock.is-collapsible .codeblock__body {
-  position: relative;
-}
-
-.codeblock.is-collapsible.is-collapsed pre {
+/* Collapse behavior */
+.codeblock.is-collapsible.is-collapsed pre{
   max-height: var(--code-collapsed-max);
   overflow: hidden;
 }
 
-.codeblock__fade {
+.codeblock__fade{
   display: none;
 }
 
-.codeblock.is-collapsible.is-collapsed .codeblock__fade {
+.codeblock.is-collapsible.is-collapsed .codeblock__fade{
   display: block;
   position: absolute;
-  left: 0; right: 0; bottom: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
   height: 64px;
-  background: linear-gradient(to bottom, rgba(250,249,246,0), rgba(250,249,246,.95));
   pointer-events: none;
+
+  background: linear-gradient(
+    to bottom,
+    var(--code-fade-from),
+    var(--code-fade-to)
+  );
 }
 
-/* Inline code (prose) */
-p code, li code, .post code {
+
+/* =========================================================
+   Tabbed code groups (.codegroup)
+   ========================================================= */
+
+.codegroup__tabs{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.codegroup__tab{
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+
+  border-radius: 999px;
+  padding: 7px 10px;
+  cursor: pointer;
+
+  font-size: 12px;
+  letter-spacing: .08em;
+  color: var(--code-text);
+  opacity: .78;
+}
+
+.codegroup__tab:hover{
+  background: var(--codebtn-hover-bg);
+}
+
+.codegroup__tab[aria-selected="true"]{
+  opacity: 1;
+  border-color: var(--code-border);
+  background: rgba(0,0,0,.04);
+}
+
+/* Panels are transparent; container owns background */
+.codegroup__panel{
+  background: transparent;
+}
+
+.codegroup__panel[hidden]{
+  display: none !important;
+}
+
+.codegroup pre{
+  margin: 0;
+  padding: var(--code-pad);
+
   font-family: var(--code-font);
-  font-size: .92em;
-  padding: .12em .35em;
-  border-radius: 8px;
-  background: rgba(0,0,0,.05);
-  border: 1px solid rgba(0,0,0,.08);
+  font-size: .9rem;
+  line-height: 1.5;
+  color: var(--code-text);
+
+  overflow: auto;
+  tab-size: 2;
 }
 
-/* Accessibility */
-.codeblock__btn:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+/* Optional expanded hook */
+.codegroup.is-expanded .codegroup__panel{
+  max-height: none;
+}
+
+.codegroup.is-collapsible.is-collapsed .codegroup__panel:not([hidden]) pre{
+  max-height: var(--code-collapsed-max);
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   Rouge neutralization (critical)
+   ========================================================= */
+
+/* Ensure Rouge never injects a background that breaks parity */
+.codeblock .highlight,
+.codeblock pre,
+.codeblock pre.highlight,
+.codegroup .highlight,
+.codegroup pre,
+.codegroup pre.highlight{
+  background: transparent;
+}
+
+/* Inherit font cleanly */
+.codeblock pre code,
+.codegroup pre code{
+  font-family: inherit;
 }

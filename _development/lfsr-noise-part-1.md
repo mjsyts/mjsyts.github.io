@@ -21,6 +21,7 @@ What I love about this noise generator is the massive amount of variety you can 
 An LFSR (linear-feedback shift register) is a tiny state machine that generates a deterministic stream of bits that *behaves* like noise.
 
 You keep an integer "register" (a fixed number of bits). On each step:
+
 1. You choose a few of the bit positions (called **taps**).
 2. XOR the tap bits to get a new feedback bit.
 3. Shift the entire register one position.
@@ -34,6 +35,7 @@ Because the next state depends on the current state, it's fully deterministic. C
 ## The Variant Used in This Post
 
 This version is a fixed 15 bit shift register stepped at the sample rate. This version has no control over
+
 - Initial state
 - Frequency/clock rate
 - Width
@@ -68,43 +70,154 @@ This is the smallest working core of our LFSR noise generator in WebAudio.
 
 We need to keep track of the shift register over the lifetime of the processor instance. The GameBoy and NES have a 15-bit shift register with all bits set to 1 initially (```0x7fff```), so in the constructor:
 
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++ (UGen / native)","javascript":"JavaScript (AudioWorklet)"}'>
+
+```cpp
+class LFSRNoise {
+public:
+  LFSRNoise();
+
+private:
+  uint32_t state = 0x7fff;
+};
+```
+
 ```javascript
 constructor() {
   super();
   this.state = 0x7fff;
 }
 ```
-{: data-lang="javascript" }
-Then the core process loop:
+
+</div>
+
+Then the core LFSR logic wrapped in a function:
+
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++ (UGen / native)","javascript":"JavaScript (AudioWorklet)"}'>
+
+```cpp
+uint32_t step() {
+  // Get the least significant bit. This is both our output bit
+  // and one of the feedback taps.
+  const uint32_t lsb0 = state & 1u;
+
+  // Get the next bit up to use as the second feedback tap.
+  const uint32_t lsb1 = (state >> 1) & 1u;
+
+  // XOR the two tap bits to generate the feedback bit.
+  const uint32_t fb = lsb0 ^ lsb1;
+
+  // Shift the register right by one and inject the feedback
+  // bit into the most significant position (bit 14).
+  state = (state >> 1) | (fb << 14);
+
+  // Return the output bit (0 or 1).
+  return lsb0;
+}
+```
 
 ```javascript
-// Get the two least significant bits for feedback. lsb0 will also become our output value.
-const lsb0 = this.state & 1;
-const lsb1 = (this.state >> 1) & 1;
+step() {
+  // Get the least significant bit. This is both our output bit
+  // and one of the feedback taps.
+  const lsb0 = this.state & 1;
 
-// XOR
-const fb = lsb0 ^ lsb1;
+  // Get the next bit up to use as the second feedback tap.
+  const lsb1 = (this.state >> 1) & 1;
 
-// Right shift
-this.state = (this.state >> 1) | (fb << 14);
+  // XOR the two tap bits to generate the feedback bit.
+  const fb = lsb0 ^ lsb1;
 
-// Map to bipolar
-const sample = lsb0 ? 1.0 : -1.0;
-const amp = (ampParam.length === 1) ? ampParam[0] : ampParam[i];
+  // Shift the register right by one and inject the feedback
+  // bit into the most significant position (bit 14).
+  this.state = (this.state >> 1) | (fb << 14);
 
-// ...and then scale by the amplitude value.
-channel[i] = sample * amp;
+  // Return the output bit (0 or 1).
+  return lsb0;
+}
 ```
-{: data-lang="javascript" }
 
-So the whole thing is:
+</div>
+
+In the main process block, all we have to do is call our ```step()``` function and then map that value to a bipolar range so we don't get DC offset:
+
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++ (UGen / native)","javascript":"JavaScript (AudioWorklet)"}'>
+
+```cpp
+// Generate audio-rate samples from the LFSR.
+// Each call to step() advances the register by one tick.
+void process(float* out, int numSamples) {
+  for (int i = 0; i < numSamples; ++i) {
+    // Step the LFSR and get the output bit (0 or 1).
+    const uint32_t bit = step();
+
+    // Map the bit to a bipolar range to avoid DC offset.
+    const float sample = bit ? 1.0f : -1.0f;
+
+    // Write the sample to the output buffer.
+    out[i] = sample;
+  }
+}
+```
+
+```javascript
+// Generate audio-rate samples from the LFSR.
+// Each call to step() advances the register by one tick.
+process(channel) {
+  for (let i = 0; i < channel.length; i++) {
+    // Step the LFSR and get the output bit (0 or 1).
+    const bit = this.step();
+
+    // Map the bit to a bipolar range to avoid DC offset.
+    const sample = bit ? 1.0 : -1.0;
+
+    // Write the sample to the output buffer.
+    channel[i] = sample;
+  }
+}
+```
+
+</div>
+
+Once we add an amplitude parameter, the whole thing is:
+
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++ (UGen / native)","javascript":"JavaScript (AudioWorklet)"}'>
+
+```cpp
+class LFSRNoise {
+public:
+  void setAmplitude(float a) { amplitude = a; }
+
+  uint32_t step() {
+    const uint32_t lsb0 = state & 1u;
+    const uint32_t lsb1 = (state >> 1) & 1u;
+    const uint32_t fb   = lsb0 ^ lsb1;
+
+    state = (state >> 1) | (fb << 14);
+    state &= 0x7fffu;
+    return lsb0;
+  }
+
+  void process(float* out, int numSamples) {
+    for (int i = 0; i < numSamples; ++i) {
+      const uint32_t bit = step();
+      const float sample = bit ? 1.0f : -1.0f;
+      out[i] = sample * amplitude;
+    }
+  }
+
+private:
+  uint32_t state = 0x7fffu;
+  float amplitude = 0.10f; // this is a reasonable default
+};
+```
 
 ```javascript
 class LfsrNoiseProcessor extends AudioWorkletProcessor {
   static get parameterDescriptors() {
     return [{
       name: 'amplitude',
-      defaultValue: 0.10,
+      defaultValue: 0.10, // this is a reasonable default
       minValue: 0.0,
       maxValue: 1.0,
       automationRate: 'a-rate'
@@ -116,39 +229,44 @@ class LfsrNoiseProcessor extends AudioWorkletProcessor {
     this.state = 0x7fff;
   }
 
+  step() {
+    const lsb0 = this.state & 1;
+    const lsb1 = (this.state >> 1) & 1;
+    const fb = lsb0 ^ lsb1;
+    this.state = (this.state >> 1) | (fb << 14);
+    this.state &= 0x7fff;
+    return lsb0;
+  }
+
   process(inputs, outputs, parameters) {
-    const out = outputs[0];
-    const ampParam = parameters.amplitude;
+    const output = outputs[0];
+    const channel = output[0];
 
-    for (let ch = 0; ch < out.length; ch++) {
-      const channel = out[ch];
+    const ampParam = parameters.amplitude; // a-rate array OR length-1 constant
 
-      for (let i = 0; i < channel.length; i++) {
-        const lsb0 = this.state & 1;
-        const lsb1 = (this.state >> 1) & 1;
-        const fb = lsb0 ^ lsb1;
+    for (let i = 0; i < channel.length; i++) {
+      const bit = this.step();
+      const sample = bit ? 1.0 : -1.0;
 
-        this.state = (this.state >> 1) | (fb << 14);
-
-        const sample = lsb0 ? 1.0 : -1.0;
-        const amp = (ampParam.length === 1) ? ampParam[0] : ampParam[i];
-
-        channel[i] = sample * amp;
-      }
+      const amp = (ampParam.length === 1) ? ampParam[0] : ampParam[i];
+      channel[i] = sample * amp;
     }
+
     return true;
   }
 }
 
 registerProcessor('lfsr-noise', LfsrNoiseProcessor);
 ```
-{: data-lang="javascript" }
+
+</div>
 
 That's it. Atomically small, but this simplicity will have significant implications later on.
 
 ---
 
 ## Listening to the Output
+
 <div class="applet lfsr15-audio">
   <iframe
     class="applet__frame"
@@ -162,6 +280,7 @@ That's it. Atomically small, but this simplicity will have significant implicati
 ## Limitations of This Version
 
 Again, this version has no control over:
+
 - Initial state
 - Frequency/clock rate
 - Width
@@ -173,4 +292,3 @@ Again, this version has no control over:
 ## What Comes Next
 
 Now that we have a simple working core, the next step is to make it "playable" by adding a frequency control.
-
