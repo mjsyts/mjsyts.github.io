@@ -1,0 +1,22 @@
+/* Subtle Rouge adjustments to match site tone */
+
+/* Comments */
+.highlight .c,
+.highlight .c1,
+.highlight .cm {
+  opacity: 0.75;
+}
+
+/* Keywords */
+.highlight .k,
+.highlight .kd,
+.highlight .kn {
+  font-weight: 600;
+}
+
+/* Strings */
+.highlight .s,
+.highlight .s1,
+.highlight .s2 {
+  opacity: 0.9;
+}

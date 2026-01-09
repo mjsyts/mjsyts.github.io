@@ -3,6 +3,9 @@
 @import url("./base/base.css");
 @import url("./base/code-tokens.css");
 
+@import url("./vendor/rouge.css");
+@import url("./vendor/rouge-overrides.css");
+
 @import url("./pages/sd-archive.css");
 @import url("./pages/post.css");
 
