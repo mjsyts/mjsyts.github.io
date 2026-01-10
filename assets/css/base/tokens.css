@@ -16,7 +16,7 @@
   --font-display: "Pickllle", system-ui, -apple-system, sans-serif;
   --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* Note: --code-font is defined in code-tokens.css */
 }
 
 html { scroll-behavior: smooth; }

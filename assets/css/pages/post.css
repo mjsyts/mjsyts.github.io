@@ -19,6 +19,6 @@ article a {
 
 .post code,
 article code {
-  font-family: var(--font-mono);
+  font-family: var(--code-font);
   font-size: 0.95em;
 }
