@@ -50,3 +50,14 @@
   }
 }
 
+/* P2 audio with controls: similar to audio demo */
+.applet.lfsr15-p2 > .applet__frame{
+  height: clamp(220px, 28svh, 280px);
+}
+
+@media (min-width: 900px){
+  .applet.lfsr15-p2 > .applet__frame{
+    height: 260px;
+  }
+}
+

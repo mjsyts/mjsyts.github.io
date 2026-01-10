@@ -11,10 +11,12 @@
 
   const amp    = $("amp");
   const freq   = $("freq");
+  const lineWidth = $("lineWidth");
   const ampVal = $("ampVal");
   const freqVal= $("freqVal");
+  const lineWidthVal = $("lineWidthVal");
 
-  if (!startBtn || !stopBtn || !srEl || !amp || !freq || !ampVal || !freqVal) {
+  if (!startBtn || !stopBtn || !srEl || !amp || !freq || !lineWidth || !ampVal || !freqVal || !lineWidthVal) {
     console.warn("[P2] Missing required elements. Check your HTML ids.");
     return;
   }
@@ -39,6 +41,15 @@
   function updateReadouts() {
     ampVal.textContent = Number(amp.value).toFixed(2);
     freqVal.textContent = `${Math.round(Number(freq.value))} Hz`;
+    lineWidthVal.textContent = Number(lineWidth.value).toFixed(1);
+  }
+
+  function applyLineWidth() {
+    const width = parseFloat(lineWidth.value || "2");
+    const panel = document.querySelector(".panel");
+    if (panel) {
+      panel.style.borderWidth = `${width}px`;
+    }
   }
 
   function clampFreqMax() {
@@ -119,8 +130,14 @@
     if (node) node.parameters.get(PARAM_FREQ).value = Number(freq.value);
   });
 
+  lineWidth.addEventListener("input", () => {
+    updateReadouts();
+    applyLineWidth();
+  });
+
   // initial UI
   updateReadouts();
+  applyLineWidth();
   setRunningUI(false);
   setStatus("idle");
 })();

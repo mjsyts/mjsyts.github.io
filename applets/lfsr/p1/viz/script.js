@@ -19,6 +19,7 @@
   const stepBtn = document.getElementById("stepBtn");
   const playBtn = document.getElementById("playBtn");
   const speedRange = document.getElementById("speedRange");
+  const lineWidthRange = document.getElementById("lineWidthRange");
 
   const cycleOut = document.getElementById("cycleOut");
   const binOut = document.getElementById("binOut");
@@ -36,6 +37,7 @@
     stepBtn,
     playBtn,
     speedRange,
+    lineWidthRange,
     cycleOut,
     binOut,
     hexOut,
@@ -121,6 +123,16 @@
   function speedFactor() {
     const v = parseFloat(speedRange.value || "1");
     return Number.isFinite(v) && v > 0 ? v : 1;
+  }
+
+  function applyLineWidth() {
+    const width = parseFloat(lineWidthRange.value || "2");
+    // Apply to bit cells
+    for (const cell of cells) {
+      cell.style.borderWidth = `${width}px`;
+    }
+    // Apply to XOR bubble
+    bubbleEl.style.borderWidth = `${width}px`;
   }
 
   function timings() {
@@ -302,6 +314,11 @@
     renderState();
   });
 
+  lineWidthRange.addEventListener("input", () => {
+    applyLineWidth();
+  });
+
   // Initial
   renderState();
+  applyLineWidth();
 })();

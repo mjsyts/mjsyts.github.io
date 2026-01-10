@@ -12,7 +12,8 @@
    ============================ */
 
 .applet--lfsr15 .seed-row,
-.applet--lfsr15 .run-row{
+.applet--lfsr15 .run-row,
+.applet--lfsr15 .linewidth-row{
   display: flex !important;
   align-items: center !important;
   gap: 0.45rem !important;
@@ -53,10 +54,23 @@
   min-width: 240px !important;
 }
 
+/* Line width: similar layout */
+.applet--lfsr15 .linewidth-label{
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+}
+
+.applet--lfsr15 #lineWidthRange{
+  width: auto !important;
+  flex: 1 1 auto !important;
+  min-width: 240px !important;
+}
+
 /* Stack only when genuinely narrow */
 @media (max-width: 560px){
   .applet--lfsr15 .seed-row,
-  .applet--lfsr15 .run-row{
+  .applet--lfsr15 .run-row,
+  .applet--lfsr15 .linewidth-row{
     flex-wrap: wrap !important;
   }
 
@@ -66,12 +80,14 @@
     min-width: 0 !important;
   }
 
-  .applet--lfsr15 .speed-label{
+  .applet--lfsr15 .speed-label,
+  .applet--lfsr15 .linewidth-label{
     margin-left: 0 !important;
     width: 100% !important;
   }
 
-  .applet--lfsr15 #speedRange{
+  .applet--lfsr15 #speedRange,
+  .applet--lfsr15 #lineWidthRange{
     flex: 1 1 100% !important;
     min-width: 0 !important;
   }
