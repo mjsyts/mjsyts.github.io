@@ -43,10 +43,45 @@
   color: var(--coral);
 }
 
-/* Numbers */
+/* Numbers - include all numeric token types */
 .highlight .m,
 .highlight .mi,
-.highlight .mf {
+.highlight .mf,
+.highlight .mh,
+.highlight .mo,
+.highlight .il,
+.highlight .mb,
+.highlight .mx {
+  color: var(--gold);
+}
+
+/* Ensure numeric literal suffixes match (C/C++ f, u, l, ul, etc.) */
+/* These might be tokenized as identifiers or error tokens after the number */
+/* Apply gold color to single-letter identifiers that could be suffixes */
+.highlight .n,
+.highlight .nx,
+.highlight .err {
+  /* Will be overridden by more specific rules if needed */
+  /* This catches cases where Rouge separates the suffix */
+  color: inherit;
+}
+
+/* Force gold color for potential suffixes immediately after numbers */
+.highlight .mf + .n,
+.highlight .mi + .n,
+.highlight .mh + .n,
+.highlight .mo + .n,
+.highlight .m + .n,
+.highlight .mf + .nx,
+.highlight .mi + .nx,
+.highlight .mh + .nx,
+.highlight .mo + .nx,
+.highlight .m + .nx,
+.highlight .mf + .err,
+.highlight .mi + .err,
+.highlight .mh + .err,
+.highlight .mo + .err,
+.highlight .m + .err {
   color: var(--gold);
 }
 
