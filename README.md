@@ -14,14 +14,36 @@ The site will be available at the local URL printed by Jekyll.
 
 ## Repository structure
 
-- _includes/, _layouts/ — Jekyll templates
-- _data/ — structured site data (archives, metadata)
-- assets/ — site-wide CSS, JS, fonts, images
-- applets/ — interactive WebAudio demos and DSP code
-  - demos/ — standalone demo pages
-  - dsp/ — AudioWorklet processors and DSP modules
-  - lib/ — shared applet utilities
-- tools/ — build and automation scripts (not used at runtime)
+```
+mjsyts.github.io/
+├── _includes/          # Jekyll template partials (head, header, nav, footer, etc.)
+├── _layouts/           # Jekyll page layouts (default, post)
+├── _data/              # Structured site data (archives, metadata)
+├── _development/       # Development blog posts (Jekyll collection)
+├── applets/            # Interactive WebAudio demos and DSP visualizations
+│   ├── lfsr/          # LFSR noise generator applet
+│   ├── _host/         # Applet hosting CSS
+│   └── shared/        # Shared applet utilities and theme
+├── assets/             # Site-wide static assets
+│   ├── css/           # Stylesheets
+│   │   ├── base/      # Base styles (tokens, fonts, code tokens)
+│   │   ├── components/ # Component styles (codeblocks, header, nav, etc.)
+│   │   ├── pages/     # Page-specific styles
+│   │   └── vendor/    # Third-party styles (Rouge syntax highlighting)
+│   ├── js/            # JavaScript
+│   │   ├── codeblocks.js        # Code block enhancements (tabs, copy, collapse)
+│   │   ├── header-metrics.js     # Header size calculations
+│   │   ├── chameleon-eye.js      # Eye animation
+│   │   └── contact-form.js       # Contact form handling
+│   ├── fonts/         # Custom web fonts
+│   ├── images/        # Site images
+│   └── favicon/       # Favicon files
+├── sound-design/       # Sound design portfolio pages
+├── development/        # Development section landing page
+├── index.html          # Homepage
+├── _config.yml         # Jekyll configuration
+└── Gemfile             # Ruby dependencies
+```
 
 ## Notes
 
