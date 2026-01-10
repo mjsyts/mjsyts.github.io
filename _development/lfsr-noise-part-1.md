@@ -10,7 +10,7 @@ excerpt: "PLACEHOLDER_EXCERPT"
 
 ## Introduction
 
-I started working on GameBoy/NES audio emulation in early 2022 with SuperCollider. On paper it's pretty straightforward, but SC doesn't really support the style of noise generation from the 8-bit Nintendo consoles. After completing C++ coursework at Johns Hopkins, I took the core structure of this noise generator, added more granular control, and packaged it into a SC UGen. You can find the SuperCollider plugin [here](https://github.com/mjsyts/LFSRNoiseUGens).
+I started working on GameBoy/NES audio emulation in early 2022 with SuperCollider. On paper it's pretty straightforward, but SC doesn't really support the style of noise generation from the 8-bit Nintendo consoles. During my C++ coursework at Johns Hopkins, I took the core structure of this noise generator, added more granular control, and packaged it into a SC UGen as a pet project. You can find the SuperCollider plugin [here](https://github.com/mjsyts/LFSRNoiseUGens "LFSRNoise SuperCollider plugin").
 
 What I love about this noise generator is the massive amount of variety you can squeeze out of something that is extremely elegant and almost trivial computationally. The same audio processing algorithm can give results that range from white noise to incredibly rich, but still relatively stable tones.
 
@@ -34,12 +34,7 @@ Because the next state depends on the current state, it's fully deterministic. C
 
 ## The Variant Used in This Post
 
-This version is a fixed 15 bit shift register stepped at the sample rate. This version has no control over
-
-- Initial state
-- Frequency/clock rate
-- Width
-- Taps (I won't be including a version with selectable taps, but if you enjoy this post, I encourage you to cook one up!)
+To keep Part 1 focused, we’ll use the simplest possible version: a fixed 15‑bit register stepped at the sample rate. Later posts will add frequency control, variable width, and more.
 
 ---
 
@@ -64,13 +59,13 @@ You can use the applet to see what's happening internally:
 
 ---
 
-## Minimal JavaScript Implementation
+## Minimal Implementation
 
-This is the smallest working core of our LFSR noise generator in WebAudio.
+This is the smallest working core of our LFSR noise generator in C++ and WebAudio. For simplicity, the C++ isn't tied to SC plugin architecture here, so you can use it wherever.
 
 We need to keep track of the shift register over the lifetime of the processor instance. The GameBoy and NES have a 15-bit shift register with all bits set to 1 initially (```0x7fff```), so in the constructor:
 
-<div data-codegroup markdown="1" data-labels='{"cpp":"C++ (UGen / native)","javascript":"JavaScript (AudioWorklet)"}'>
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++ ","javascript":"JavaScript (AudioWorklet)"}'>
 
 ```cpp
 class LFSRNoise {
@@ -78,7 +73,7 @@ public:
   LFSRNoise();
 
 private:
-  uint32_t state = 0x7fff;
+  uint32_t mState = 0x7fff;
 };
 ```
 
@@ -93,26 +88,23 @@ constructor() {
 
 Then the core LFSR logic wrapped in a function:
 
-<div data-codegroup markdown="1" data-labels='{"cpp":"C++ (UGen / native)","javascript":"JavaScript (AudioWorklet)"}'>
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++ ","javascript":"JavaScript (AudioWorklet)"}'>
 
 ```cpp
-uint32_t step() {
+void step() {
   // Get the least significant bit. This is both our output bit
   // and one of the feedback taps.
-  const uint32_t lsb0 = state & 1u;
+  const uint32_t lsb0 = mState & 1u;
 
   // Get the next bit up to use as the second feedback tap.
-  const uint32_t lsb1 = (state >> 1) & 1u;
+  const uint32_t lsb1 = (mState >> 1) & 1u;
 
   // XOR the two tap bits to generate the feedback bit.
   const uint32_t fb = lsb0 ^ lsb1;
 
   // Shift the register right by one and inject the feedback
   // bit into the most significant position (bit 14).
-  state = (state >> 1) | (fb << 14);
-
-  // Return the output bit (0 or 1).
-  return lsb0;
+  mState = (mState >> 1) | (fb << 14);
 }
 ```
 
@@ -131,9 +123,6 @@ step() {
   // Shift the register right by one and inject the feedback
   // bit into the most significant position (bit 14).
   this.state = (this.state >> 1) | (fb << 14);
-
-  // Return the output bit (0 or 1).
-  return lsb0;
 }
 ```
 
@@ -141,18 +130,18 @@ step() {
 
 In the main process block, all we have to do is call our ```step()``` function and then map that value to a bipolar range so we don't get DC offset:
 
-<div data-codegroup markdown="1" data-labels='{"cpp":"C++ (UGen / native)","javascript":"JavaScript (AudioWorklet)"}'>
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++ ","javascript":"JavaScript (AudioWorklet)"}'>
 
 ```cpp
 // Generate audio-rate samples from the LFSR.
 // Each call to step() advances the register by one tick.
 void process(float* out, int numSamples) {
   for (int i = 0; i < numSamples; ++i) {
-    // Step the LFSR and get the output bit (0 or 1).
-    const uint32_t bit = step();
+    // Step the LFSR.
+    step();
 
-    // Map the bit to a bipolar range to avoid DC offset.
-    const float sample = bit ? 1.0f : -1.0f;
+    // Map the output bit to a bipolar range to avoid DC offset.
+    const float sample = (mState & 1) ? 1.0f : -1.0f;
 
     // Write the sample to the output buffer.
     out[i] = sample;
@@ -165,11 +154,11 @@ void process(float* out, int numSamples) {
 // Each call to step() advances the register by one tick.
 process(channel) {
   for (let i = 0; i < channel.length; i++) {
-    // Step the LFSR and get the output bit (0 or 1).
-    const bit = this.step();
+    // Step the LFSR.
+    step();
 
-    // Map the bit to a bipolar range to avoid DC offset.
-    const sample = bit ? 1.0 : -1.0;
+    // Map the output bit to a bipolar range to avoid DC offset.
+    const sample = (this.state & 1) ? 1.0 : -1.0;
 
     // Write the sample to the output buffer.
     channel[i] = sample;
@@ -181,34 +170,33 @@ process(channel) {
 
 Once we add an amplitude parameter, the whole thing is:
 
-<div data-codegroup markdown="1" data-labels='{"cpp":"C++ (UGen / native)","javascript":"JavaScript (AudioWorklet)"}'>
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++ ","javascript":"JavaScript (AudioWorklet)"}'>
 
 ```cpp
 class LFSRNoise {
 public:
-  void setAmplitude(float a) { amplitude = a; }
+  void setAmp(float a) { mAmp = a; }
 
-  uint32_t step() {
-    const uint32_t lsb0 = state & 1u;
-    const uint32_t lsb1 = (state >> 1) & 1u;
+  void step() {
+    const uint32_t lsb0 = mState & 1u;
+    const uint32_t lsb1 = (mState >> 1) & 1u;
     const uint32_t fb   = lsb0 ^ lsb1;
 
-    state = (state >> 1) | (fb << 14);
-    state &= 0x7fffu;
-    return lsb0;
+    mState = (mState >> 1) | (fb << 14);
+    mState &= 0x7fffu;
   }
 
   void process(float* out, int numSamples) {
     for (int i = 0; i < numSamples; ++i) {
-      const uint32_t bit = step();
-      const float sample = bit ? 1.0f : -1.0f;
-      out[i] = sample * amplitude;
+      step();
+      const float sample = (mState & 1u) ? 1.f : -1.f;
+      out[i] = sample * mAmp;
     }
   }
 
 private:
-  uint32_t state = 0x7fffu;
-  float amplitude = 0.10f; // this is a reasonable default
+  uint32_t mState = 0x7fffu;
+  float mAmp = 0.10f; // this is a reasonable default
 };
 ```
 
@@ -235,7 +223,6 @@ class LfsrNoiseProcessor extends AudioWorkletProcessor {
     const fb = lsb0 ^ lsb1;
     this.state = (this.state >> 1) | (fb << 14);
     this.state &= 0x7fff;
-    return lsb0;
   }
 
   process(inputs, outputs, parameters) {
@@ -245,8 +232,8 @@ class LfsrNoiseProcessor extends AudioWorkletProcessor {
     const ampParam = parameters.amplitude; // a-rate array OR length-1 constant
 
     for (let i = 0; i < channel.length; i++) {
-      const bit = this.step();
-      const sample = bit ? 1.0 : -1.0;
+      this.step();
+      const sample = (this.state & 1) ? 1.0 : -1.0;
 
       const amp = (ampParam.length === 1) ? ampParam[0] : ampParam[i];
       channel[i] = sample * amp;

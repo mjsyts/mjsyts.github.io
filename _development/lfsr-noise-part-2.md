@@ -56,45 +56,80 @@ while (phase >= 1.0) {
 ## Implementing the Phase Accumulator
 
 We need to make a few changes to our existing implementation to get the frequency control working. First, because we need to keep track of the phase over the lifetime of the processor instance (just like we did with the initial shift register state), we'll add it to the constructor:
+
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++","javascript":"JavaScript (AudioWorklet)"}'>
+```cpp
+class LFSRNoise {
+  // ...
+private:
+  uint32_t state = 0x7fffu;
+  float amplitude = 0.10f;
+  float phase = 0.f; // NEW
+};
+```
+
 ```javascript
 constructor() {
-  super();
-  this.phase = 0.0; // <-adding our new instance member variable for phase
-  this.state = 0x7fff;
+    super();
+    this.state = 0x7fff;
+    this.phase = 0.0; // NEW
+  }
+```
+</div>
+
+Now that we’ve added a frequency control, we can no longer assume one shift per audio sample. The phase accumulator now determines how many clock ticks occur in each sample. 
+To implement the phase accumulator in the core process, we need to figure out how much to increment the phase on a given step. This is dependent on the frequency parameter and the sample rate, so we'll declare a function that takes ```freq``` and ```sampleRate``` as arguments:
+
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++","javascript":"JavaScript (AudioWorklet)"}'>
+```cpp
+float nextSample(float freq, float sampleRate) {
+  // phase accumulator stuff will go here
 }
 ```
-{: data-lang="javascript" }
-
-Now that we’ve added a frequency control, we can no longer assume one shift per audio sample. A phase accumulator determines how many clock ticks occur in each sample, so the LFSR update is moved into a single-step function that can be called as needed:
-```javascript
-step() {
-  const lsb0 = this.state & 1;
-  const lsb1 = (this.state >> 1) & 1;
-  const fb = lsb0 ^ lsb1;
-  this.state = (this.state >> 1) | (fb << 14);
-}
-```
-{: data-lang="javascript" }
-
-Now we need to implement the phase accumulator in the core process. We need to figure out how much to increment the phase on a given step. This is dependent on the frequency parameter and the sample rate, so we'll declare a function that takes ```freq``` and ```sampleRate``` as arguments:
 
 ```javascript
 nextSample(freq, sampleRate) {
   // phase accumulator stuff will go here
 }
 ```
-{: data-lang="javascript" }
+</div>
 
 We can calculate the exact amount we need to increase the phase simply by dividing our frequency value by the sample rate:
 
-```javascript
-nextSample(freq, sampleRate) {
-  this.phase += freq / sampleRate;
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++","javascript":"JavaScript (AudioWorklet)"}'>
+```cpp
+float nextSample(float freq, float sampleRate) {
+  // advance phase by "cycles per sample"
+  phase += (freq / sampleRate);
 }
 ```
-{: data-lang="javascript" }
+
+```javascript
+nextSample(freq, sampleRate) {
+  // advance phase by "cycles per sample"
+  this.phase += (freq / sampleRate);
+}
+```
+</div>
 
 Whenever we complete a full phase, we need to step the LFSR by calling our ```step()``` function. We also need to wrap the value so that ```0 <= phase < 1```. We can also move the part where we map our output bit to a bipolar range into this function since its purpose is to get the next audio sample:
+
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++ ","javascript":"JavaScript (AudioWorklet)"}'>
+```cpp
+float nextSample(float freq, float sampleRate) {
+  // advance phase by "cycles per sample"
+  mPhase += (freq / sampleRate);
+
+  // step the LFSR whenever we cross a whole cycle
+  while (mPhase >= 1.f) {
+    mPhase -= 1.f;
+    step();
+  }
+
+  // get the output value and map to a bipolar range
+  return (mState & 1) ? 1.f : -1.f;
+}
+```
 
 ```javascript
 nextSample(freq, sampleRate) {
@@ -102,8 +137,8 @@ nextSample(freq, sampleRate) {
   this.phase += freq / sampleRate;
 
   // step the LFSR whenever we cross a whole cycle
-  while (this.phase >= 1.0) {
-    this.phase -= 1.0;
+  while (phase >= 1.f) {
+    phase -= 1.f;
     this.step();
   }
 
@@ -112,11 +147,48 @@ nextSample(freq, sampleRate) {
   return bit ? 1.0 : -1.0;
 }
 ```
-{: data-lang="javascript" }
+</div>
 
 In practice, it’s also sensible to cap the clock frequency at or below the audio sample rate. Advancing the register faster than we can observe it doesn’t add new information, and at extreme values the behavior simply collapses into per-sample updates.
 
 So *now* the whole thing is:
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++ ","javascript":"JavaScript (AudioWorklet)"}'>
+
+```cpp
+class LFSRNoise {
+public:
+  void setAmp(float a) { mAmp = a; }
+
+  void step() {
+    const uint32_t lsb0 = mState & 1u;
+    const uint32_t lsb1 = (mState >> 1) & 1u;
+    const uint32_t fb   = lsb0 ^ lsb1;
+
+    mState = (mState >> 1) | (fb << 14);
+    mState &= 0x7fffu;
+  }
+
+  float nextSample(float freq, float sampleRate) {
+    mPhase += (freq / sampleRate);
+    while (mPhase >= 1.f) {
+      mPhase -= 1.f;
+      step();
+    }
+    return (mState & 1) ? 1.f : -1.f;
+  }
+
+  void process(float* out, int numSamples, float freq, float sampleRate) { 
+    for (int i = 0; i < numSamples; ++i) { 
+      out[i] = nextSample(freq, sampleRate) * mAmp; 
+    } 
+  }
+
+private:
+  uint32_t mState = 0x7fffu;
+  float mAmp = 0.10f;
+  float mPhase = 0.f;
+};
+```
 
 ```javascript
 class LfsrNoiseProcessor extends AudioWorkletProcessor {
@@ -186,7 +258,7 @@ class LfsrNoiseProcessor extends AudioWorkletProcessor {
 
 registerProcessor("lfsr-noise", LfsrNoiseProcessor);
 ```
-{: data-lang="javascript" }
+</div>
 
 
 ## Demo: WebAudio Noise with a Frequency Slider
