@@ -23,6 +23,7 @@
 
   let ctx = null;
   let node = null;
+  let panelEl = null;
 
   const DEFAULT_LINE_WIDTH = 2;
 
@@ -47,10 +48,12 @@
   }
 
   function applyLineWidth() {
-    const width = parseFloat(lineWidth.value || String(DEFAULT_LINE_WIDTH));
-    const panel = document.querySelector(".panel");
-    if (panel) {
-      panel.style.borderWidth = `${width}px`;
+    if (!panelEl) {
+      panelEl = document.querySelector(".panel");
+    }
+    if (panelEl) {
+      const width = parseFloat(lineWidth.value || String(DEFAULT_LINE_WIDTH));
+      panelEl.style.borderWidth = `${width}px`;
     }
   }
 

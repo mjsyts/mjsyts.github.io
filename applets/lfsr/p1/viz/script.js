@@ -128,6 +128,7 @@
   }
 
   function applyLineWidth() {
+    if (!registerEl) return;
     const width = parseFloat(lineWidthRange.value || String(DEFAULT_LINE_WIDTH));
     // Use CSS custom property for better performance
     registerEl.style.setProperty('--line-width', `${width}px`);

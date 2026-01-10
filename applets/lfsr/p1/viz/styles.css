@@ -140,7 +140,7 @@
   width: 100%;
   max-width: 100%;
   min-width: 0;
-  --line-width: 1px; /* default, overridden by JS */
+  --line-width: 2px; /* default, matches DEFAULT_LINE_WIDTH in script.js */
 }
 
 .applet--lfsr15 .bit{
