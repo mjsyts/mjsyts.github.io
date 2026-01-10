@@ -11,6 +11,12 @@ article p {
   margin: 0 0 1rem;
 }
 
+/* Tighter spacing for applets in posts */
+.post .applet,
+article .applet {
+  margin: 1.5rem 0;
+}
+
 .post a,
 article a {
   color: inherit;
@@ -19,6 +25,6 @@ article a {
 
 .post code,
 article code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: var(--code-font);
   font-size: 0.95em;
 }

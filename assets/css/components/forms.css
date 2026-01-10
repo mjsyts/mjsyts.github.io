@@ -54,7 +54,7 @@
   border: none;
   border-radius: 999px;
   cursor: pointer;
-  font-family: "Pickllle", system-ui, sans-serif;
+  font-family: var(--font-display);
   font-size: 0.85rem;
   letter-spacing: 0.18em;
   background: linear-gradient(135deg, var(--accent-color, var(--aqua)), var(--accent-color-strong, var(--blue)));
