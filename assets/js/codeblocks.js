@@ -120,28 +120,25 @@
   // =========================================================
 
   const makeCopyIcon = () => {
+    // Using Lucide's "copy" icon design for better visual clarity
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("viewBox", "0 0 24 24");
     svg.setAttribute("aria-hidden", "true");
     
+    // Back rectangle (the original/source)
     const rect1 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    rect1.setAttribute("x", "9");
-    rect1.setAttribute("y", "9");
-    rect1.setAttribute("width", "13");
-    rect1.setAttribute("height", "13");
+    rect1.setAttribute("x", "8");
+    rect1.setAttribute("y", "8");
+    rect1.setAttribute("width", "12");
+    rect1.setAttribute("height", "12");
     rect1.setAttribute("rx", "2");
-    rect1.setAttribute("ry", "2");
     
-    const rect2 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    rect2.setAttribute("x", "5");
-    rect2.setAttribute("y", "5");
-    rect2.setAttribute("width", "13");
-    rect2.setAttribute("height", "13");
-    rect2.setAttribute("rx", "2");
-    rect2.setAttribute("ry", "2");
+    // Front rectangle with path for cleaner appearance (the copy)
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", "M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2");
     
+    svg.appendChild(path);
     svg.appendChild(rect1);
-    svg.appendChild(rect2);
     return svg;
   };
 
