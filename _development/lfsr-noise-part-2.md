@@ -11,13 +11,8 @@ excerpt: "PLACEHOLDER_EXCERPT"
 ## Where We Left Off
 
 In the previous post, we built an NES/GameBoy style LFSR noise generator using the smallest working core. The problem now is that the minimal version is not particularly useful as an instrument -- it's not "playable" with a fixed timing.
+---
 
-<!--
-SECTION GOAL: Define “frequency” in THIS context so nobody assumes oscillator pitch.
-INCLUDE: "frequency" = how often the register advances / how often the bitstream updates.
-INCLUDE: a quick note that this is not a single fundamental frequency; perceived pitch/brightness is emergent.
-AVOID: Fourier theory, psychoacoustics, long detours.
--->
 ## What “Frequency” Means for an LFSR
 
 Unlike an oscillator, an LFSR doesn’t have a single fundamental frequency. Its output is a sequence of bits whose spectral content depends on both:
@@ -25,6 +20,7 @@ Unlike an oscillator, an LFSR doesn’t have a single fundamental frequency. Its
 - how often the register advances.
 
 In other words, the perceived pitch or brightness isn't just a product of the pattern itself. It emerges from how quickly we step through it as well.
+---
 
 ## Decouple the Clock from the LFSR Logic
 
@@ -33,6 +29,7 @@ In Part 1, the register advanced on a fixed interval. That made the implementati
 The key change here is architectural rather than mathematical. We keep the same internal logic but make the clock a controllable component.
 
 This separation allows the system to behave musically. We are not changing *what* the LFSR produces — only *when* it produces it.
+---
 
 ## Phase Accumulation
 
@@ -52,6 +49,7 @@ while (phase >= 1.0) {
   phase -= 1.0
 }
 ```
+---
 
 ## Implementing the Phase Accumulator
 
@@ -259,7 +257,7 @@ class LfsrNoiseProcessor extends AudioWorkletProcessor {
 registerProcessor("lfsr-noise", LfsrNoiseProcessor);
 ```
 </div>
-
+---
 
 ## Demo: WebAudio Noise with a Frequency Slider
 
@@ -270,6 +268,7 @@ registerProcessor("lfsr-noise", LfsrNoiseProcessor);
         scrolling="no"
         allow="autoplay">
 </iframe>
+---
 
 ## What’s Next
 
