@@ -63,9 +63,9 @@ We need to make a few changes to our existing implementation to get the frequenc
 class LFSRNoise {
   // ...
 private:
-  uint32_t state = 0x7fffu;
-  float amplitude = 0.10f;
-  float phase = 0.f; // NEW
+  uint32_t mState = 0x7fffu;
+  float mAmp = 0.10f;
+  float mPhase = 0.f; // NEW
 };
 ```
 
@@ -101,7 +101,7 @@ We can calculate the exact amount we need to increase the phase simply by dividi
 ```cpp
 float nextSample(float freq, float sampleRate) {
   // advance phase by "cycles per sample"
-  phase += (freq / sampleRate);
+  mPhase += (freq / sampleRate);
 }
 ```
 
