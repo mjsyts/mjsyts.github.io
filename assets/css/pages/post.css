@@ -11,6 +11,12 @@ article p {
   margin: 0 0 1rem;
 }
 
+/* Tighter spacing for applets in posts */
+.post .applet,
+article .applet {
+  margin: 1.5rem 0;
+}
+
 .post a,
 article a {
   color: inherit;
