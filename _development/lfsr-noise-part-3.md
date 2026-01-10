@@ -12,6 +12,12 @@ excerpt: "PLACEHOLDER_EXCERPT"
 
 -We have a basic XOR-feedback LFSR noise generator.
 -The taps are fixed as the two right-most bits (the least significant bit and its neighbor).
--We added a frequency control and the register is clocked explicitly (**not** cyclic).
+-We added a frequency control and the register is clocked explicitly (**not** cyclic).  
 **Goal of this part:**
 Make the register width selectable, while keeping the behavior predictable, safe, and musically usable.
+
+---
+
+## Terminal States
+
+Before we add the width control, we need to address a problem with our LFSR that hasn't 
