@@ -19,7 +19,6 @@
   const stepBtn = document.getElementById("stepBtn");
   const playBtn = document.getElementById("playBtn");
   const speedRange = document.getElementById("speedRange");
-  const lineWidthRange = document.getElementById("lineWidthRange");
 
   const cycleOut = document.getElementById("cycleOut");
   const binOut = document.getElementById("binOut");
@@ -37,7 +36,6 @@
     stepBtn,
     playBtn,
     speedRange,
-    lineWidthRange,
     cycleOut,
     binOut,
     hexOut,
@@ -58,8 +56,6 @@
 
   let playing = false;
   let playLoopRunning = false;
-
-  const DEFAULT_LINE_WIDTH = 2;
 
   // Build 15 cells (left-to-right: MSB=14 ... LSB=0)
   const cells = [];
@@ -125,13 +121,6 @@
   function speedFactor() {
     const v = parseFloat(speedRange.value || "1");
     return Number.isFinite(v) && v > 0 ? v : 1;
-  }
-
-  function applyLineWidth() {
-    if (!registerEl) return;
-    const width = parseFloat(lineWidthRange.value || String(DEFAULT_LINE_WIDTH));
-    // Use CSS custom property for better performance
-    registerEl.style.setProperty('--line-width', `${width}px`);
   }
 
   function timings() {
@@ -313,11 +302,6 @@
     renderState();
   });
 
-  lineWidthRange.addEventListener("input", () => {
-    applyLineWidth();
-  });
-
   // Initial
   renderState();
-  applyLineWidth();
 })();

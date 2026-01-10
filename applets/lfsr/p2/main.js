@@ -11,21 +11,16 @@
 
   const amp    = $("amp");
   const freq   = $("freq");
-  const lineWidth = $("lineWidth");
   const ampVal = $("ampVal");
   const freqVal= $("freqVal");
-  const lineWidthVal = $("lineWidthVal");
 
-  if (!startBtn || !stopBtn || !srEl || !amp || !freq || !lineWidth || !ampVal || !freqVal || !lineWidthVal) {
+  if (!startBtn || !stopBtn || !srEl || !amp || !freq || !ampVal || !freqVal) {
     console.warn("[P2] Missing required elements. Check your HTML ids.");
     return;
   }
 
   let ctx = null;
   let node = null;
-  let panelEl = null;
-
-  const DEFAULT_LINE_WIDTH = 2;
 
   const WORKLET_URL  = new URL("./processor.js", window.location.href);
   const WORKLET_NAME = "lfsr-noise";   // must match registerProcessor() name in processor.js
@@ -44,17 +39,6 @@
   function updateReadouts() {
     ampVal.textContent = Number(amp.value).toFixed(2);
     freqVal.textContent = `${Math.round(Number(freq.value))} Hz`;
-    lineWidthVal.textContent = Number(lineWidth.value).toFixed(1);
-  }
-
-  function applyLineWidth() {
-    if (!panelEl) {
-      panelEl = document.querySelector(".panel");
-    }
-    if (panelEl) {
-      const width = parseFloat(lineWidth.value || String(DEFAULT_LINE_WIDTH));
-      panelEl.style.borderWidth = `${width}px`;
-    }
   }
 
   function clampFreqMax() {
@@ -135,14 +119,8 @@
     if (node) node.parameters.get(PARAM_FREQ).value = Number(freq.value);
   });
 
-  lineWidth.addEventListener("input", () => {
-    updateReadouts();
-    applyLineWidth();
-  });
-
   // initial UI
   updateReadouts();
-  applyLineWidth();
   setRunningUI(false);
   setStatus("idle");
 })();
