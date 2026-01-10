@@ -59,6 +59,8 @@
   let playing = false;
   let playLoopRunning = false;
 
+  const DEFAULT_LINE_WIDTH = 2;
+
   // Build 15 cells (left-to-right: MSB=14 ... LSB=0)
   const cells = [];
   for (let i = MSB_INDEX; i >= 0; i--) {
@@ -126,13 +128,9 @@
   }
 
   function applyLineWidth() {
-    const width = parseFloat(lineWidthRange.value || "2");
-    // Apply to bit cells
-    for (const cell of cells) {
-      cell.style.borderWidth = `${width}px`;
-    }
-    // Apply to XOR bubble
-    bubbleEl.style.borderWidth = `${width}px`;
+    const width = parseFloat(lineWidthRange.value || String(DEFAULT_LINE_WIDTH));
+    // Use CSS custom property for better performance
+    registerEl.style.setProperty('--line-width', `${width}px`);
   }
 
   function timings() {

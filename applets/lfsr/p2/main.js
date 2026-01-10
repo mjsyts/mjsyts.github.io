@@ -24,6 +24,8 @@
   let ctx = null;
   let node = null;
 
+  const DEFAULT_LINE_WIDTH = 2;
+
   const WORKLET_URL  = new URL("./processor.js", window.location.href);
   const WORKLET_NAME = "lfsr-noise";   // must match registerProcessor() name in processor.js
   const PARAM_AMP    = "amplitude";    // must match AudioParam name in processor.js
@@ -45,7 +47,7 @@
   }
 
   function applyLineWidth() {
-    const width = parseFloat(lineWidth.value || "2");
+    const width = parseFloat(lineWidth.value || String(DEFAULT_LINE_WIDTH));
     const panel = document.querySelector(".panel");
     if (panel) {
       panel.style.borderWidth = `${width}px`;

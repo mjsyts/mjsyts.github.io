@@ -140,13 +140,14 @@
   width: 100%;
   max-width: 100%;
   min-width: 0;
+  --line-width: 1px; /* default, overridden by JS */
 }
 
 .applet--lfsr15 .bit{
   position: relative;
 
   background: var(--panel);
-  border: 1px solid var(--border-soft);
+  border: var(--line-width) solid var(--border-soft);
   border-radius: var(--radius-sm);
 
   min-height: 34px;
@@ -196,7 +197,7 @@
 .applet--lfsr15 .xor-bubble{
   position: absolute;
   background: rgba(0, 0, 0, 0.65);
-  border: 1px solid var(--border);
+  border: var(--line-width) solid var(--border);
   border-radius: 999px;
   padding: 0.25rem 0.55rem;
   font-family: var(--mono);
