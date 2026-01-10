@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "LFSR Noise Generator — Part 1: Concept & Minimal Core"
-date: 2026-01-03
+date: 2025-12-30
 series: "LFSR Noise Generator"
 part: 1
 tags: [dsp, noise, lfsr, nes, gameboy, webaudio]
@@ -271,7 +271,7 @@ Again, this version has no control over:
 - Initial state
 - Frequency/clock rate
 - Width
-- Taps
+- Taps (we won't be building a version with selectable taps in this tutorial)
 - As we'll see in future posts, this could theoretically get stuck. We don't really handle terminal state edge-cases in this version internally.
 
 ---
