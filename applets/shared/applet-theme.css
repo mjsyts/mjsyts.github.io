@@ -54,7 +54,7 @@ iframe {
   --radius: 14px;
   --radius-sm: 9px;
 
-  --ui: "Pickllle", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   background: var(--bg);

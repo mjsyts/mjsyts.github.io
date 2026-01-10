@@ -1,0 +1,248 @@
+/* =========================================================
+   Homepage-Specific Layout & Typography
+   ========================================================= */
+
+/* Scope all homepage styles to avoid affecting posts/archives */
+.page-home {
+  /* Font stack variables for homepage */
+  --font-display: "Pickllle", system-ui, -apple-system, sans-serif;
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* ---------------------------------------------------------
+   Main content area
+   --------------------------------------------------------- */
+
+.page-home main {
+  max-width: 68ch;
+  margin: 0 auto;
+}
+
+/* ---------------------------------------------------------
+   Section spacing and structure
+   --------------------------------------------------------- */
+
+.page-home .section,
+.page-home .reel-section,
+.page-home .bio,
+.page-home .contact-section {
+  margin: 4rem 0;
+}
+
+.page-home .section:first-child,
+.page-home .reel-section:first-child {
+  margin-top: 3rem;
+}
+
+.page-home .section:last-child,
+.page-home .contact-section:last-child {
+  margin-bottom: 4rem;
+}
+
+/* ---------------------------------------------------------
+   Section titles
+   --------------------------------------------------------- */
+
+.page-home .section-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: normal;
+  letter-spacing: 0.02em;
+  margin: 0 0 1.5rem;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+/* ---------------------------------------------------------
+   Bio / About section
+   --------------------------------------------------------- */
+
+.page-home .bio {
+  max-width: 65ch;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.page-home .bio .section-content {
+  max-width: 100%;
+}
+
+.page-home .bio p {
+  margin: 0 0 1.25rem;
+}
+
+.page-home .bio p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------------------------------------------------------
+   Contact section
+   --------------------------------------------------------- */
+
+.page-home .contact-section {
+  max-width: 68ch;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 3rem 0 4rem;
+  background: transparent;
+}
+
+.page-home .contact-subtext {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0 0 2rem;
+}
+
+/* Form styling improvements */
+.page-home .contact-form {
+  max-width: 100%;
+  gap: 1.5rem;
+}
+
+.page-home .form-row {
+  gap: 0.5rem;
+}
+
+.page-home .form-row label {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--text);
+}
+
+.page-home .form-row input,
+.page-home .form-row textarea {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+  color: var(--text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.page-home .form-row input:focus,
+.page-home .form-row textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(67, 160, 189, 0.1);
+}
+
+.page-home .contact-button {
+  font-family: var(--font-display);
+  margin-top: 0.5rem;
+}
+
+/* ---------------------------------------------------------
+   Reel section (hero/focal point)
+   --------------------------------------------------------- */
+
+.page-home .reel-section {
+  max-width: 100%;
+  margin: 0 0 5rem;
+  padding: 0;
+}
+
+/* Add a title above the reel */
+.page-home .reel-section::before {
+  content: "Sound Design Reel";
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: normal;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+  text-align: center;
+}
+
+.page-home .reel {
+  max-width: 100%;
+  margin: 0 auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.page-home .reel iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 400px;
+  border: none;
+}
+
+/* ---------------------------------------------------------
+   Links
+   --------------------------------------------------------- */
+
+.page-home a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: text-decoration-thickness 0.15s ease;
+}
+
+.page-home a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.page-home a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------------------------------------------------------
+   Mobile adjustments
+   --------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .page-home main {
+    max-width: 100%;
+  }
+
+  .page-home .section,
+  .page-home .reel-section,
+  .page-home .bio,
+  .page-home .contact-section {
+    margin: 3rem 0;
+  }
+
+  .page-home .reel-section {
+    margin: 0 0 3.5rem;
+  }
+
+  .page-home .reel-section::before {
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .page-home .reel iframe {
+    min-height: 250px;
+  }
+
+  .page-home .section-title {
+    font-size: 1.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .page-home .bio {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .page-home .contact-section {
+    padding: 2rem 0 3rem;
+  }
+}
