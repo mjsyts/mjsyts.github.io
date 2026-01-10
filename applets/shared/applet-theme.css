@@ -213,9 +213,9 @@ iframe {
 }
 
 .row .range {
-  width: auto;
-  flex: 0 0 clamp(220px, 32vw, 320px);
-  min-width: 200px;
+  width: 100%;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .range.compact {
