@@ -132,6 +132,7 @@
     rect1.setAttribute("width", "12");
     rect1.setAttribute("height", "12");
     rect1.setAttribute("rx", "2");
+    rect1.setAttribute("ry", "2");
     
     // Front rectangle with path for cleaner appearance (the copy)
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
