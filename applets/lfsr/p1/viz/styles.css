@@ -49,9 +49,8 @@
 
 .applet--lfsr15 #speedRange{
   width: auto !important;
-  flex: 0 1 280px !important;
-  min-width: 180px !important;
-  max-width: 100% !important;
+  flex: 0 0 320px !important;
+  min-width: 240px !important;
 }
 
 /* Stack only when genuinely narrow */
@@ -69,13 +68,12 @@
 
   .applet--lfsr15 .speed-label{
     margin-left: 0 !important;
-    width: auto !important;
+    width: 100% !important;
   }
 
   .applet--lfsr15 #speedRange{
-    flex: 1 1 auto !important;
-    max-width: 240px !important;
-    min-width: 120px !important;
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
   }
 }
 

@@ -67,28 +67,3 @@
   opacity: 0.55;
   cursor: not-allowed;
 }
-
-/* Slider controls for p2 */
-.audio-row .range{
-  flex: 1 1 auto;
-  max-width: 280px;
-  min-width: 180px;
-}
-
-.audio-val{
-  flex: 0 0 auto;
-  min-width: 60px;
-}
-
-@media (max-width: 520px){
-  .audio-row .range{
-    flex: 1 1 auto;
-    max-width: 200px;
-    min-width: 120px;
-  }
-
-  .audio-val{
-    font-size: 0.9rem;
-    min-width: 50px;
-  }
-}

@@ -39,10 +39,9 @@
 }
 
 .audio-row .range{
-  /* controlled slider width */
-  flex: 1 1 auto;
-  max-width: 280px;
-  min-width: 180px;
+  /* allow the slider to be long like your screenshot */
+  flex: 1 1 420px;
+  min-width: 220px;
 }
 
 .audio-val{
@@ -51,7 +50,6 @@
   font-size: 1rem;
   color: var(--text);
   white-space: nowrap;
-  flex: 0 0 auto;
 }
 
 /* Kill extra vertical breathing room for audio app */
@@ -80,12 +78,7 @@
   }
 
   .audio-row .range{
-    flex: 1 1 auto;
-    max-width: 200px;
-    min-width: 120px;
-  }
-
-  .audio-val{
-    font-size: 0.9rem;
+    flex: 1 1 100%;
+    min-width: 0;
   }
 }
