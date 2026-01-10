@@ -138,8 +138,8 @@ nextSample(freq, sampleRate) {
   this.phase += freq / sampleRate;
 
   // step the LFSR whenever we cross a whole cycle
-  while (phase >= 1.f) {
-    phase -= 1.f;
+  while (phase >= 1.0) {
+    phase -= 1.0;
     this.step();
   }
 
