@@ -325,9 +325,15 @@ iframe {
   font-weight: 900;
   font-size: 0.95rem;
   min-width: 0;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .readout-value {
+    font-size: 0.85rem;
+  }
 }
 
 /* -----------------------------
