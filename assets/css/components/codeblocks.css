@@ -22,26 +22,91 @@
    Buttons (shared)
    ========================================================= */
 
-.codeblock__btn{
-  border: 1px solid var(--code-border);
+/* Copy icon button - minimal, icon-only design */
+.codeblock__copy-btn{
+  border: none;
   background: transparent;
-  border-radius: 999px;
-  padding: 7px 10px;
+  border-radius: 6px;
+  padding: 6px;
   cursor: pointer;
+  
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  color: var(--code-muted);
+  transition: color 0.2s, background 0.2s;
+}
 
+.codeblock__copy-btn:hover{
+  background: var(--codebtn-hover-bg);
+  color: var(--code-text);
+}
+
+.codeblock__copy-btn:focus-visible{
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Copy icon SVG styling */
+.codeblock__copy-btn svg{
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Expand button - now appears at bottom with label and arrow */
+.codeblock__expand-btn{
+  width: 100%;
+  border: none;
+  border-top: 1px solid var(--code-border);
+  background: var(--codebar-bg);
+  padding: 10px 12px;
+  cursor: pointer;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  
   font-size: 12px;
   letter-spacing: .08em;
   text-transform: lowercase;
   color: var(--code-text);
+  transition: background 0.2s;
 }
 
-.codeblock__btn:hover{
+.codeblock__expand-btn:hover{
   background: var(--codebtn-hover-bg);
 }
 
-.codeblock__btn:focus-visible{
+.codeblock__expand-btn:focus-visible{
   outline: 2px solid currentColor;
-  outline-offset: 2px;
+  outline-offset: -2px;
+}
+
+/* Arrow icon for expand button */
+.codeblock__expand-btn svg{
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.2s;
+}
+
+/* Rotate arrow when expanded */
+.codeblock.is-expanded .codeblock__expand-btn svg,
+.codegroup.is-expanded .codeblock__expand-btn svg{
+  transform: rotate(180deg);
 }
 
 

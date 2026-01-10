@@ -119,11 +119,76 @@
   // DOM helpers
   // =========================================================
 
-  const makeBtn = (label) => {
+  const makeCopyIcon = () => {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("aria-hidden", "true");
+    
+    const rect1 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    rect1.setAttribute("x", "9");
+    rect1.setAttribute("y", "9");
+    rect1.setAttribute("width", "13");
+    rect1.setAttribute("height", "13");
+    rect1.setAttribute("rx", "2");
+    rect1.setAttribute("ry", "2");
+    
+    const rect2 = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    rect2.setAttribute("x", "5");
+    rect2.setAttribute("y", "5");
+    rect2.setAttribute("width", "13");
+    rect2.setAttribute("height", "13");
+    rect2.setAttribute("rx", "2");
+    rect2.setAttribute("ry", "2");
+    
+    svg.appendChild(rect1);
+    svg.appendChild(rect2);
+    return svg;
+  };
+
+  const makeCheckIcon = () => {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("aria-hidden", "true");
+    
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+    path.setAttribute("points", "20 6 9 17 4 12");
+    
+    svg.appendChild(path);
+    return svg;
+  };
+
+  const makeChevronDownIcon = () => {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("aria-hidden", "true");
+    
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+    path.setAttribute("points", "6 9 12 15 18 9");
+    
+    svg.appendChild(path);
+    return svg;
+  };
+
+  const makeCopyBtn = () => {
     const b = document.createElement("button");
     b.type = "button";
-    b.className = "codeblock__btn";
-    b.textContent = label;
+    b.className = "codeblock__copy-btn";
+    b.setAttribute("aria-label", "Copy code to clipboard");
+    b.appendChild(makeCopyIcon());
+    return b;
+  };
+
+  const makeExpandBtn = (label) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "codeblock__expand-btn";
+    b.setAttribute("aria-label", `${label} code block`);
+    
+    const span = document.createElement("span");
+    span.textContent = label;
+    
+    b.appendChild(span);
+    b.appendChild(makeChevronDownIcon());
     return b;
   };
 
@@ -148,10 +213,22 @@
         try { document.execCommand("copy"); } catch {}
         document.body.removeChild(ta);
       }
-      btn.textContent = "copied";
-      window.setTimeout(() => (btn.textContent = "copy"), 1100);
+      
+      // Replace icon with checkmark
+      const icon = btn.querySelector("svg");
+      if (icon) {
+        const checkIcon = makeCheckIcon();
+        icon.replaceWith(checkIcon);
+        btn.setAttribute("aria-label", "Code copied to clipboard");
+        
+        // Restore copy icon after delay
+        window.setTimeout(() => {
+          checkIcon.replaceWith(makeCopyIcon());
+          btn.setAttribute("aria-label", "Copy code to clipboard");
+        }, 1100);
+      }
     } catch {
-      btn.textContent = "copy";
+      // Silent failure - keep copy icon
     }
   };
 
@@ -244,10 +321,10 @@
       const actions = document.createElement("div");
       actions.className = "codegroup__actions";
 
-      const copyBtn = makeBtn("copy");
-      const expandBtn = makeBtn("expand");
+      const copyBtn = makeCopyBtn();
+      const expandBtn = makeExpandBtn("expand");
 
-      actions.append(copyBtn, expandBtn);
+      actions.append(copyBtn);
       bar.append(tabs, actions);
 
       // Rebuild DOM inside group
@@ -255,6 +332,7 @@
       group.innerHTML = "";
       group.appendChild(bar);
       panels.forEach((p) => group.appendChild(p.panel));
+      group.appendChild(expandBtn);
 
       // Tabs
       const tabButtons = langs.map((key) => {
@@ -320,7 +398,8 @@
             group.classList.add("is-collapsed");
           }
 
-          expandBtn.textContent = group.classList.contains("is-collapsed") ? "expand" : "collapse";
+          expandBtn.querySelector("span").textContent = group.classList.contains("is-collapsed") ? "expand" : "collapse";
+          expandBtn.setAttribute("aria-label", `${group.classList.contains("is-collapsed") ? "Expand" : "Collapse"} code block`);
         } else {
           expandBtn.style.display = "none";
           group.classList.remove("is-collapsible", "is-collapsed", "is-expanded");
@@ -368,7 +447,8 @@
       expandBtn.addEventListener("click", () => {
         const collapsed = group.classList.toggle("is-collapsed");
         group.classList.toggle("is-expanded", !collapsed);
-        expandBtn.textContent = collapsed ? "expand" : "collapse";
+        expandBtn.querySelector("span").textContent = collapsed ? "expand" : "collapse";
+        expandBtn.setAttribute("aria-label", `${collapsed ? "Expand" : "Collapse"} code block`);
       });
 
       requestAnimationFrame(updateExpandUI);
@@ -403,10 +483,10 @@
     const actions = document.createElement("div");
     actions.className = "codeblock__actions";
 
-    const copyBtn = makeBtn("copy");
-    const expandBtn = makeBtn("expand");
+    const copyBtn = makeCopyBtn();
+    const expandBtn = makeExpandBtn("expand");
 
-    actions.append(copyBtn, expandBtn);
+    actions.append(copyBtn);
     bar.append(lang, actions);
 
     const body = document.createElement("div");
@@ -416,7 +496,7 @@
     fade.className = "codeblock__fade";
 
     blockEl.parentNode.insertBefore(wrapper, blockEl);
-    wrapper.append(bar, body);
+    wrapper.append(bar, body, expandBtn);
     body.append(blockEl, fade);
 
     copyBtn.addEventListener("click", async () => {
@@ -436,7 +516,8 @@
         wrapper.classList.add("is-collapsible");
         if (!wrapper.classList.contains("is-collapsed")) wrapper.classList.add("is-collapsed");
         expandBtn.style.display = "";
-        expandBtn.textContent = wrapper.classList.contains("is-collapsed") ? "expand" : "collapse";
+        expandBtn.querySelector("span").textContent = wrapper.classList.contains("is-collapsed") ? "expand" : "collapse";
+        expandBtn.setAttribute("aria-label", `${wrapper.classList.contains("is-collapsed") ? "Expand" : "Collapse"} code block`);
       } else {
         expandBtn.style.display = "none";
         wrapper.classList.remove("is-collapsible", "is-collapsed");
@@ -445,7 +526,8 @@
 
     expandBtn.addEventListener("click", () => {
       const collapsed = wrapper.classList.toggle("is-collapsed");
-      expandBtn.textContent = collapsed ? "expand" : "collapse";
+      expandBtn.querySelector("span").textContent = collapsed ? "expand" : "collapse";
+      expandBtn.setAttribute("aria-label", `${collapsed ? "Expand" : "Collapse"} code block`);
     });
 
     requestAnimationFrame(updateExpandUI);
