@@ -36,7 +36,7 @@
 .applet--lfsr15 #seedInput{
   width: auto !important;
   flex: 1 1 420px !important;
-  min-width: 220px !important;
+  min-width: 180px !important;
   max-width: 100% !important;
 }
 
@@ -50,7 +50,7 @@
 .applet--lfsr15 #speedRange{
   width: auto !important;
   flex: 0 0 320px !important;
-  min-width: 240px !important;
+  min-width: 180px !important;
 }
 
 /* Stack only when genuinely narrow */
