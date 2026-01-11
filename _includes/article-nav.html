@@ -1,13 +1,15 @@
 {% comment %}
 Article navigation component for previous/next article links.
 Only renders on post pages with development collection articles.
+Currently hardcoded to 'development' collection - could be made
+configurable in the future if needed for other collections.
 {% endcomment %}
 
 {% if page.layout == "post" %}
   {% comment %}Get all development posts sorted by date{% endcomment %}
   {% assign sorted_posts = site.development | sort: "date" %}
   
-  {% comment %}Find current post's index{% endcomment %}
+  {% comment %}Find current post's index. Use -1 as sentinel value since 0 is a valid index.{% endcomment %}
   {% assign current_index = -1 %}
   {% for post in sorted_posts %}
     {% if post.url == page.url %}
