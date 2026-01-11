@@ -14,7 +14,7 @@
   width: 100% !important;
   max-width: 100%;
   min-width: 0;
-  height: clamp(520px, 66svh, 760px);
+  height: 330px;
 
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 18px;
@@ -24,29 +24,29 @@
 /* Slightly more room on larger screens */
 @media (min-width: 900px) {
   .applet__frame {
-    height: clamp(300px, 40vh, 460px);
+    height: 320px;
   }
 }
 
 /* Visualizer: fixed + tighter on desktop */
 .applet.lfsr15-viz .applet__frame{
-  height: clamp(320px, 52svh, 520px);
+  height: 450px;
 }
 
 @media (min-width: 900px){
   .applet.lfsr15-viz .applet__frame{
-    height: min(300px, 42vh);
+    height: 310px;
   }
 }
 
 /* Audio demo: short */
 .applet.lfsr15-audio > .applet__frame{
-  height: clamp(190px, 24svh, 240px);
+  height: 250px;
 }
 
 @media (min-width: 900px){
   .applet.lfsr15-audio > .applet__frame{
-    height: 220px;
+    height: 150px;
   }
 }
 
