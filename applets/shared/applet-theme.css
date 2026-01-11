@@ -223,6 +223,13 @@ iframe {
   min-width: 200px;
 }
 
+@media (max-width: 420px) {
+  .range.compact {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+}
+
 /* -----------------------------
    Output readouts
    ----------------------------- */
@@ -301,6 +308,12 @@ iframe {
   min-width: 0;
 }
 
+@media (max-width: 420px) {
+  .readout {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}
+
 .readout-item {
   background: linear-gradient(180deg, var(--panel), rgba(255, 255, 255, 0.58));
   border: 1px solid var(--border);
@@ -336,7 +349,7 @@ iframe {
 
 @media (max-width: 420px) {
   .applet {
-    padding: 0.6rem;
+    padding: 0.5rem;
   }
 
   .row {
@@ -344,6 +357,11 @@ iframe {
   }
 
   .row .range {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .row .input {
     flex: 1 1 100%;
     min-width: 0;
   }
