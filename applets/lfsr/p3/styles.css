@@ -1,0 +1,71 @@
+/* applets/lfsr/p3/styles.css */
+/* minimal overrides; relies on applet-theme.css */
+
+.title{
+  font-family: var(--ui);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: var(--text);
+}
+
+.meta{
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-family: var(--ui);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: var(--muted);
+}
+
+.meta-value{
+  font-family: var(--mono);
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.status{
+  font-family: var(--mono);
+  font-weight: 900;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.value{
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.mono{
+  font-family: var(--mono);
+  font-weight: 900;
+}
+
+.unit{
+  color: var(--muted);
+}
+
+.btn[disabled]{
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Width control specific styling */
+.width-row {
+  position: relative;
+}
+
+.width-row .audio-val {
+  min-width: 2.5rem;
+  text-align: right;
+}
