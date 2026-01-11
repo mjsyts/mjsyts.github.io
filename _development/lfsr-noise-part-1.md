@@ -14,8 +14,6 @@ I started working on GameBoy/NES audio emulation in early 2022 with SuperCollide
 
 What I love about this noise generator is the massive amount of variety you can squeeze out of something that is extremely elegant and almost trivial computationally. The same audio processing algorithm can give results that range from white noise to incredibly rich, but still relatively stable tones.
 
----
-
 ## What Is an LFSR?
 
 An LFSR (linear-feedback shift register) is a tiny state machine that generates a deterministic stream of bits that *behaves* like noise.
@@ -30,13 +28,9 @@ You keep an integer "register" (a fixed number of bits). On each step:
 
 Because the next state depends on the current state, it's fully deterministic. Certain taps will cause a very long sequence of unique register states before repeating, so the output is pseudo-random. All that happens is a bitshift operation and an XOR, which is about as cheap as arithmetic gets on modern CPUs. Once you map the output stream of 1's and 0's to a bipolar range to avoid DC offset, you have a really nice audio source.
 
----
-
 ## The Variant Used in This Post
 
 To keep Part 1 focused, we’ll use the simplest possible version: a fixed 15‑bit register stepped at the sample rate. Later posts will add frequency control, variable width, and more.
-
----
 
 ## Core Algorithm (Step by Step)
 
@@ -56,8 +50,6 @@ You can use the applet to see what's happening internally:
     loading="lazy"
   ></iframe>
 </div>
-
----
 
 ## Minimal Implementation
 
@@ -250,8 +242,6 @@ registerProcessor('lfsr-noise', LfsrNoiseProcessor);
 
 That's it. Atomically small, but this simplicity will have significant implications later on.
 
----
-
 ## Listening to the Output
 
 <div class="applet lfsr15-audio">
@@ -262,7 +252,6 @@ That's it. Atomically small, but this simplicity will have significant implicati
     loading="lazy"
   ></iframe>
 </div>
----
 
 ## Limitations of This Version
 
@@ -273,8 +262,6 @@ Again, this version has no control over:
 - Width
 - Taps (we won't be building a version with selectable taps in this tutorial)
 - As we'll see in future posts, this could theoretically get stuck. We don't really handle terminal state edge-cases in this version internally.
-
----
 
 ## What Comes Next
 
