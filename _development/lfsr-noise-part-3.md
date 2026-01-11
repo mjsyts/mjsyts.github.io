@@ -434,8 +434,6 @@ class LfsrNoiseProcessor extends AudioWorkletProcessor {
 registerProcessor("lfsr-noise", LfsrNoiseProcessor);
 ```
 
----
-
 ## Try It Out
 
 <div class="applet lfsr15-audio">
