@@ -45,14 +45,14 @@
 
 .article-nav__link {
   font-size: 1rem;
-  color: var(--text-primary);
+  color: var(--text);
   text-decoration: none;
   transition: color 0.2s ease;
   line-height: 1.4;
 }
 
 .article-nav__link:hover {
-  color: var(--text-accent, #6b9ff5);
+  color: var(--blue);
   text-decoration: none;
 }
 
