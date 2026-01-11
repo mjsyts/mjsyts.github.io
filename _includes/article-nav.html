@@ -1,0 +1,60 @@
+{% comment %}
+Article navigation component for previous/next article links.
+Only renders on post pages with development collection articles.
+{% endcomment %}
+
+{% if page.layout == "post" %}
+  {% comment %}Get all development posts sorted by date{% endcomment %}
+  {% assign sorted_posts = site.development | sort: "date" %}
+  
+  {% comment %}Find current post's index{% endcomment %}
+  {% assign current_index = nil %}
+  {% for post in sorted_posts %}
+    {% if post.url == page.url %}
+      {% assign current_index = forloop.index0 %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+  
+  {% if current_index %}
+    {% comment %}Calculate previous and next indices{% endcomment %}
+    {% assign prev_index = current_index | minus: 1 %}
+    {% assign next_index = current_index | plus: 1 %}
+    
+    {% comment %}Get previous and next posts if they exist{% endcomment %}
+    {% if prev_index >= 0 %}
+      {% assign prev_post = sorted_posts[prev_index] %}
+    {% endif %}
+    
+    {% if next_index < sorted_posts.size %}
+      {% assign next_post = sorted_posts[next_index] %}
+    {% endif %}
+    
+    {% comment %}Render navigation if at least one direction is available{% endcomment %}
+    {% if prev_post or next_post %}
+      <nav class="article-nav" aria-label="Article navigation">
+        <div class="article-nav__container">
+          {% if prev_post %}
+            <div class="article-nav__item article-nav__item--prev">
+              <span class="article-nav__label">← Previous</span>
+              <a href="{{ prev_post.url | relative_url }}" class="article-nav__link">
+                {{ prev_post.title }}
+              </a>
+            </div>
+          {% else %}
+            <div class="article-nav__item article-nav__item--empty"></div>
+          {% endif %}
+          
+          {% if next_post %}
+            <div class="article-nav__item article-nav__item--next">
+              <span class="article-nav__label">Next →</span>
+              <a href="{{ next_post.url | relative_url }}" class="article-nav__link">
+                {{ next_post.title }}
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </nav>
+    {% endif %}
+  {% endif %}
+{% endif %}
