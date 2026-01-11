@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "LFSR Noise Generator — Part 3: Variable Width & Terminal States"
-date: 2026-01-10
+date: 2026-01-11
 series: "LFSR Noise Generator"
 part: 3
 tags: [dsp, noise, lfsr, nes, gameboy, webaudio]
@@ -445,6 +445,5 @@ Experiment with different width values to hear how the tonal character changes:
 - **3-4 bits**: Very short sequences, almost tonal
 - **7 bits**: Short-cycle NES/GameBoy noise mode
 - **15 bits**: The standard NES/Game Boy noise mode
-- **24-32 bits**: Approaching white noise with extremely long periods
 
 Try the reset button to manually reset the LFSR state back to its seed value. This demonstrates the terminal state protection working in practice.
