@@ -137,11 +137,11 @@ mask = (1 << width) - 1
 state &= mask; // keeps the register N-bit
 ```
 #### Why this matters:  
-Say we're using a 32-bit integer for our state, the width parameter is currently set to 32, and we reach a state where only the leftmost bit is set. Internally: ```1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0``` or as a decimal 2147483648.
+Say we're using a 32-bit integer for our state, the width parameter is currently set to 32, and we reach a state where only the leftmost bit is set. Internally: `1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0` or as a decimal 2147483648.
 
 **Then the user sets the width parameter to 3...**  
 
-We *should* effectively end up with ```0 0 0``` after the right shift. A 3-bit integer of all zeros **should not pass the zero check**. Without bitmasking, we still have bits outside of the expected register width. The state is internally: ```0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0``` or as a decimal 1073741824.  
+We *should* effectively end up with ```0 0 0``` after the right shift. A 3-bit integer of all zeros **should not pass the zero check**. Without bitmasking, we still have bits outside of the expected register width. The state is internally: `0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0` or as a decimal 1073741824.  
 
 **1073741824 passes the zero-check.**
 
@@ -209,7 +209,7 @@ setWidth(w) {
 ```
 </div>
 
-**JavaScript bitwise operators operate on 32‑bit *signed* integers, so shifting ```1 << 32``` wraps around. That’s why we handle the 32‑bit case explicitly.
+\*\*JavaScript bitwise operators operate on 32‑bit *signed* integers, so shifting `1 << 32` wraps around. That’s why we handle the 32‑bit case explicitly
 
 ## Full Implementation
 
