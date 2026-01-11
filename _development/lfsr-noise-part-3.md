@@ -444,7 +444,7 @@ registerProcessor("lfsr-noise", LfsrNoiseProcessor);
 
 Experiment with different width values to hear how the tonal character changes:
 - **3-4 bits**: Very short sequences, almost tonal
-- **8-10 bits**: Classic 8-bit game console noise
+- **7 bits**: Short-cycle NES/GameBoy noise mode
 - **15 bits**: The standard NES/Game Boy noise mode
 - **24-32 bits**: Approaching white noise with extremely long periods
 
