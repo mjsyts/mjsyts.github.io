@@ -5,7 +5,7 @@ date: 2026-01-10
 series: "LFSR Noise Generator"
 part: 3
 tags: [dsp, noise, lfsr, nes, gameboy, webaudio]
-excerpt: "PLACEHOLDER_EXCERPT"
+excerpt: "Transform the basic LFSR into a playable instrument by adding frequency control. Uses phase accumulation to decouple the clock timing from the LFSR logic, making the noise generator musically responsive."
 ---
 
 ## Where We Left Off
