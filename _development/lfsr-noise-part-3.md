@@ -433,3 +433,19 @@ class LfsrNoiseProcessor extends AudioWorkletProcessor {
 
 registerProcessor("lfsr-noise", LfsrNoiseProcessor);
 ```
+
+---
+
+## Try It Out
+
+<div class="applet lfsr15-audio">
+  <iframe class="applet__frame" src="/applets/lfsr/p3/index.html" loading="lazy"></iframe>
+</div>
+
+Experiment with different width values to hear how the tonal character changes:
+- **3-4 bits**: Very short sequences, almost tonal
+- **8-10 bits**: Classic 8-bit game console noise
+- **15 bits**: The standard NES/Game Boy noise mode
+- **24-32 bits**: Approaching white noise with extremely long periods
+
+Try the reset button to manually reset the LFSR state back to its seed value. This demonstrates the terminal state protection working in practice.
