@@ -433,6 +433,7 @@ class LfsrNoiseProcessor extends AudioWorkletProcessor {
 
 registerProcessor("lfsr-noise", LfsrNoiseProcessor);
 ```
+</div>
 
 ## Try It Out
 
