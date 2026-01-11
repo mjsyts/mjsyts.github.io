@@ -4,6 +4,6 @@
     onclick="if (window.history.length > 1) { history.back(); return false; }"
     class="page-back__link"
   >
-    ← Back
+    {% if page.layout == "post" %}← Back to Archive{% else %}← Back{% endif %}
   </a>
 </nav>
