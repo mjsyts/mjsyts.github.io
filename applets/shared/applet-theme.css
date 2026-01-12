@@ -312,6 +312,10 @@ iframe {
   .readout {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
+
+  .readout-value {
+    font-size: 0.85rem;
+  }
 }
 
 .readout-item {
