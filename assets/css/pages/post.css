@@ -2,29 +2,189 @@
 
 .post,
 article {
-  max-width: 680px;
+  max-width: 760px;
+  font-size: 1.05rem;
+  color: var(--text);
 }
 
+/* Headings within posts */
+.post h1,
+article h1 {
+  font-size: 2.2rem;
+  margin: 2.5rem 0 1rem;
+  color: var(--blue);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.post h1:first-child,
+article h1:first-child {
+  margin-top: 0;
+}
+
+.post h2,
+article h2 {
+  font-size: 1.6rem;
+  margin: 2rem 0 0.75rem;
+  color: var(--blue);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+
+.post h3,
+article h3 {
+  font-size: 1.25rem;
+  margin: 1.5rem 0 0.5rem;
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Paragraphs */
 .post p,
 article p {
-  line-height: 1.65;
-  margin: 0 0 1rem;
+  line-height: 1.7;
+  margin: 0 0 1.25rem;
+}
+
+/* Lists */
+.post ul,
+.post ol,
+article ul,
+article ol {
+  margin: 0 0 1.25rem;
+  padding-left: 1.75rem;
+  line-height: 1.7;
+}
+
+.post li,
+article li {
+  margin-bottom: 0.5rem;
+}
+
+.post li:last-child,
+article li:last-child {
+  margin-bottom: 0;
+}
+
+/* Nested lists */
+.post ul ul,
+.post ol ol,
+.post ul ol,
+.post ol ul,
+article ul ul,
+article ol ol,
+article ul ol,
+article ol ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Links */
+.post a,
+article a {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: opacity 0.2s ease;
+}
+
+.post a:hover,
+article a:hover {
+  opacity: 0.8;
+}
+
+/* Blockquotes */
+.post blockquote,
+article blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--blue);
+  background: rgba(67, 160, 189, 0.05);
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.post blockquote p:last-child,
+article blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Horizontal rules */
+.post hr,
+article hr {
+  margin: 2.5rem 0;
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+/* Strong and emphasis */
+.post strong,
+article strong {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.post em,
+article em {
+  font-style: italic;
+}
+
+/* Code */
+.post code,
+article code {
+  font-family: var(--code-font);
+  font-size: 0.92em;
+}
+
+/* Images in posts */
+.post img,
+article img {
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+  border-radius: 8px;
 }
 
 /* Tighter spacing for applets in posts */
 .post .applet,
 article .applet {
+  margin: 2rem 0;
+}
+
+/* Better spacing for first/last elements */
+.post > *:first-child,
+article > *:first-child {
+  margin-top: 0;
+}
+
+.post > *:last-child,
+article > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Tables */
+.post table,
+article table {
+  width: 100%;
   margin: 1.5rem 0;
+  border-collapse: collapse;
 }
 
-.post a,
-article a {
-  color: inherit;
-  text-underline-offset: 3px;
+.post th,
+.post td,
+article th,
+article td {
+  padding: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  text-align: left;
 }
 
-.post code,
-article code {
-  font-family: var(--code-font);
-  font-size: 0.95em;
+.post th,
+article th {
+  background: rgba(0, 0, 0, 0.03);
+  font-weight: 600;
+  color: var(--text);
 }
