@@ -4,7 +4,7 @@ title: "LFSR Noise Generator — Part 3: Variable Width & Terminal States"
 date: 2026-01-11
 series: "LFSR Noise Generator"
 part: 3
-tags: [dsp, noise, lfsr, nes, gameboy, webaudio]
+tags: [dsp, noise, lfsr, nes, gameboy, webaudio, c++]
 excerpt: "Transform the basic LFSR into a playable instrument by adding frequency control. Uses phase accumulation to decouple the clock timing from the LFSR logic, making the noise generator musically responsive."
 ---
 
