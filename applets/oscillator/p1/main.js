@@ -161,6 +161,7 @@ function updateSampleRate() {
     currentSampleIndex = 0;
   }
   
+  currentSampleIndex = Math.floor(currentSampleIndex);
   sampleIndexSlider.value = currentSampleIndex;
   sampleIndexValue.textContent = currentSampleIndex;
   
@@ -201,7 +202,8 @@ function pause() {
     animationFrameId = null;
   }
   
-  // Update scrubber
+  // Update scrubber (floor the index since it's a float during animation)
+  currentSampleIndex = Math.floor(currentSampleIndex);
   sampleIndexSlider.value = currentSampleIndex;
   sampleIndexValue.textContent = currentSampleIndex;
 }
