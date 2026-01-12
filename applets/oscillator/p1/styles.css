@@ -1,0 +1,137 @@
+.applet--oscillator {
+  background: transparent;
+  padding: 0.75rem;
+}
+
+/* ============================
+   Introduction section
+   ============================ */
+
+.applet--oscillator .intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.applet--oscillator .intro-title {
+  font-family: var(--ui);
+  font-weight: 900;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: var(--text);
+  margin: 0;
+}
+
+.applet--oscillator .intro-text {
+  font-family: var(--ui);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 0;
+}
+
+.applet--oscillator .color-label {
+  font-weight: 700;
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* Color labels using site palette colors */
+.applet--oscillator .color-label.blue {
+  color: #7191AF; /* --indigo from site tokens */
+  background: rgba(113, 145, 175, 0.15);
+}
+
+.applet--oscillator .color-label.red {
+  color: #DE8D74; /* --coral from site tokens */
+  background: rgba(222, 141, 116, 0.15);
+}
+
+/* ============================
+   Canvas container
+   ============================ */
+
+.applet--oscillator .canvas-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 280px;
+}
+
+.applet--oscillator #oscillatorCanvas {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+}
+
+/* ============================
+   Controls
+   ============================ */
+
+.applet--oscillator .controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.applet--oscillator .control-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  min-width: 0;
+  flex-wrap: nowrap;
+}
+
+.applet--oscillator .btn-group {
+  display: inline-flex;
+  gap: 0.45rem;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.applet--oscillator .control-row .range {
+  width: auto;
+  flex: 1 1 auto;
+  min-width: 200px;
+}
+
+.applet--oscillator .control-row .label {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.applet--oscillator .control-row .audio-val {
+  flex: 0 0 auto;
+  min-width: 50px;
+  text-align: right;
+}
+
+/* ============================
+   Mobile responsiveness
+   ============================ */
+
+@media (max-width: 560px) {
+  .applet--oscillator .control-row {
+    flex-wrap: wrap;
+  }
+
+  .applet--oscillator .control-row .range {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .applet--oscillator .intro-title {
+    font-size: 1rem;
+  }
+
+  .applet--oscillator .intro-text {
+    font-size: 0.9rem;
+  }
+}
