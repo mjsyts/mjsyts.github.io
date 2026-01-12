@@ -4,24 +4,21 @@ title: "Oscillators — Part 1: Oscillators in Discrete Time"
 date: 2025-01-12
 series: "Oscillators"
 part: 1
+published: false
 tags: [dsp, oscillator, synthesis, webaudio, c++]
 excerpt: "EXCERPT_PLACEHOLDER"
 ---
 
 ## Motivation and Scope
-This series is about digital oscillators—not as sound sources, but as algorithms operating under discrete-time constraints. Oscillators are often treated as trivial components, yet generating a repeating signal sample by sample is already a nontrivial problem. The underlying theme of these articles is:
+This series is about digital oscillators as algorithms operating under discrete-time constraints. Oscillators are often treated as trivial components, yet generating a repeating signal sample by sample is already a nontrivial problem. The underlying theme of these articles is:
 
 ***The oscillator is the smallest system in which the fundamental constraints of discrete-time audio already apply.***
 
-Part 1 focuses on establishing the basic model. Later posts address specific implementation strategies, aliasing, bandlimiting, and oversampling.
+Part 1 focuses on establishing a basic model and working definition. Later posts address specific implementation strategies, aliasing, bandlimiting, and oversampling.
 
 ## Discrete Time as a Constraint
-- Audio as a sequence of samples
-- Sample index `n` and sample rate `Fs`
-- No intermediate time values
-- Emphasize:
-  - This is a constraint on *generation*, not playback
-  - All behavior must be defined sample-by-sample
+Sound unfolds continuously in the physical world, but computers don't store or operate on continuous processes. To represent sound in a form that can be indexed, stored in memory, and manipulated algorithmically, time must be *discretized* — sampled at regular time intervals. A useful analogy is a flipbook: continuous motion is represented as a sequence of individual pages.  
+We will consider digital audio as a sequence of sampled values indexed by `n` taken at the sample rate `Fs`.
 
 ---
 
