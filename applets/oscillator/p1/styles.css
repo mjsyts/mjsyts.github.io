@@ -38,13 +38,14 @@
   white-space: nowrap;
 }
 
+/* Color labels using site palette colors */
 .applet--oscillator .color-label.blue {
-  color: #7191AF;
+  color: #7191AF; /* --indigo from site tokens */
   background: rgba(113, 145, 175, 0.15);
 }
 
 .applet--oscillator .color-label.red {
-  color: #DE8D74;
+  color: #DE8D74; /* --coral from site tokens */
   background: rgba(222, 141, 116, 0.15);
 }
 

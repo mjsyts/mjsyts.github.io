@@ -24,10 +24,10 @@ const FREQUENCY = 1; // Hz - frequency of the sine wave being visualized
 const WINDOW_DURATION = 2; // seconds (two cycles at 1 Hz)
 const ADVANCE_RATE = 2; // animation advance rate in samples per second for visual progression
 
-// Colors
+// Colors from site palette (assets/css/base/tokens.css)
 const CONTINUOUS_COLOR = '#7191AF'; // --indigo
 const SAMPLE_COLOR = '#DE8D74'; // --coral
-const HIGHLIGHT_COLOR = '#DE8D74'; // --coral highlight
+const HIGHLIGHT_COLOR = '#DE8D74'; // --coral
 const GRID_COLOR = 'rgba(17, 17, 17, 0.1)'; // light grid
 
 // Initialize canvas size
