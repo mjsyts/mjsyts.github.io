@@ -88,12 +88,13 @@ article a {
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
-  transition: opacity 0.2s ease;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
 .post a:hover,
 article a:hover {
-  opacity: 0.8;
+  color: var(--aqua);
+  opacity: 0.9;
 }
 
 /* Blockquotes */

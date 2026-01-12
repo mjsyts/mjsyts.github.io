@@ -12,7 +12,7 @@
    --------------------------------------------------------- */
 
 .page-home main {
-  max-width: 75ch;
+  max-width: 85ch;
   margin: 0 auto;
 }
 
@@ -49,6 +49,20 @@
   margin: 0 0 1.5rem;
   line-height: 1.2;
   color: var(--blue);
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+/* Subtle accent underline using chameleon colors */
+.page-home .section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue) 0%, var(--aqua) 50%, var(--indigo) 100%);
+  border-radius: 2px;
 }
 
 /* ---------------------------------------------------------
@@ -56,7 +70,7 @@
    --------------------------------------------------------- */
 
 .page-home .bio {
-  max-width: 72ch;
+  max-width: 80ch;
   font-family: var(--font-body);
   font-size: 1.05rem;
   line-height: 1.7;
@@ -80,7 +94,7 @@
    --------------------------------------------------------- */
 
 .page-home .contact-section {
-  max-width: 75ch;
+  max-width: 85ch;
   margin-left: auto;
   margin-right: auto;
   padding: 3rem 0 4rem;
@@ -130,8 +144,8 @@
 .page-home .form-row input:focus,
 .page-home .form-row textarea:focus {
   outline: none;
-  border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(67, 160, 189, 0.1);
+  border-color: var(--aqua);
+  box-shadow: 0 0 0 3px rgba(106, 188, 213, 0.1);
 }
 
 .page-home .contact-button {
@@ -158,7 +172,7 @@
   font-weight: normal;
   letter-spacing: 0.02em;
   margin-bottom: 1.5rem;
-  color: var(--text);
+  color: var(--indigo);
   text-align: center;
 }
 
@@ -182,14 +196,15 @@
    --------------------------------------------------------- */
 
 .page-home a {
-  color: inherit;
+  color: var(--blue);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
-  transition: text-decoration-thickness 0.15s ease;
+  transition: color 0.2s ease, text-decoration-thickness 0.15s ease;
 }
 
 .page-home a:hover {
+  color: var(--aqua);
   text-decoration-thickness: 2px;
 }
 
