@@ -223,6 +223,13 @@ iframe {
   min-width: 200px;
 }
 
+@media (max-width: 420px) {
+  .range.compact {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+}
+
 /* -----------------------------
    Output readouts
    ----------------------------- */
@@ -301,6 +308,16 @@ iframe {
   min-width: 0;
 }
 
+@media (max-width: 420px) {
+  .readout {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+
+  .readout-value {
+    font-size: 0.85rem;
+  }
+}
+
 .readout-item {
   background: linear-gradient(180deg, var(--panel), rgba(255, 255, 255, 0.58));
   border: 1px solid var(--border);
@@ -336,7 +353,7 @@ iframe {
 
 @media (max-width: 420px) {
   .applet {
-    padding: 0.6rem;
+    padding: 0.5rem;
   }
 
   .row {
@@ -348,8 +365,27 @@ iframe {
     min-width: 0;
   }
 
+  .row .input {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .audio-head {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .audio-title {
+    flex: 1 1 100%;
+  }
+
   .audio-meta {
     flex-wrap: wrap;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .audio-sr {
+    font-size: 0.8rem;
   }
 }
