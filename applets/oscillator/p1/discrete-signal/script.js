@@ -38,11 +38,13 @@
     if (!ctx) return;
 
     // Update time offset if playing
-    if (isPlaying && lastTime > 0) {
-      const deltaTime = (timestamp - lastTime) / 1000; // Convert to seconds
-      timeOffset += deltaTime;
+    if (isPlaying) {
+      if (lastTime > 0) {
+        const deltaTime = (timestamp - lastTime) / 1000; // Convert to seconds
+        timeOffset += deltaTime;
+      }
+      lastTime = timestamp;
     }
-    lastTime = timestamp;
 
     const width = canvas.width;
     const height = canvas.height;
