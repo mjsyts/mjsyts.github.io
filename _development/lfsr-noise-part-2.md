@@ -200,7 +200,7 @@ class LfsrNoiseProcessor extends AudioWorkletProcessor {
         defaultValue: 440,
         minValue: 0,
         maxValue: 48000,
-        automationRate: "c-rate" // we can change this later
+        automationRate: "k-rate" // we can change this later
       }
     ];
   }
@@ -216,6 +216,7 @@ class LfsrNoiseProcessor extends AudioWorkletProcessor {
     const lsb1 = (this.state >> 1) & 1;
     const fb = lsb0 ^ lsb1;
     this.state = (this.state >> 1) | (fb << 14);
+    this.state &= 0x7fff;
   }
 
   nextSample(freq, sampleRate) {
