@@ -10,10 +10,11 @@
   const nValue = document.getElementById("nValue");
   const fsValue = document.getElementById("fsValue");
   
+  const playBtn = document.getElementById("playBtn");
   const resetBtn = document.getElementById("resetBtn");
 
   // Guard: check all required elements exist
-  const required = [canvas, ctx, nRange, fsRange, nValue, fsValue, resetBtn];
+  const required = [canvas, ctx, nRange, fsRange, nValue, fsValue, playBtn, resetBtn];
   if (required.some((x) => !x)) {
     console.warn("[discrete-signal] Missing required DOM elements.");
     return;
@@ -21,43 +22,33 @@
 
   // Default values
   const DEFAULT_N = 50;
-  const DEFAULT_FS = 1.0;
-  const amplitude = 1.0; // Fixed amplitude
+  const DEFAULT_FS = 8.0;
+  const amplitude = 1.0;
+  const signalFreq = 1.0; // 1 Hz signal frequency
 
   let maxN = DEFAULT_N;
   let fs = DEFAULT_FS;
+  let timeOffset = 0;
+  let isPlaying = false;
+  let animationId = null;
+  let lastTime = 0;
 
-  // Generate discrete signal samples
-  function generateSignal(nSamples, samplingFreq, amp) {
-    const samples = [];
-    // Create a simple sinusoidal signal at a frequency relative to Fs
-    const signalFreq = samplingFreq * 0.1; // Signal frequency is 10% of sampling frequency
-    
-    for (let n = 0; n <= nSamples; n++) {
-      // Calculate time for this sample
-      const t = n / samplingFreq;
-      // Generate sinusoid with the specified amplitude
-      const value = amp * Math.sin(2 * Math.PI * signalFreq * t);
-      samples.push({ n, value });
-    }
-    
-    return samples;
-  }
-
-  // Draw the signal on canvas
-  function drawSignal() {
+  // Draw the animated signal
+  function drawSignal(timestamp = 0) {
     if (!ctx) return;
+
+    // Update time offset if playing
+    if (isPlaying && lastTime > 0) {
+      const deltaTime = (timestamp - lastTime) / 1000; // Convert to seconds
+      timeOffset += deltaTime;
+    }
+    lastTime = timestamp;
 
     const width = canvas.width;
     const height = canvas.height;
     
     // Clear canvas
     ctx.clearRect(0, 0, width, height);
-    
-    // Set up drawing style
-    ctx.fillStyle = 'rgba(17, 17, 17, 0.92)';
-    ctx.strokeStyle = 'rgba(45, 92, 140, 1)';
-    ctx.lineWidth = 2;
     
     // Margins
     const marginLeft = 60;
@@ -67,6 +58,7 @@
     
     const plotWidth = width - marginLeft - marginRight;
     const plotHeight = height - marginTop - marginBottom;
+    const centerY = marginTop + plotHeight / 2;
     
     // Draw axes
     ctx.beginPath();
@@ -74,8 +66,8 @@
     ctx.lineWidth = 2;
     
     // X-axis
-    ctx.moveTo(marginLeft, marginTop + plotHeight / 2);
-    ctx.lineTo(marginLeft + plotWidth, marginTop + plotHeight / 2);
+    ctx.moveTo(marginLeft, centerY);
+    ctx.lineTo(marginLeft + plotWidth, centerY);
     
     // Y-axis
     ctx.moveTo(marginLeft, marginTop);
@@ -93,7 +85,7 @@
     
     // X-axis label
     ctx.font = '14px system-ui, -apple-system, sans-serif';
-    ctx.fillText('n', width / 2, height - 20);
+    ctx.fillText('n (sample index)', width / 2, height - 20);
     
     // Y-axis label
     ctx.save();
@@ -102,19 +94,37 @@
     ctx.fillText('Amplitude', 0, 0);
     ctx.restore();
     
-    // Generate and draw signal
-    const samples = generateSignal(maxN, fs, amplitude);
+    // Scaling
+    const yScale = plotHeight / (2 * amplitude * 1.2);
+    const xScale = plotWidth / maxN;
     
-    // Draw stems and dots
+    // Draw continuous signal (showing what we're sampling)
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(45, 92, 140, 0.3)';
+    ctx.lineWidth = 2;
+    
+    for (let x = 0; x <= plotWidth; x += 2) {
+      const t = (x / xScale) / fs + timeOffset;
+      const value = amplitude * Math.sin(2 * Math.PI * signalFreq * t);
+      const y = centerY - value * yScale;
+      
+      if (x === 0) {
+        ctx.moveTo(marginLeft + x, y);
+      } else {
+        ctx.lineTo(marginLeft + x, y);
+      }
+    }
+    ctx.stroke();
+    
+    // Draw discrete samples (stems and dots)
     ctx.strokeStyle = 'rgba(45, 92, 140, 1)';
     ctx.fillStyle = 'rgba(45, 92, 140, 1)';
     ctx.lineWidth = 2;
     
-    const xScale = plotWidth / maxN;
-    const yScale = plotHeight / (2 * amplitude * 1.2); // Scale with some padding
-    const centerY = marginTop + plotHeight / 2;
-    
-    samples.forEach(({ n, value }) => {
+    for (let n = 0; n <= maxN; n++) {
+      const t = n / fs + timeOffset;
+      const value = amplitude * Math.sin(2 * Math.PI * signalFreq * t);
+      
       const x = marginLeft + n * xScale;
       const y = centerY - value * yScale;
       
@@ -128,15 +138,16 @@
       ctx.beginPath();
       ctx.arc(x, y, 4, 0, 2 * Math.PI);
       ctx.fill();
-    });
+    }
     
-    // Draw tick marks and labels on x-axis
+    // Draw tick marks on x-axis
     ctx.fillStyle = 'rgba(17, 17, 17, 0.62)';
     ctx.font = '11px system-ui, -apple-system, sans-serif';
     ctx.textAlign = 'center';
+    ctx.strokeStyle = 'rgba(17, 17, 17, 0.62)';
+    ctx.lineWidth = 1;
     
-    const numTicks = Math.min(10, maxN);
-    const tickStep = Math.floor(maxN / numTicks);
+    const tickStep = Math.max(1, Math.floor(maxN / 10));
     
     for (let i = 0; i <= maxN; i += tickStep) {
       const x = marginLeft + i * xScale;
@@ -153,7 +164,7 @@
       }
     }
     
-    // Draw tick marks and labels on y-axis
+    // Draw tick marks on y-axis
     ctx.textAlign = 'right';
     const yTicks = [-amplitude, 0, amplitude];
     
@@ -169,6 +180,11 @@
       // Label
       ctx.fillText(val.toFixed(1), marginLeft - 10, y + 4);
     });
+    
+    // Continue animation if playing
+    if (isPlaying) {
+      animationId = requestAnimationFrame(drawSignal);
+    }
   }
 
   // Update display values
@@ -177,25 +193,56 @@
     fsValue.textContent = `${fs.toFixed(1)} Hz`;
   }
 
+  // Play/pause toggle
+  function togglePlay() {
+    isPlaying = !isPlaying;
+    
+    if (isPlaying) {
+      playBtn.textContent = 'pause';
+      lastTime = performance.now();
+      animationId = requestAnimationFrame(drawSignal);
+    } else {
+      playBtn.textContent = 'play';
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
+    }
+  }
+
   // Event handlers
   nRange.addEventListener('input', () => {
     maxN = parseInt(nRange.value, 10);
     updateDisplayValues();
-    drawSignal();
+    if (!isPlaying) {
+      drawSignal();
+    }
   });
 
   fsRange.addEventListener('input', () => {
     fs = parseFloat(fsRange.value);
     updateDisplayValues();
-    drawSignal();
+    if (!isPlaying) {
+      drawSignal();
+    }
   });
 
+  playBtn.addEventListener('click', togglePlay);
+
   resetBtn.addEventListener('click', () => {
+    // Stop animation
+    if (isPlaying) {
+      togglePlay();
+    }
+    
+    // Reset values
     nRange.value = DEFAULT_N;
     fsRange.value = DEFAULT_FS;
     
     maxN = DEFAULT_N;
     fs = DEFAULT_FS;
+    timeOffset = 0;
+    lastTime = 0;
     
     updateDisplayValues();
     drawSignal();
