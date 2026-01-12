@@ -14,7 +14,7 @@ class LfsrNoiseProcessor extends AudioWorkletProcessor {
         defaultValue: 440,
         minValue: 0,
         maxValue: 48000,
-        automationRate: "c-rate"
+        automationRate: "k-rate"
       }
     ];
   }

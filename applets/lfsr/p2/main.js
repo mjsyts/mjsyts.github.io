@@ -2,9 +2,8 @@
 (() => {
   const $ = (id) => document.getElementById(id);
 
-  // Support either id scheme
-  const startBtn = $("start") || $("startBtn");
-  const stopBtn  = $("stop")  || $("stopBtn");
+  const startBtn = $("start");
+  const stopBtn  = $("stop");
 
   const srEl     = $("sr");
   const statusEl = $("status"); // optional
@@ -111,12 +110,14 @@
 
   amp.addEventListener("input", () => {
     updateReadouts();
-    if (node) node.parameters.get(PARAM_AMP).value = Number(amp.value);
+    const p = node?.parameters.get(PARAM_AMP);
+    if (p) p.value = Number(amp.value);
   });
 
   freq.addEventListener("input", () => {
     updateReadouts();
-    if (node) node.parameters.get(PARAM_FREQ).value = Number(freq.value);
+    const p = node?.parameters.get(PARAM_FREQ);
+    if (p) p.value = Number(freq.value);
   });
 
   // initial UI
