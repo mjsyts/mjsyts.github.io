@@ -6,16 +6,14 @@
 
   const nRange = document.getElementById("nRange");
   const fsRange = document.getElementById("fsRange");
-  const ampRange = document.getElementById("ampRange");
   
   const nValue = document.getElementById("nValue");
   const fsValue = document.getElementById("fsValue");
-  const ampValue = document.getElementById("ampValue");
   
   const resetBtn = document.getElementById("resetBtn");
 
   // Guard: check all required elements exist
-  const required = [canvas, ctx, nRange, fsRange, ampRange, nValue, fsValue, ampValue, resetBtn];
+  const required = [canvas, ctx, nRange, fsRange, nValue, fsValue, resetBtn];
   if (required.some((x) => !x)) {
     console.warn("[discrete-signal] Missing required DOM elements.");
     return;
@@ -24,11 +22,10 @@
   // Default values
   const DEFAULT_N = 50;
   const DEFAULT_FS = 1.0;
-  const DEFAULT_AMP = 1.0;
+  const amplitude = 1.0; // Fixed amplitude
 
   let maxN = DEFAULT_N;
   let fs = DEFAULT_FS;
-  let amplitude = DEFAULT_AMP;
 
   // Generate discrete signal samples
   function generateSignal(nSamples, samplingFreq, amp) {
@@ -178,7 +175,6 @@
   function updateDisplayValues() {
     nValue.textContent = `0 to ${maxN}`;
     fsValue.textContent = `${fs.toFixed(1)} Hz`;
-    ampValue.textContent = amplitude.toFixed(1);
   }
 
   // Event handlers
@@ -194,20 +190,12 @@
     drawSignal();
   });
 
-  ampRange.addEventListener('input', () => {
-    amplitude = parseFloat(ampRange.value);
-    updateDisplayValues();
-    drawSignal();
-  });
-
   resetBtn.addEventListener('click', () => {
     nRange.value = DEFAULT_N;
     fsRange.value = DEFAULT_FS;
-    ampRange.value = DEFAULT_AMP;
     
     maxN = DEFAULT_N;
     fs = DEFAULT_FS;
-    amplitude = DEFAULT_AMP;
     
     updateDisplayValues();
     drawSignal();
