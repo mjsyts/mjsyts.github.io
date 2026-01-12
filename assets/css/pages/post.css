@@ -308,3 +308,315 @@ article .callout > :last-child {
   margin-bottom: 0;
 }
 
+
+/* Prose / post content polish */
+
+.post,
+article {
+  max-width: 680px;
+}
+
+.post p,
+article p {
+  line-height: 1.65;
+  margin: 0 0 1rem;
+}
+
+/* Tighter spacing for applets in posts */
+.post .applet,
+article .applet {
+  margin: 1.5rem 0;
+}
+
+.post a,
+article a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+.post code,
+article code {
+  font-family: var(--code-font);
+  font-size: 0.95em;
+}
+
+.post,
+article {
+  /* Palette-driven tokens */
+  --prose-bg: var(--bg);
+  --prose-text: var(--text);
+  --prose-muted: var(--text-secondary);
+
+  /* Subtle surfaces/borders derived from your bg/text */
+  --prose-border: color-mix(in srgb, var(--text) 14%, var(--clear));
+  --prose-surface: color-mix(in srgb, var(--bg) 92%, var(--aqua) 8%);
+  --prose-surface-2: color-mix(in srgb, var(--bg) 92%, var(--green) 8%);
+
+  --prose-radius: 12px;
+
+  color: var(--prose-text);
+}
+
+/* Slightly improved default type rendering */
+.post,
+article {
+  font-family: var(--font-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-kerning: normal;
+}
+
+/* Headings: display font + brand-tinted separators */
+.post :is(h1, h2, h3, h4),
+article :is(h1, h2, h3, h4) {
+  font-family: var(--font-display);
+  color: var(--prose-text);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 2.2rem 0 0.75rem;
+  text-wrap: balance;
+}
+
+.post h1,
+article h1 {
+  font-size: clamp(2rem, 3.4vw, 2.6rem);
+  margin-top: 0.5rem;
+}
+
+.post h2,
+article h2 {
+  font-size: clamp(1.45rem, 2.4vw, 1.85rem);
+  margin-top: 2.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid color-mix(in srgb, var(--prose-border) 70%, var(--aqua) 30%);
+}
+
+.post h3,
+article h3 {
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
+.post h4,
+article h4 {
+  font-size: 1.05rem;
+  margin-top: 1.5rem;
+  color: var(--prose-muted);
+}
+
+/* Anchored headings: don’t hide under sticky header (if any) */
+.post :is(h2, h3, h4)[id],
+article :is(h2, h3, h4)[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+/* Body text rhythm */
+.post :is(p, ul, ol, pre, blockquote, figure, table),
+article :is(p, ul, ol, pre, blockquote, figure, table) {
+  margin: 0 0 1rem;
+}
+
+.post :is(p, li),
+article :is(p, li) {
+  line-height: 1.7;
+  color: var(--prose-text);
+}
+
+/* Secondary text elements */
+.post :is(small, figcaption),
+article :is(small, figcaption) {
+  color: var(--prose-muted);
+}
+
+/* Links: brand-colored underline + hover */
+.post a,
+article a {
+  color: inherit;
+  text-decoration-color: color-mix(in srgb, var(--blue) 55%, var(--clear));
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .post a:hover,
+  article a:hover {
+    text-decoration-color: color-mix(in srgb, var(--aqua) 75%, var(--clear));
+    text-decoration-thickness: 2px;
+  }
+}
+
+/* Better selection for prose */
+.post ::selection,
+article ::selection {
+  background: color-mix(in srgb, var(--gold) 35%, var(--clear));
+}
+
+/* Lists */
+.post :is(ul, ol),
+article :is(ul, ol) {
+  padding-left: 1.25rem;
+  margin: 0 0 1.1rem;
+}
+
+.post li,
+article li {
+  margin: 0.25rem 0;
+}
+
+.post li::marker,
+article li::marker {
+  color: color-mix(in srgb, var(--indigo) 70%, var(--clear));
+}
+
+/* HR */
+.post hr,
+article hr {
+  border: 0;
+  border-top: 1px solid var(--prose-border);
+  margin: 2rem 0;
+}
+
+/* Inline code */
+.post :not(pre) > code,
+article :not(pre) > code {
+  font-family: var(--code-font);
+  font-size: 0.95em;
+  padding: 0.12em 0.38em;
+  border: 1px solid var(--prose-border);
+  background: color-mix(in srgb, var(--bg) 88%, var(--indigo) 12%);
+  border-radius: 8px;
+  white-space: break-spaces;
+}
+
+/* Code blocks */
+.post pre,
+article pre {
+  margin: 1.25rem 0 1.5rem;
+  padding: 1rem 1.05rem;
+  overflow: auto;
+  border: 1px solid var(--prose-border);
+  background: color-mix(in srgb, var(--bg) 86%, var(--indigo) 14%);
+  border-radius: var(--prose-radius);
+}
+
+.post pre code,
+article pre code {
+  font-family: var(--code-font);
+  font-size: 0.9em;
+  line-height: 1.55;
+  display: block;
+}
+
+.post blockquote,
+article blockquote {
+  margin: 1.25rem 0;
+  padding: 0.95rem 1rem;
+  border-radius: var(--prose-radius);
+  border: 1px solid color-mix(in srgb, var(--aqua) 35%, var(--prose-border));
+  background: var(--prose-surface);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--gold) 25%, var(--clear)) inset;
+}
+
+.post blockquote p,
+article blockquote p {
+  margin-bottom: 0.75rem;
+}
+
+.post blockquote p:last-child,
+article blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.post blockquote cite,
+article blockquote cite {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 0.95em;
+  color: var(--prose-muted);
+}
+
+/* Images + figures */
+.post img,
+article img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+}
+
+.post figure,
+article figure {
+  margin: 1.5rem 0;
+}
+
+.post figcaption,
+article figcaption {
+  margin-top: 0.65rem;
+  font-size: 0.95em;
+}
+
+/* Tables: clean, readable */
+.post table,
+article table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--prose-border);
+  border-radius: var(--prose-radius);
+  overflow: hidden;
+  margin: 1.25rem 0 1.5rem;
+  background: color-mix(in srgb, var(--bg) 94%, var(--clear));
+}
+
+.post th,
+.post td,
+article th,
+article td {
+  padding: 0.6rem 0.7rem;
+  border-bottom: 1px solid var(--prose-border);
+  vertical-align: top;
+}
+
+.post th,
+article th {
+  text-align: left;
+  font-family: var(--font-ui);
+  font-weight: 650;
+  background: color-mix(in srgb, var(--bg) 90%, var(--green) 10%);
+}
+
+.post tr:last-child td,
+article tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Optional: wrap wide tables in a container if you want horizontal scroll on mobile */
+.post .table-wrap,
+article .table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* “Lead” paragraph helper (optional in markdown/html) */
+.post .lead,
+article .lead {
+  font-size: 1.08rem;
+  color: var(--prose-muted);
+  margin-bottom: 1.25rem;
+}
+
+/* Callout helper (optional) */
+.post .callout,
+article .callout {
+  border: 1px solid color-mix(in srgb, var(--green) 35%, var(--prose-border));
+  background: var(--prose-surface-2);
+  border-radius: var(--prose-radius);
+  padding: 0.9rem 1rem;
+  margin: 1.25rem 0;
+}
+
+.post .callout > :last-child,
+article .callout > :last-child {
+  margin-bottom: 0;
+}
+
+
