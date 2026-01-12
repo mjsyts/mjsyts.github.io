@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Discrete Time Oscillator</title>
+
+  <link rel="stylesheet" href="/applets/shared/applet-theme.css">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body class="applet applet--oscillator" role="application" aria-label="Discrete Time Oscillator Visualization">
+  <div class="applet-wrap">
+    <main class="app-main">
+
+      <section class="panel panel--padded intro" aria-label="Introduction">
+        <h1 class="intro-title">Discrete Time Oscillator</h1>
+        <p class="intro-text">
+          <span class="color-label blue">Blue</span> shows the continuous sine wave.
+          <span class="color-label red">Red</span> shows discrete samples taken at regular intervals.
+          The highlighted sample is the current position.
+        </p>
+      </section>
+
+      <section class="surface canvas-container" aria-label="Oscillator visualization">
+        <canvas id="oscillatorCanvas" aria-label="Visual representation of continuous and discrete sine waves"></canvas>
+      </section>
+
+      <section class="panel panel--padded controls" aria-label="Controls">
+        <div class="control-row">
+          <div class="btn-group" role="group" aria-label="Transport controls">
+            <button id="playBtn" class="btn primary" type="button" aria-label="Play animation">play</button>
+            <button id="pauseBtn" class="btn" type="button" aria-label="Pause animation">pause</button>
+          </div>
+
+          <span class="label">sample rate</span>
+          <input
+            id="sampleRateSlider"
+            class="range"
+            type="range"
+            min="4"
+            max="32"
+            value="8"
+            step="1"
+            aria-label="Sample rate slider"
+          />
+          <span class="audio-val" id="sampleRateValue">8 Hz</span>
+        </div>
+
+        <div class="control-row" id="scrubberRow" style="display: none;">
+          <span class="label">sample n</span>
+          <input
+            id="sampleIndexSlider"
+            class="range"
+            type="range"
+            min="0"
+            max="15"
+            value="0"
+            step="1"
+            aria-label="Sample index scrubber"
+          />
+          <span class="audio-val" id="sampleIndexValue">0</span>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script defer src="./main.js"></script>
+</body>
+</html>
