@@ -20,9 +20,9 @@ let animationFrameId = null;
 let lastTimestamp = 0;
 
 // Constants
-const FREQUENCY = 1; // Hz (fixed at 1 Hz)
+const FREQUENCY = 1; // Hz - frequency of the sine wave being visualized
 const WINDOW_DURATION = 2; // seconds (two cycles at 1 Hz)
-const ADVANCE_RATE = 2; // samples per second when playing
+const ADVANCE_RATE = 2; // animation advance rate in samples per second for visual progression
 
 // Colors
 const CONTINUOUS_COLOR = 'rgba(45, 92, 140, 1)'; // --accent
@@ -161,7 +161,6 @@ function updateSampleRate() {
     currentSampleIndex = 0;
   }
   
-  currentSampleIndex = Math.floor(currentSampleIndex);
   sampleIndexSlider.value = currentSampleIndex;
   sampleIndexValue.textContent = currentSampleIndex;
   
