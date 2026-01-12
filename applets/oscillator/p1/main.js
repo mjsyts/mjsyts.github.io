@@ -25,9 +25,9 @@ const WINDOW_DURATION = 2; // seconds (two cycles at 1 Hz)
 const ADVANCE_RATE = 2; // animation advance rate in samples per second for visual progression
 
 // Colors
-const CONTINUOUS_COLOR = 'rgba(45, 92, 140, 1)'; // --accent
-const SAMPLE_COLOR = 'rgba(220, 38, 38, 1)'; // red
-const HIGHLIGHT_COLOR = 'rgba(220, 38, 38, 1)'; // red highlight
+const CONTINUOUS_COLOR = '#7191AF'; // --indigo
+const SAMPLE_COLOR = '#DE8D74'; // --coral
+const HIGHLIGHT_COLOR = '#DE8D74'; // --coral highlight
 const GRID_COLOR = 'rgba(17, 17, 17, 0.1)'; // light grid
 
 // Initialize canvas size
@@ -203,8 +203,8 @@ function pause() {
   
   // Update scrubber (floor the index since it's a float during animation)
   currentSampleIndex = Math.floor(currentSampleIndex);
-  sampleIndexSlider.value = currentSampleIndex;
   sampleIndexValue.textContent = currentSampleIndex;
+  sampleIndexSlider.value = currentSampleIndex;
 }
 
 // Animation loop
