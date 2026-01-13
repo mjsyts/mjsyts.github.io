@@ -257,13 +257,9 @@ registerProcessor("lfsr-noise", LfsrNoiseProcessor);
 
 ## Demo: WebAudio Noise with a Frequency Slider
 
-<iframe class="applet__frame"
-        src="/applets/lfsr/p2/"
-        title="LFSR Noise — Frequency Control"
-        loading="lazy"
-        scrolling="no"
-        allow="autoplay">
-</iframe>
+<div class="applet lfsr15-audio">
+  <iframe class="applet__frame" src="/applets/lfsr/p2/index.html" loading="lazy"></iframe>
+</div>
 
 ## What’s Next
 
