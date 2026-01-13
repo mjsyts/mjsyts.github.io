@@ -4,7 +4,7 @@ title: "Oscillators — Part 1: Oscillators in Discrete Time"
 date: 2025-01-12
 series: "Oscillators"
 part: 1
-published: false
+published: true
 tags: [dsp, oscillator, synthesis, webaudio, c++]
 excerpt: "EXCERPT_PLACEHOLDER"
 ---
