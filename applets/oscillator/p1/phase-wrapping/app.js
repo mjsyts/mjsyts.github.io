@@ -50,8 +50,7 @@ const colors = {
   text: 'rgba(255, 255, 255, 0.65)'
 };
 
-// The visual sample rate is intentionally low so individual sample updates are visible,
-// while still using the same phase-accumulator math found in audio DSP.
+// The visual sample rate is intentionally low to make each sample update visible.
 function updateParams() {
   state.fsVis = Number(elements.fsSelect.value);
   state.forceExact = elements.forceExact.checked;
@@ -107,7 +106,6 @@ function updateReadouts() {
 }
 
 function stepSample() {
-  const currentIndex = state.n;
   state.phase += state.phaseIncrement;
   let wrapped = false;
   if (state.phase >= 1) {
@@ -127,7 +125,7 @@ function stepSample() {
     state.wrapHistory.shift();
   }
 
-  state.n = currentIndex + 1;
+  state.n += 1;
 }
 
 function stepMany(k) {
@@ -163,7 +161,7 @@ function resizeCanvas(canvas) {
 }
 
 function drawAxes(ctx, width, height, yMin, yMax, label) {
-  const padding = 30;
+  const padding = 28;
   ctx.save();
   ctx.strokeStyle = colors.axis;
   ctx.lineWidth = 1;
@@ -176,7 +174,7 @@ function drawAxes(ctx, width, height, yMin, yMax, label) {
 
   ctx.fillStyle = colors.text;
   ctx.font = '12px var(--ui, sans-serif)';
-  ctx.fillText(label, padding + 8, padding + 12);
+  ctx.fillText(label, padding + 6, padding + 12);
   ctx.fillText(yMax.toFixed(1), 6, padding + 6);
   ctx.fillText(yMin.toFixed(1), 6, height - padding + 12);
   ctx.restore();
@@ -194,9 +192,7 @@ function drawPhasePlot() {
   const plotHeight = height - padding * 2;
   const count = state.phaseHistory.length;
 
-  if (count < 2) {
-    return;
-  }
+  if (count < 2) return;
 
   const offset = Math.max(0, state.windowSize - count);
 
@@ -233,23 +229,20 @@ function drawGridPlot() {
   const { padding } = drawAxes(ctx, width, height, 0, 1, 'wrap grid');
   const plotWidth = width - padding * 2;
   const plotHeight = height - padding * 2;
-  const count = state.windowSize;
   const markerY = padding + plotHeight / 2;
 
   ctx.fillStyle = colors.grid;
-  for (let i = 0; i < count; i += 1) {
-    const x = padding + (i / (count - 1)) * plotWidth;
+  for (let i = 0; i < state.windowSize; i += 1) {
+    const x = padding + (i / (state.windowSize - 1)) * plotWidth;
     ctx.beginPath();
     ctx.arc(x, markerY, 2, 0, TAU);
     ctx.fill();
   }
 
-  const dataCount = state.wrapHistory.length;
-  if (dataCount === 0) {
-    return;
-  }
+  const count = state.wrapHistory.length;
+  if (count === 0) return;
 
-  const offset = Math.max(0, state.windowSize - dataCount);
+  const offset = Math.max(0, state.windowSize - count);
   ctx.fillStyle = colors.wrap;
   state.wrapHistory.forEach((wrapped, i) => {
     if (!wrapped) return;
@@ -270,9 +263,7 @@ function drawWavePlot() {
   const plotHeight = height - padding * 2;
   const count = state.yHistory.length;
 
-  if (count < 2) {
-    return;
-  }
+  if (count < 2) return;
 
   const offset = Math.max(0, state.windowSize - count);
 

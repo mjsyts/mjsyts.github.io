@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Phase Wrapping</title>
+  <link rel="stylesheet" href="/applets/shared/applet-theme.css" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="applet applet--oscillator" role="application" aria-label="Phase wrapping visualization">
+  <div class="applet-wrap">
+    <main class="app-main">
+      <section class="panel panel--padded intro" aria-label="Introduction">
+        <h1 class="intro-title">Phase Wrapping</h1>
+        <p class="intro-text">
+          A minimal visualization of a discrete-time phase accumulator. The math matches audio DSP,
+          but the visual sample rate is deliberately low so you can see each sample update.
+        </p>
+      </section>
+
+      <section class="panel panel--padded controls" aria-label="Controls">
+        <div class="control-row">
+          <label for="fsSelect">Visual sample rate (samples/sec)</label>
+          <select id="fsSelect">
+            <option value="200">200</option>
+            <option value="500">500</option>
+            <option value="1000" selected>1000</option>
+            <option value="2000">2000</option>
+          </select>
+        </div>
+
+        <div class="control-row">
+          <label for="freqSlider">Frequency f (Hz)</label>
+          <div class="inline-controls">
+            <input id="freqSlider" type="range" min="0.1" max="20" step="0.1" value="2" />
+            <input id="freqInput" type="number" min="0.1" max="20" step="0.1" value="2" />
+            <select id="freqPreset" aria-label="Frequency presets">
+              <option value="">presets</option>
+              <option value="0.5">0.5 Hz</option>
+              <option value="1">1 Hz</option>
+              <option value="2">2 Hz</option>
+              <option value="5">5 Hz</option>
+              <option value="10">10 Hz</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <label for="forceExact">Force exact period</label>
+          <label class="toggle">
+            <input id="forceExact" type="checkbox" />
+            <span>Exact sample periodicity</span>
+          </label>
+        </div>
+
+        <div class="control-row">
+          <label for="windowSelect">History window (samples)</label>
+          <select id="windowSelect">
+            <option value="256">256</option>
+            <option value="512" selected>512</option>
+            <option value="1024">1024</option>
+            <option value="2048">2048</option>
+          </select>
+        </div>
+
+        <div class="control-row">
+          <label for="speedSlider">Samples per frame</label>
+          <input id="speedSlider" type="range" min="1" max="50" step="1" value="5" />
+        </div>
+
+        <div class="transport">
+          <button id="playBtn" class="btn primary" type="button">Play</button>
+          <button id="pauseBtn" class="btn" type="button">Pause</button>
+          <button id="stepBtn" class="btn" type="button">Step</button>
+          <button id="resetBtn" class="btn" type="button">Reset</button>
+        </div>
+      </section>
+
+      <section class="panel panel--padded readouts" aria-label="Readouts">
+        <div class="readout-grid">
+          <div><span>phaseIncrement</span><span id="phaseIncrementReadout"></span></div>
+          <div><span>N = Fs_vis / f</span><span id="nReadout"></span></div>
+          <div><span>N_int</span><span id="nIntReadout"></span></div>
+          <div><span>Sample-periodic</span><span id="periodicReadout"></span></div>
+          <div><span>current phase</span><span id="phaseReadout"></span></div>
+          <div><span>sample index n</span><span id="sampleReadout"></span></div>
+          <div><span>requested f</span><span id="freqReadout"></span></div>
+          <div><span>effective f_eff</span><span id="freqEffReadout"></span></div>
+        </div>
+      </section>
+
+      <section class="panel panel--padded canvases" aria-label="Visualization panels">
+        <div class="canvas-panel">
+          <h2>Phase vs sample index</h2>
+          <canvas id="phaseCanvas"></canvas>
+        </div>
+        <div class="canvas-panel">
+          <h2>Wrap alignment vs sample grid</h2>
+          <canvas id="gridCanvas"></canvas>
+        </div>
+        <div class="canvas-panel">
+          <h2>Output waveform y[n] = sin(2π·phase[n])</h2>
+          <canvas id="waveCanvas"></canvas>
+        </div>
+      </section>
+
+      <p class="caption">
+        This visualization advances a phase accumulator sample by sample. When the period is not an integer number
+        of samples, wrap points drift relative to the sample grid.
+      </p>
+    </main>
+  </div>
+
+  <script defer src="./app.js"></script>
+</body>
+</html>
