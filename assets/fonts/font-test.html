@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OC Pickle Local Tester</title>
+    <style>
+        @font-face {
+            font-family: 'Pickllle';
+            /* This will load from the same folder as this HTML file */
+            src: url('Pickllle.ttf') format('truetype');
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg:  #FAF9F6;
+            --text: #1A1A1A;
+            --text-secondary: #4A4A4A;
+            --blue: #43A0BD;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            padding: 2rem;
+            background:  var(--bg);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        page-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--blue);
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* CONTROLS PANEL */
+        .controls {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow:  0 2px 8px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        .value-display {
+            font-family: monospace;
+            color: var(--blue);
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance:  none;
+            width: 18px;
+            height: 18px;
+            border-radius:  50%;
+            background: var(--blue);
+            cursor:  pointer;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius:  50%;
+            background: var(--blue);
+            cursor:  pointer;
+            border: none;
+        }
+
+        .preset-buttons {
+            display: grid;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .preset-btn,
+        .reset-btn {
+            padding: 0.65rem;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover,
+        .reset-btn:hover {
+            background: #f5f5f5;
+            border-color: var(--blue);
+        }
+
+        .preset-btn.current {
+            background: var(--blue);
+            color: white;
+            border-color: var(--blue);
+        }
+
+        .reset-btn {
+            background: var(--blue);
+            color: white;
+            border-color: var(--blue);
+            font-weight: 600;
+        }
+
+        /* PREVIEW AREA */
+        .previews {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .preview-card {
+            background:  white;
+            padding: 2rem;
+            border-radius:  12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .preview-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .brand-preview {
+            font-family: 'Pickllle', sans-serif;
+            font-size: 2.6rem;
+            color: var(--blue);
+            letter-spacing: 0.04em;
+            text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
+            line-height: 1.2;
+        }
+
+        .h1-preview {
+            font-family: 'Pickllle', sans-serif;
+            font-size: 2.6rem;
+            color: var(--blue);
+            letter-spacing: 0.04em;
+            line-height: 1.2;
+        }
+
+        .h2-preview {
+            font-family: 'Pickllle', sans-serif;
+            font-size: 2rem;
+            color: var(--blue);
+            letter-spacing: 0.04em;
+            line-height: 1.3;
+        }
+
+        .context-preview {
+            background: linear-gradient(135deg, #43A0BD 0%, #6ABCD5 100%);
+            color:  white;
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .context-preview .brand-preview {
+            color: white;
+            text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.2);
+            margin-bottom: 0.5rem;
+        }
+
+        .context-tagline {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            letter-spacing: 0.04em;
+        }
+
+        .css-output {
+            background: #1e1e1e;
+            color:  #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+
+        .css-output code {
+            color: #ce9178;
+        }
+
+        .recommendations {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top:  2rem;
+        }
+
+        .recommendations h3 {
+            color:  #92400e;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .rec-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .rec-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .rec-title {
+            font-weight: 600;
+            color:  #78350f;
+            margin-bottom: 0.25rem;
+        }
+
+        .rec-desc {
+            color:  #92400e;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1024px) {
+            .layout {
+                grid-template-columns:  1fr;
+            }
+
+            .controls {
+                position: relative;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-title">🥒 OC Pickle Font Variation Tester</h1>
+        <p class="subtitle">Testing variations for mjsyts.com brand identity</p>
+
+        <div class="layout">
+            <!-- CONTROLS SIDEBAR -->
+            <div class="controls">
+                <div class="control-group">
+                    <div class="control-header">
+                        <label for="jmbl">JMBL (Jumble)</label>
+                        <span class="value-display" id="jmbl-value">206</span>
+                    </div>
+                    <input type="range" id="jmbl" min="0" max="1000" value="206" step="1">
+                </div>
+
+                <div class="control-group">
+                    <div class="control-header">
+                        <label for="cout">COUT (Cutout)</label>
+                        <span class="value-display" id="cout-value">225</span>
+                    </div>
+                    <input type="range" id="cout" min="0" max="1000" value="225" step="1">
+                </div>
+
+                <div class="control-group">
+                    <div class="control-header">
+                        <label for="stgr">STGR (Stagger)</label>
+                        <span class="value-display" id="stgr-value">111</span>
+                    </div>
+                    <input type="range" id="stgr" min="0" max="1000" value="111" step="1">
+                </div>
+
+                <div class="preset-buttons">
+                    <button class="preset-btn current" onclick="setPreset(206, 225, 111)">
+                        🔵 Current (Your Site)
+                    </button>
+                    <button class="preset-btn" onclick="setPreset(206, 400, 111)">
+                        ✂️ More Cutout (+175)
+                    </button>
+                    <button class="preset-btn" onclick="setPreset(206, 600, 111)">
+                        📄 Heavy Cutout (+375)
+                    </button>
+                    <button class="preset-btn" onclick="setPreset(150, 225, 111)">
+                        🧘 Less Jumble (-56)
+                    </button>
+                    <button class="preset-btn" onclick="setPreset(300, 300, 200)">
+                        🎨 Experimental
+                    </button>
+                    <button class="preset-btn" onclick="setPreset(0, 0, 0)">
+                        ⚪ Baseline (No variation)
+                    </button>
+                </div>
+
+                <button class="reset-btn" onclick="setPreset(206, 225, 111)">
+                    Reset to Current
+                </button>
+            </div>
+
+            <!-- PREVIEW AREA -->
+            <div class="previews">
+                <div class="preview-card context-preview">
+                    <div class="preview-label" style="color: white; opacity: 0.8;">Hero / Banner Context</div>
+                    <div class="brand-preview" id="context-preview">
+                        M.  Josiah Sytsma
+                    </div>
+                    <div class="context-tagline">
+                        Adaptive by nature.  Meticulous in craft.
+                    </div>
+                </div>
+
+                <div class="preview-card">
+                    <div class="preview-label">Brand Title (Current Usage)</div>
+                    <div class="brand-preview" id="brand-preview">
+                        M. Josiah Sytsma
+                    </div>
+                </div>
+
+                <div class="preview-card">
+                    <div class="preview-label">H1 - Page Headers</div>
+                    <div class="h1-preview" id="h1-preview">
+                        Sound Design Portfolio
+                    </div>
+                </div>
+
+                <div class="preview-card">
+                    <div class="preview-label">H2 - Section Headers</div>
+                    <div class="h2-preview" id="h2-preview">
+                        About • Development • Contact
+                    </div>
+                </div>
+
+                <div class="css-output">
+                    <strong>CSS for header.css (.brand-title):</strong><br><br>
+                    <code id="css-code">
+                        font-variation-settings: <br>
+                        &nbsp;&nbsp;"JMBL" 206,<br>
+                        &nbsp;&nbsp;"COUT" 225,<br>
+                        &nbsp;&nbsp;"STGR" 111;
+                    </code>
+                </div>
+
+                <div class="recommendations">
+                    <h3>💡 My Design Recommendations</h3>
+                    
+                    <div class="rec-item">
+                        <div class="rec-title">🎯 For Headers:  Increase COUT to 400-500</div>
+                        <div class="rec-desc">
+                            You're right!  More cutout gives that "paper craft" aesthetic which fits your chameleon logo perfectly. Try the "More Cutout" preset above.
+                        </div>
+                    </div>
+
+                    <div class="rec-item">
+                        <div class="rec-title">⚖️ Keep JMBL moderate (150-250)</div>
+                        <div class="rec-desc">
+                            Your current 206 is good.  Too high makes it hard to read, especially for names. This range maintains personality without sacrificing legibility.
+                        </div>
+                    </div>
+
+                    <div class="rec-item">
+                        <div class="rec-title">📐 STGR at 100-150 is safe</div>
+                        <div class="rec-desc">
+                            Current 111 works well.  Stagger adds organic movement but too much disrupts baseline alignment. Stay in this range. 
+                        </div>
+                    </div>
+
+                    <div class="rec-item">
+                        <div class="rec-title">✅ My Recommended Values</div>
+                        <div class="rec-desc">
+                            <strong>JMBL:  206</strong> (keep as is)<br>
+                            <strong>COUT: 400-450</strong> (increase for that paper cutout look)<br>
+                            <strong>STGR:  111</strong> (keep as is)<br><br>
+                            This enhances the "handcrafted" feel without compromising readability. 
+                        </div>
+                    </div>
+
+                    <div class="rec-item">
+                        <div class="rec-title">🎨 Design System Approach</div>
+                        <div class="rec-desc">
+                            • Use <strong>same variation</strong> for all H1-H3 headers (consistency)<br>
+                            • Keep body text in Inter (your current font-body)<br>
+                            • Reserve Pickllle for brand + headers only<br>
+                            • Test on mobile - that's where readability breaks down first
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const jmblInput = document.getElementById('jmbl');
+        const coutInput = document.getElementById('cout');
+        const stgrInput = document.getElementById('stgr');
+        
+        const jmblValue = document.getElementById('jmbl-value');
+        const coutValue = document.getElementById('cout-value');
+        const stgrValue = document.getElementById('stgr-value');
+        
+        const brandPreview = document.getElementById('brand-preview');
+        const contextPreview = document.getElementById('context-preview');
+        const h1Preview = document.getElementById('h1-preview');
+        const h2Preview = document.getElementById('h2-preview');
+        const cssCode = document.getElementById('css-code');
+
+        function updateFontVariation() {
+            const jmbl = jmblInput.value;
+            const cout = coutInput.value;
+            const stgr = stgrInput.value;
+            
+            jmblValue.textContent = jmbl;
+            coutValue.textContent = cout;
+            stgrValue.textContent = stgr;
+            
+            const variationSettings = `"JMBL" ${jmbl}, "COUT" ${cout}, "STGR" ${stgr}`;
+            
+            brandPreview.style.fontVariationSettings = variationSettings;
+            contextPreview.style.fontVariationSettings = variationSettings;
+            h1Preview.style.fontVariationSettings = variationSettings;
+            h2Preview.style.fontVariationSettings = variationSettings;
+            
+            cssCode.innerHTML = `
+                font-variation-settings: <br>
+                &nbsp;&nbsp;"JMBL" ${jmbl},<br>
+                &nbsp;&nbsp;"COUT" ${cout},<br>
+                &nbsp;&nbsp;"STGR" ${stgr};
+            `;
+
+            // Update preset button states
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                btn.classList.remove('current');
+            });
+        }
+
+        function setPreset(jmbl, cout, stgr) {
+            jmblInput.value = jmbl;
+            coutInput.value = cout;
+            stgrInput.value = stgr;
+            updateFontVariation();
+        }
+
+        jmblInput.addEventListener('input', updateFontVariation);
+        coutInput.addEventListener('input', updateFontVariation);
+        stgrInput.addEventListener('input', updateFontVariation);
+
+        // Initialize
+        updateFontVariation();
+    </script>
+</body>
+</html>
