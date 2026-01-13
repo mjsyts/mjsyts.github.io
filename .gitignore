@@ -10,3 +10,6 @@ _site/
 # OS / editor
 .DS_Store
 vendor/
+
+# Licensed fonts (do not redistribute!)
+assets/fonts/Pickllle.ttf
