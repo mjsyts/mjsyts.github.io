@@ -8,13 +8,21 @@
 }
 
 .site-nav a {
+  /* ADD PICKLLLE for navigation with subtle variation */
+  font-family: var(--font-display);
+  font-variation-settings:
+    "JMBL" var(--pickllle-accent-jmbl),
+    "COUT" var(--pickllle-accent-cout),
+    "STGR" var(--pickllle-accent-stgr);
   text-decoration: none;
-  font-weight: 600;
-  letter-spacing: .03em;
+  font-weight: normal;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
   color: inherit;
   opacity: .75;
   padding: .15rem 0;
   position: relative;
+  transition: opacity 0.2s ease;
 }
 
 .site-nav a:hover,
