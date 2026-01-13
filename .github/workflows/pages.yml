@@ -1,0 +1,58 @@
+name: Build and deploy Jekyll site to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout site repo
+        uses: actions/checkout@v4
+
+      - name: Checkout private assets repo
+        uses: actions/checkout@v4
+        with:
+          repository: mjsyts/mjsyts-private-assets
+          token: ${{ secrets.PRIVATE_ASSETS_TOKEN }}
+          path: __private_assets
+
+      - name: Copy fonts into site
+        run: |
+          mkdir -p assets/fonts
+          cp -R __private_assets/assets/fonts/* assets/fonts/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Build with Jekyll
+        run: bundle exec jekyll build --destination _site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
