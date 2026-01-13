@@ -6,47 +6,48 @@
   width: 100%;
   margin: 0;
   max-width: 100%;
-  overflow: hidden; /* prevents horizontal spill */
 }
 
-.applet__frame {
-  display: block;
-  width: 100% !important;
+/* Wrapper that can safely clip rounded corners/borders */
+.applet__wrap {
+  width: 100%;
   max-width: 100%;
-  min-width: 0;
-  height: 330px;
-
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 18px;
   overflow: hidden;
 }
 
-/* Slightly more room on larger screens */
-@media (min-width: 900px) {
-  .applet__frame {
-    height: 320px;
-  }
+/* Iframe itself */
+.applet__frame {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  /* Default: medium embed */
+  height: clamp(420px, 62vh, 720px);
+
+  border: 0;
 }
 
-/* Visualizer: fixed + tighter on desktop */
-.applet.lfsr15-viz .applet__frame{
-  height: 450px;
+/* Size variants (use these for big posts like Oscillators) */
+.applet--sm .applet__frame {
+  height: clamp(300px, 45vh, 460px);
 }
 
-@media (min-width: 900px){
-  .applet.lfsr15-viz .applet__frame{
-    height: 310px;
-  }
+.applet--md .applet__frame {
+  height: clamp(420px, 62vh, 720px);
 }
 
-/* Audio demo: short */
-.applet.lfsr15-audio > .applet__frame{
-  height: 250px;
+.applet--lg .applet__frame {
+  height: clamp(620px, 80vh, 1100px);
 }
 
-@media (min-width: 900px){
-  .applet.lfsr15-audio > .applet__frame{
-    height: 150px;
-  }
+/* Keep your existing “named” applet overrides working */
+.applet.lfsr15-viz .applet__frame {
+  height: clamp(380px, 60vh, 520px);
 }
 
+.applet.lfsr15-audio .applet__frame {
+  height: clamp(200px, 34vh, 320px);
+}

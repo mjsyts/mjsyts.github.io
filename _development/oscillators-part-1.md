@@ -20,7 +20,7 @@ Part 1 focuses on establishing a basic model and working definition. Later posts
 Sound unfolds continuously in the physical world, but computers don't store or operate on continuous processes. To represent sound in a form that can be indexed, stored in memory, and manipulated algorithmically, time must be *discretized* — sampled at regular intervals. A useful analogy is a flipbook: continuous motion is represented as a sequence of individual pages.  
 We will consider digital audio as a sequence of sampled values indexed by `n` taken at the sample rate `Fs`.
 
-<div class="applet applet--oscillator">
+<div class="applet applet--m">
   <iframe class="applet__frame" src="/applets/oscillator/p1/discrete-time/index.html" loading="lazy"></iframe>
 </div>
 
