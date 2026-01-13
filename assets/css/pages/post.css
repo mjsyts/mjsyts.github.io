@@ -1,29 +1,73 @@
-/* Prose / post content polish */
+/* =========================================
+   Global layout variables
+   ========================================= */
 
-.post,
-article {
-  max-width: 760px;
+:root {
+  --container: clamp(960px, 92vw, 1200px); /* page grid */
+  --measure: clamp(720px, 78ch, 940px);   /* readable prose */
+  --gutter: clamp(16px, 3vw, 28px);
+}
+
+
+/* =========================================
+   Shared page container (header + content)
+   ========================================= */
+
+main,
+.page,
+.content {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+
+/* =========================================
+   Post layout
+   ========================================= */
+
+.post {
+  max-width: none;      /* sit in the page grid */
+  margin: 0;
+  padding: 0;
+
   font-size: 1.05rem;
   color: var(--text);
 }
 
-/* Headings within posts */
-.post h1,
-article h1 {
-  font-size: 2.2rem;
-  margin: 2.5rem 0 1rem;
-  color: var(--blue);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+/* Constrain readable content */
+.post > * {
+  max-width: var(--measure);
 }
 
-.post h1:first-child,
-article h1:first-child {
+/* Allow intentional full-width elements */
+.post .applet,
+.post pre,
+.post table,
+.post figure {
+  max-width: 100%;
+}
+
+
+/* =========================================
+   Headings
+   ========================================= */
+
+.post h1 {
+  font-size: clamp(2rem, 3vw, 2.4rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--blue);
+
+  max-width: 22ch; /* keeps title shape intentional */
+  margin: 2.5rem 0 1rem;
+}
+
+.post h1:first-child {
   margin-top: 0;
 }
 
-.post h2,
-article h2 {
+.post h2 {
   font-size: 1.6rem;
   margin: 2rem 0 0.75rem;
   color: var(--blue);
@@ -32,8 +76,7 @@ article h2 {
   letter-spacing: 0.01em;
 }
 
-.post h3,
-article h3 {
+.post h3 {
   font-size: 1.25rem;
   margin: 1.5rem 0 0.5rem;
   color: var(--text);
@@ -41,49 +84,62 @@ article h3 {
   line-height: 1.4;
 }
 
-/* Paragraphs */
-.post p,
-article p {
+
+/* =========================================
+   Meta (date, etc.)
+   ========================================= */
+
+.post time,
+.post .post-date {
+  display: block;
+  margin: 0.25rem 0 2rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+
+/* =========================================
+   Body text
+   ========================================= */
+
+.post p {
   line-height: 1.7;
   margin: 0 0 1.25rem;
 }
 
-/* Lists */
+
+/* =========================================
+   Lists
+   ========================================= */
+
 .post ul,
-.post ol,
-article ul,
-article ol {
+.post ol {
   margin: 0 0 1.25rem;
   padding-left: 1.75rem;
   line-height: 1.7;
 }
 
-.post li,
-article li {
+.post li {
   margin-bottom: 0.5rem;
 }
 
-.post li:last-child,
-article li:last-child {
+.post li:last-child {
   margin-bottom: 0;
 }
 
-/* Nested lists */
 .post ul ul,
 .post ol ol,
 .post ul ol,
-.post ol ul,
-article ul ul,
-article ol ol,
-article ul ol,
-article ol ul {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+.post ol ul {
+  margin: 0.5rem 0;
 }
 
-/* Links */
-.post a,
-article a {
+
+/* =========================================
+   Links
+   ========================================= */
+
+.post a {
   color: var(--blue);
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -91,15 +147,17 @@ article a {
   transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-.post a:hover,
-article a:hover {
+.post a:hover {
   color: var(--aqua);
   opacity: 0.9;
 }
 
-/* Blockquotes */
-.post blockquote,
-article blockquote {
+
+/* =========================================
+   Blockquotes
+   ========================================= */
+
+.post blockquote {
   margin: 1.5rem 0;
   padding: 1rem 1.5rem;
   border-left: 4px solid var(--blue);
@@ -108,84 +166,78 @@ article blockquote {
   color: var(--text-secondary);
 }
 
-.post blockquote p:last-child,
-article blockquote p:last-child {
+.post blockquote p:last-child {
   margin-bottom: 0;
 }
 
-/* Horizontal rules */
-.post hr,
-article hr {
-  margin: 2.5rem 0;
-  border: none;
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
-}
 
-/* Strong and emphasis */
-.post strong,
-article strong {
-  font-weight: 600;
-  color: var(--text);
-}
+/* =========================================
+   Code
+   ========================================= */
 
-.post em,
-article em {
-  font-style: italic;
-}
-
-/* Code */
-.post code,
-article code {
+.post code {
   font-family: var(--code-font);
   font-size: 0.92em;
 }
 
-/* Images in posts */
-.post img,
-article img {
+.post pre {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* =========================================
+   Images & applets
+   ========================================= */
+
+.post img {
   max-width: 100%;
   height: auto;
   margin: 1.5rem 0;
   border-radius: 8px;
 }
 
-/* Tighter spacing for applets in posts */
-.post .applet,
-article .applet {
+.post .applet {
   margin: 2rem 0;
 }
 
-/* Better spacing for first/last elements */
-.post > *:first-child,
-article > *:first-child {
-  margin-top: 0;
-}
 
-.post > *:last-child,
-article > *:last-child {
-  margin-bottom: 0;
-}
+/* =========================================
+   Tables
+   ========================================= */
 
-/* Tables */
-.post table,
-article table {
+.post table {
   width: 100%;
   margin: 1.5rem 0;
   border-collapse: collapse;
+
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .post th,
-.post td,
-article th,
-article td {
+.post td {
   padding: 0.75rem;
   border: 1px solid rgba(0, 0, 0, 0.12);
   text-align: left;
 }
 
-.post th,
-article th {
+.post th {
   background: rgba(0, 0, 0, 0.03);
   font-weight: 600;
   color: var(--text);
+}
+
+
+/* =========================================
+   Edge cleanup
+   ========================================= */
+
+.post > *:first-child {
+  margin-top: 0;
+}
+
+.post > *:last-child {
+  margin-bottom: 0;
 }

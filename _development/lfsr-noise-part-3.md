@@ -24,7 +24,7 @@ Before we add the width control, we need to address a problem with our LFSR that
 
 **If the state ever becomes 0, the LFSR enters a terminal state and stops generating new values.**  
 
-If you enter a seed value of 0 into the [visualizer from part 1 of the series](lfsr-noise-part-1.md#core-algorithm-step-by-step "LFSR Core Algorithm with visualizer"), every output value will be 0. All of the previous versions used a seed value of ```0x7fff``` and had a fixed width, so the register never had a chance to fall into an invalid state. Once the width becomes user‑controlled, the register can legitimately shift into the all‑zero, terminal-state pattern.
+If you enter a seed value of 0 into the [visualizer from part 1 of the series]({% link _development/lfsr-noise-part-1.md %}#core-algorithm-step-by-step "LFSR Core Algorithm with visualizer"), every output value will be 0. All of the previous versions used a seed value of ```0x7fff``` and had a fixed width, so the register never had a chance to fall into an invalid state. Once the width becomes user‑controlled, the register can legitimately shift into the all‑zero, terminal-state pattern.
 
 
 ## Terminal State Guard and Reset

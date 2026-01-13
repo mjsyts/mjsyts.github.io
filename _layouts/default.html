@@ -1,26 +1,41 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    {% include head.html %}
-  </head>
-  <body{% if page.url == '/' %} class="page-home"{% endif %}>
-    <div class="wrap">
-      {% include site-header.html %}
 
-      <main id="main">
-        {{ content }}
-      </main>
+<head>
+  {% include head.html %}
+</head>
+<body{% if page.url=='/' %} class="page-home" {% endif %}>
+  <div class="wrap">
+    {% include site-header.html %}
 
-      {% unless page.url == '/' %}
-        {% include backnav.html %}
-      {% endunless %}
+    <main id="main">
+      {{ content }}
+    </main>
 
-      {% include footer.html %}
-    </div>
+    {% unless page.url == '/' %}
+    {% include backnav.html %}
+    {% endunless %}
 
-    <script defer src="{{ '/assets/js/header-metrics.js' | relative_url }}"></script>
-    <script defer src="{{ '/assets/js/chameleon-eye.js' | relative_url }}"></script>
-    <script defer src="{{ '/assets/js/contact-form.js' | relative_url }}"></script>
-    <script defer src="{{ '/assets/js/codeblocks.js' | relative_url }}"></script>
+    {% include footer.html %}
+  </div>
+
+  <script defer src="{{ '/assets/js/header-metrics.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/chameleon-eye.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/contact-form.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/codeblocks.js' | relative_url }}"></script>
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      }
+    };
+  </script>
+  <script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
   </body>
+
 </html>
