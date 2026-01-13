@@ -65,6 +65,8 @@ For example:
 At 48 kHz, a 440 Hz tone would require a period of 109.09 samples and we can't have a .09th sample. A phase accumulator solves this by allowing fractional phase increments, even though the underlying cycle never aligns perfectly with the sample grid.
 
 
+
+
 ## State and Phase
 It is helpful to think of generating an oscillator as repeating a pattern. To do that, the generator must remember where it is within the pattern.
 
