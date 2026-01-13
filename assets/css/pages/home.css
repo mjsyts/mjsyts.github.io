@@ -43,9 +43,14 @@
 
 .page-home .section-title {
   font-family: var(--font-display);
+  /* DISPLAY-LEVEL for homepage section titles (more prominent) */
+  font-variation-settings:
+    "JMBL" var(--pickllle-display-jmbl),
+    "COUT" var(--pickllle-display-cout),
+    "STGR" var(--pickllle-display-stgr);
   font-size: 2rem;
   font-weight: normal;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
   margin: 0 0 1.5rem;
   line-height: 1.2;
   color: var(--blue);

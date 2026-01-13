@@ -57,10 +57,11 @@
   margin: 0;
   color: var(--blue);
   letter-spacing: 0.04em;
-  font-variation-settings:
-    "JMBL" 206,
-    "COUT" 225,
-    "STGR" 111;
+  /* Use BRAND-LEVEL variations */
+  font-variation-settings: 
+    "JMBL" var(--pickllle-brand-jmbl),
+    "COUT" var(--pickllle-brand-cout),
+    "STGR" var(--pickllle-brand-stgr);
   text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
   white-space: nowrap; /* desktop intent */
 }

@@ -1,0 +1,26 @@
+/* =========================================================
+   Pickllle Font Variation Settings
+   Define variation presets as CSS custom properties
+   ========================================================= */
+
+:root {
+  /* Brand - Maximum personality for name/logo */
+  --pickllle-brand-jmbl: 206;
+  --pickllle-brand-cout: 450;
+  --pickllle-brand-stgr: 111;
+
+  /* Display - For H1 and prominent headers */
+  --pickllle-display-jmbl: 180;
+  --pickllle-display-cout: 375;
+  --pickllle-display-stgr: 100;
+
+  /* Accent - For navigation and UI elements */
+  --pickllle-accent-jmbl: 150;
+  --pickllle-accent-cout: 300;
+  --pickllle-accent-stgr: 80;
+
+  /* Subtle - Minimal variation for smaller text */
+  --pickllle-subtle-jmbl: 100;
+  --pickllle-subtle-cout: 200;
+  --pickllle-subtle-stgr: 50;
+}
