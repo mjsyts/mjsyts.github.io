@@ -19,6 +19,7 @@ Part 1 focuses on establishing a basic model and working definition. Later posts
 ## Discrete Time as a Constraint 
 
 Sound unfolds continuously in the physical world, but computers don't store or operate on continuous processes. To represent sound in a form that can be indexed, stored in memory, and manipulated algorithmically, time must be **discretized** — sampled at regular intervals. A useful analogy is a flipbook: continuous motion is represented as a sequence of individual pages. We will consider digital audio as a sequence of sampled values indexed by `n` taken at the sample rate `Fs`. 
+
 <div class="applet applet--oscillator"> <iframe class="applet__frame" src="/applets/oscillator/p1/discrete-time/index.html" loading="lazy"></iframe> </div> 
 
 ## What It Means to Oscillate 
@@ -65,6 +66,47 @@ if (phase >= 1.0) {
 }
 output = waveform(phase)
 ```
+
+## From Phase to Signal 
+
+The phase accumulator tells us *where* we are in a cycle, but does not specify *what the signal looks like*. In order to produce audio, we need a **waveform***: a function that maps phase to an amplitude value. In its simplest form: 
+$$ y[n]=waveform(phase[n]) $$ 
+Since we're normalizing phase to 0 <= phase < 1, a sine wave for example is just a convenient mapping: 
+$$ y[n]=sin⁡(2π⋅phase[n]) $$ 
+Other waveforms can be expressed as different mappings from phase to amplitude. We will return to those later, since discontinuities in the mapping introduce other problems in discrete time.
+
+## A Minimal Naïve Sine Oscillator
+
+```cpp
+#include <cmath>
+
+class SinOsc {
+private:
+    static constexpr double twoPi = 6.283185307179586;
+    double mPhase;
+    double mPhaseIncrement;
+
+public:
+    SinOsc() : mPhase(0.0), mPhaseIncrement(0.0) {}
+
+    // we'll use sampleRate here instead of Fs
+    void setFreq(double freq, double sampleRate) {
+        mPhaseIncrement = freq / sampleRate;
+    }
+
+    double process() {
+        // advance phase
+        mPhase += mPhaseIncrement;
+        if (mPhase >= 1.0) {
+            mPhase -= 1.0;
+        }
+
+        // sine is our waveform function
+        return std::sin(twoPi * mPhase);
+    }
+};
+```
+
 <p style="font-style: italic;">
 This simple accumulator works, but floating‑point precision subtly affects long‑term stability — a topic we'll dig into next.
 </p>
