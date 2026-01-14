@@ -1,7 +1,4 @@
 {
-  "files.associations": {
-    "*.html": "jekyll"
-  },
   "html.validate.styles": false,
   "html.validate.scripts": false
 }
