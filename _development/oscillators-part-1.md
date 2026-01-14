@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Oscillators — Part 1: Oscillators in Discrete Time"
-date: 2025-01-13
+date: 2026-01-14
 series: "Oscillators"
 part: 1
 published: true
