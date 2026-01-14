@@ -79,6 +79,16 @@ function update() {
     out = out.filter(p => p.tags.includes(activeTag));
   }
 
+  // Sort
+  const sortMode = sortSelect.value;
+  if (sortMode === "old") {
+    out.sort((a, b) => new Date(a.date) - new Date(b.date));
+  } else if (sortMode === "new") {
+    out.sort((a, b) => new Date(b.date) - new Date(a.date));
+  } else if (sortMode === "az") {
+    out.sort((a, b) => a.title.localeCompare(b.title));
+  }
+
   render(out);
 }
 
