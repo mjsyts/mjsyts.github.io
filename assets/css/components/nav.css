@@ -28,6 +28,7 @@
 .site-nav a:hover,
 .site-nav a:focus-visible {
   opacity: 1;
+  outline: none;
 }
 
 .site-nav a::after {

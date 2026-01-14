@@ -1,6 +1,17 @@
 ---
 ---
-const POSTS = {{ site.data.development.items | jsonify }};
+const POSTS = [
+  {% for post in site.development reversed %}
+  {
+    slug: "{{ post.url }}",
+    title: "{{ post.title }}",
+    date: "{{ post.date | date: '%Y-%m-%d' }}",
+    tags: {{ post.tags | jsonify }},
+    desc: "{{ post.desc }}",
+    thumb: "{{ post.thumb }}"
+  }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+];
 
 const grid = document.getElementById("grid");
 const searchInput = document.getElementById("searchInput");
@@ -15,16 +26,16 @@ function render(posts) {
 
   posts.forEach(p => {
     const el = document.createElement("article");
-    el.className = "sd-card";
+    el.className = "archive-card";
 
     el.innerHTML = `
-      <a href="${p.slug}" class="sd-card__link">
-        <div class="sd-card__thumb">
+      <a href="${p.slug}" class="archive-card__link">
+        <div class="archive-card__thumb">
           <img src="${p.thumb}" alt="" loading="lazy" />
         </div>
-        <div class="sd-card__body">
-          <h2 class="sd-card__title">${p.title}</h2>
-          <p class="sd-card__desc">${p.desc}</p>
+        <div class="archive-card__body">
+          <h2 class="archive-card__title">${p.title}</h2>
+          <p class="archive-card__desc">${p.desc}</p>
         </div>
       </a>
     `;
@@ -41,7 +52,7 @@ function buildTags() {
 
   tags.forEach(tag => {
     const btn = document.createElement("button");
-    btn.className = "sd-tag";
+    btn.className = "archive-tag";
     btn.textContent = tag;
 
     btn.onclick = () => {

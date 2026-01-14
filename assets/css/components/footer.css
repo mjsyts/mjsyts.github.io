@@ -1,0 +1,12 @@
+.footer-nav a {
+  color: var(--blue);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease, text-decoration-thickness 0.15s ease;
+}
+
+.footer-nav a:hover {
+  color: var(--aqua);
+  text-decoration-thickness: 2px;
+}

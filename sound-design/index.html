@@ -3,22 +3,22 @@ layout: default
 title: Sound Design
 ---
 
-<main class="sd-archive wrap" id="main">
-  <header class="sd-archive__hero">
-    <p class="sd-archive__kicker">Sound Design</p>
+<main class="archive wrap" id="main">
+  <header class="archive__hero">
+    <p class="archive__kicker">Sound Design</p>
     <h1 class="page-title">Videos & Breakdowns</h1>
-    <p class="sd-archive__lede">
+    <p class="archive__lede">
       A growing archive of posts—search by title, filter by tag, and play inline.
     </p>
 
-    <div class="sd-archive__controls" role="search">
-      <label class="sd-field">
-        <span class="sd-field__label">Search</span>
+    <div class="archive__controls" role="search">
+      <label class="archive-field">
+        <span class="archive-field__label">Search</span>
         <input id="searchInput" type="search" placeholder="e.g., creature, UI, foley…" autocomplete="off" />
       </label>
 
-      <label class="sd-field">
-        <span class="sd-field__label">Sort</span>
+      <label class="archive-field">
+        <span class="archive-field__label">Sort</span>
         <select id="sortSelect">
           <option value="new">Newest</option>
           <option value="old">Oldest</option>
@@ -26,37 +26,37 @@ title: Sound Design
         </select>
       </label>
 
-      <button id="clearBtn" class="sd-btn" type="button">Clear</button>
+      <button id="clearBtn" class="archive-btn" type="button">Clear</button>
     </div>
 
-    <div id="tagBar" class="sd-tags" aria-label="Filter tags"></div>
+    <div id="tagBar" class="archive-tags" aria-label="Filter tags"></div>
 
-    <p class="sd-archive__meta" id="resultsMeta">—</p>
+    <p class="archive__meta" id="resultsMeta">—</p>
   </header>
 
-  <section class="sd-archive__section" id="videos" aria-label="Videos">
-    <div id="grid" class="sd-grid" aria-live="polite"></div>
+  <section class="archive__section" id="videos" aria-label="Videos">
+    <div id="grid" class="archive-grid" aria-live="polite"></div>
 
-    <div class="sd-archive__more">
-      <button id="loadMoreBtn" class="sd-btn sd-btn--ghost" type="button">Load more</button>
+    <div class="archive__more">
+      <button id="loadMoreBtn" class="archive-btn archive-btn--ghost" type="button">Load more</button>
     </div>
   </section>
 
   <!-- Modal Player -->
-  <div id="modal" class="sd-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Video player">
-    <div class="sd-modal__backdrop" data-close></div>
+  <div id="modal" class="archive-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Video player">
+    <div class="archive-modal__backdrop" data-close></div>
 
-    <div class="sd-modal__panel" role="document">
-      <div class="sd-modal__head">
+    <div class="archive-modal__panel" role="document">
+      <div class="archive-modal__head">
         <div>
-          <div id="modalTitle" class="sd-modal__title">—</div>
-          <div id="modalMeta" class="sd-modal__meta">—</div>
+          <div id="modalTitle" class="archive-modal__title">—</div>
+          <div id="modalMeta" class="archive-modal__meta">—</div>
         </div>
-        <button class="sd-btn sd-btn--ghost" type="button" data-close aria-label="Close">Close</button>
+        <button class="archive-btn archive-btn--ghost" type="button" data-close aria-label="Close">Close</button>
       </div>
 
-      <div class="sd-modal__body">
-        <div class="sd-player">
+      <div class="archive-modal__body">
+        <div class="archive-player">
           <iframe
             id="playerFrame"
             title="YouTube video player"
@@ -66,11 +66,11 @@ title: Sound Design
             referrerpolicy="strict-origin-when-cross-origin"
           ></iframe>
         </div>
-        <div id="modalDesc" class="sd-modal__desc"></div>
+        <div id="modalDesc" class="archive-modal__desc"></div>
       </div>
     </div>
   </div>
 </main>
 
-<link rel="stylesheet" href="/assets/css/pages/sd-archive.css" />
+<link rel="stylesheet" href="/assets/css/pages/archive.css" />
 <script defer src="/assets/js/sound-design-archive.js.liquid"></script>

@@ -5,7 +5,8 @@ date: 2026-01-11
 series: "LFSR Noise Generator"
 part: 3
 tags: [dsp, noise, lfsr, nes, gameboy, webaudio, cpp]
-excerpt: "Transform the basic LFSR into a playable instrument by adding frequency control. Uses phase accumulation to decouple the clock timing from the LFSR logic, making the noise generator musically responsive."
+desc: "Adding variable register width and reset logic."
+thumb: "/assets/images/thumbs/development/lfsr.webp"
 ---
 
 ## Where We Left Off
@@ -446,4 +447,4 @@ Experiment with different width values to hear how the tonal character changes:
 - **7 bits**: Short-cycle NES/GameBoy noise mode
 - **15 bits**: The standard NES/Game Boy noise mode
 
-Try the reset button to manually reset the LFSR state back to its seed value. This demonstrates the terminal state protection working in practice.
+Try the reset button to manually reset the LFSR state back to its seed value.

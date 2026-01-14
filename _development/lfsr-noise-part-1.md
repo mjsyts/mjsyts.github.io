@@ -5,7 +5,8 @@ date: 2025-12-30
 series: "LFSR Noise Generator"
 part: 1
 tags: [dsp, noise, lfsr, nes, gameboy, webaudio, cpp]
-excerpt: "Build a GameBoy/NES-style noise generator using a Linear Feedback Shift Register (LFSR). Learn the core algorithm—XOR feedback, bit shifting, and output—with minimal working implementations in C++ and WebAudio."
+desc: "Minimal 15-bit LFSR core and bipolar noise output."
+thumb: "/assets/images/thumbs/development/lfsr.webp"
 ---
 
 ## Introduction

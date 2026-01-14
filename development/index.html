@@ -5,23 +5,23 @@ title: Development
 
 <!-- page.url = {{ page.url }} -->
 
-<main class="sd-archive wrap" id="main">
-  <header class="sd-archive__hero">
-    <p class="sd-archive__kicker">Development</p>
+<main class="archive wrap" id="main">
+  <header class="archive__hero">
+    <p class="archive__kicker">Development</p>
     <h1 class="page-title">DSP, Audio, & Tools</h1>
 
-    <p class="sd-archive__lede">
+    <p class="archive__lede">
       Experiments, write-ups, and reusable code for audio and interactive systems.
     </p>
 
-    <div class="sd-archive__controls" role="search">
-      <label class="sd-field">
-        <span class="sd-field__label">Search</span>
+    <div class="archive__controls" role="search">
+      <label class="archive-field">
+        <span class="archive-field__label">Search</span>
         <input id="searchInput" type="search" placeholder="e.g., lfsr, audio, unity…" />
       </label>
 
-      <label class="sd-field">
-        <span class="sd-field__label">Sort</span>
+      <label class="archive-field">
+        <span class="archive-field__label">Sort</span>
         <select id="sortSelect">
           <option value="new">Newest</option>
           <option value="old">Oldest</option>
@@ -29,14 +29,14 @@ title: Development
       </label>
     </div>
 
-    <div id="tagBar" class="sd-tags"></div>
-    <p class="sd-archive__meta" id="resultsMeta">—</p>
+    <div id="tagBar" class="archive-tags"></div>
+    <p class="archive__meta" id="resultsMeta">—</p>
   </header>
 
-  <section class="sd-archive__section">
-    <div id="grid" class="sd-grid"></div>
+  <section class="archive__section">
+    <div id="grid" class="archive-grid"></div>
   </section>
 </main>
 
-<link rel="stylesheet" href="/assets/css/pages/sd-archive.css" />
+<link rel="stylesheet" href="/assets/css/pages/archive.css" />
 <script defer src="/assets/js/development-archive.js.liquid"></script>

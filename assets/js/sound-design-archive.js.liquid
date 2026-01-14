@@ -75,7 +75,7 @@ function renderTags(){
   tags.forEach(tag => {
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "sd-tag";
+    btn.className = "archive-tag";
     btn.textContent = tag;
     btn.setAttribute("aria-pressed", String(tag === activeTag));
     btn.addEventListener("click", () => {
@@ -89,18 +89,18 @@ function renderTags(){
 
 function cardEl(post){
   const card = document.createElement("article");
-  card.className = "sd-card";
+  card.className = "archive-card";
   card.tabIndex = 0;
 
   card.innerHTML = `
-    <div class="sd-thumb">
+    <div class="archive-card__thumb">
       <img src="${ytThumb(post.id)}" alt="" loading="lazy" />
     </div>
-    <div class="sd-card__body">
-      <h3 class="sd-card__title">${escapeHtml(post.title)}</h3>
-      <div class="sd-card__meta">${fmtDate(post.date)} • ${(post.tags || []).slice(0,3).join(", ")}</div>
-      <div class="sd-pills">
-        ${(post.tags || []).slice(0,5).map(t => `<span class="sd-pill">${escapeHtml(t)}</span>`).join("")}
+    <div class="archive-card__body">
+      <h3 class="archive-card__title">${escapeHtml(post.title)}</h3>
+      <div class="archive-card__meta">${fmtDate(post.date)} • ${(post.tags || []).slice(0,3).join(", ")}</div>
+      <div class="archive-pills">
+        ${(post.tags || []).slice(0,5).map(t => `<span class="archive-pill">${escapeHtml(t)}</span>`).join("")}
       </div>
     </div>
   `;

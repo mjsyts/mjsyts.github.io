@@ -48,9 +48,9 @@
       cxx: "cpp",
       "c++": "cpp",
 
-      supercollider: "supercollider",
-      sclang: "supercollider",
-      sc: "supercollider",
+      supercollider: "sclang",
+      sclang: "sclang",
+      sc: "sclang",
     };
 
     return map[key] || key;
@@ -64,7 +64,7 @@
       yaml: "YAML",
       csharp: "C#",
       cpp: "C++",
-      supercollider: "SUPERCOLLIDER",
+      sclang: "SCLANG",
       code: "CODE",
     };
     return map[key] || String(key).toUpperCase();
