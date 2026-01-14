@@ -44,9 +44,9 @@
 }
 
 /* Keep your existing “named” applet overrides working */
-.applet.lfsr15-viz .applet__frame {
+/* .applet.lfsr15-viz .applet__frame {
   height: clamp(380px, 60vh, 520px);
-}
+} */
 
 .applet.lfsr15-audio .applet__frame {
   height: clamp(200px, 34vh, 320px);

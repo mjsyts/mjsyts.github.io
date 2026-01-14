@@ -43,7 +43,7 @@ The NES and GameBoy use the same core LFSR structure:
 
 You can use the applet to see what's happening internally:
 
-<div class="applet lfsr15-viz">
+<div class="applet applet--sm">
   <iframe
     class="applet__frame"
     src="{{ '/applets/lfsr/p1/viz/' | relative_url }}"
