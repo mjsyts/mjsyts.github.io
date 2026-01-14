@@ -116,7 +116,6 @@
   function reset() {
     if (!node || !node.port) return;
     node.port.postMessage({ type: "reset" });
-    setStatus("reset");
   }
 
   startBtn.addEventListener("click", () => start().catch(console.error));
