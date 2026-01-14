@@ -124,7 +124,6 @@ iframe {
   font-family: var(--ui);
   font-weight: 900;
   letter-spacing: 0.06em;
-  text-transform: lowercase;
   color: var(--muted);
   flex: 0 0 auto;
 }

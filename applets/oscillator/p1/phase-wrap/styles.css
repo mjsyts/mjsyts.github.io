@@ -1,0 +1,15 @@
+/* p0-phase-wrap/styles.css */
+
+.phase-wrap canvas {
+  width: 100%;
+  height: 260px;     /* fixes the tall bottom problem */
+  border-radius: var(--radius);
+  border: 1px solid var(--border-soft);
+  background: rgba(255,255,255,0.35);
+}
+
+@media (min-width: 900px) {
+  .phase-wrap canvas {
+    height: 300px;
+  }
+}

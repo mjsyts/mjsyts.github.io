@@ -63,6 +63,14 @@ Once phase is treated as a state variable, the simplest way to generate an oscil
 
 <p style="text-align: center; font-weight: 600; font-style: italic;"> In this series we’ll normalize phase so the cycle length is 1. </p> 
 
+Phase here is internal state, not a waveform. Each step advances phase by a fixed amount Δphase. When phase reaches 1, it is wrapped back into the interval.
+
+The applet below shows this state evolving over discrete samples. The dashed line marks the wrap boundary.
+
+Switch wrapping off to see what happens when phase is no longer bounded: the idea of a “cycle” disappears.
+
+<div class="applet applet--md"> <iframe class="applet__frame" src="/applets/oscillator/p1/phase-wrap/index.html" loading="lazy"></iframe> </div> 
+
 Implementing a phase accumulator looks like this:
 
 ```
