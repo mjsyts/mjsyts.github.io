@@ -7,7 +7,7 @@ series: "Oscillators"
 part: 3
 published: false
 tags: [dsp, oscillator, synthesis, c++]
-permalink: permalink: /development/oscillators-part-3/
+permalink: /development/oscillators-part-3/
 desc: "DESC_PLACEHOLDER"
 thumb: "/assets/images/thumbs/development/oscillator.webp"
 ---
