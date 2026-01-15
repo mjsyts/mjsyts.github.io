@@ -2,6 +2,7 @@
 layout: post
 title: "Oscillators — Part 1: Oscillators in Discrete Time"
 date: 2026-01-13
+last_modified_at: 2026-01-15
 series: "Oscillators"
 part: 1
 published: true

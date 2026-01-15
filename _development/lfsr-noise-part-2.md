@@ -2,6 +2,7 @@
 layout: post
 title: "LFSR Noise Generator — Part 2: Adding a Frequency Control"
 date: 2026-01-02
+last_modified_at: 2026-01-15
 series: "LFSR Noise Generator"
 part: 2
 tags: [dsp, noise, lfsr, nes, gameboy, webaudio, cpp]

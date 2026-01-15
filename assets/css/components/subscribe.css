@@ -1,0 +1,35 @@
+.subscribe-disclosure {
+  margin: 2rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(0,0,0,.12);
+}
+
+.subscribe-disclosure__summary {
+  list-style: none;
+  cursor: pointer;
+  display: grid;
+  gap: .25rem;
+  max-width: 42rem;
+}
+
+.subscribe-disclosure__summary::-webkit-details-marker {
+  display: none;
+}
+
+.subscribe-disclosure__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.subscribe-disclosure__lede {
+  font-size: .95rem;
+  opacity: .75;
+}
+
+.subscribe-disclosure[open] .subscribe-disclosure__summary {
+  margin-bottom: 1rem;
+}
+
+.subscribe-disclosure__body {
+  max-width: 36rem;
+}

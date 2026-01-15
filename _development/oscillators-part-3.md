@@ -2,6 +2,7 @@
 layout: post
 title: "Oscillators — Part 3: Discontinuities, aliasing, and why naïve oscillators break"
 date: 2026-01-14
+last_modified_at: 2026-01-15
 series: "Oscillators"
 part: 3
 published: false

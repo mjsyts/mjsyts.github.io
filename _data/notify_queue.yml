@@ -1,0 +1,8 @@
+- id: 2026-01-15-osc-p2
+  post: /development/oscillators-part-2/   # whatever your permalink is
+  type: new_article          # new_article | update | milestone
+  subject: "Oscillators — Part 2 is live!"
+  excerpt: "How floating-point arithmetic affects oscillator phase over long runtimes, even when phase remains bounded."
+  audience: dsp              # dsp | sound_design | both
+  status: queued             # queued | sent
+  created_at: 2026-01-15
