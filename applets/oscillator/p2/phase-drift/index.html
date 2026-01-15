@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Float32 Phase Error</title>
+
+    <!-- Your shared theme -->
+    <link rel="stylesheet" href="/applets/shared/applet-theme.css" />
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+    <div class="applet">
+        <div class="applet-wrap">
+            <div class="app-main">
+
+                <!-- Controls -->
+                <div class="panel panel--padded">
+                    <div class="row wrap">
+                        <label class="label" for="freq">freq (hz)</label>
+                        <input class="input" id="freq" type="number" inputmode="decimal" step="0.001" min="0" value="1"
+                            style="flex:1 1 220px;" />
+                        <span class="audio-val" id="freqVal">1.000 Hz</span>
+
+                        <span class="spacer"></span>
+
+                        <label class="label" for="sr">sr</label>
+                        <select class="input" id="sr" style="flex:0 0 160px;">
+                            <option value="44100">44100</option>
+                            <option value="48000" selected>48000</option>
+                            <option value="96000">96000</option>
+                        </select>
+                    </div>
+
+                    <div class="row wrap" style="margin-top:.55rem;">
+                        <label class="label" for="duration">duration</label>
+                        <select class="input" id="duration" style="flex:0 0 180px;">
+                            <option value="10">10 s</option>
+                            <option value="30">30 s</option>
+                            <option value="60" selected>60 s</option>
+                            <option value="300">5 min</option>
+                            <option value="600">10 min</option>
+                            <option value="1800">30 min</option>
+                            <option value="3600">60 min</option>
+                        </select>
+
+                        <label class="label" for="wrapMode" style="margin-left:.35rem;">wrap</label>
+                        <select class="input" id="wrapMode" style="flex:1 1 280px;">
+                            <option value="conditional" selected>conditional subtract (if p ≥ 1 → p -= 1)</option>
+                            <option value="fract">fractional wrap (p -= floor(p))</option>
+                        </select>
+
+                        <button class="btn primary" id="runBtn" style="flex:0 0 140px;">run</button>
+                        <button class="btn" id="resetBtn" style="flex:0 0 140px;">reset</button>
+                    </div>
+                </div>
+
+                <!-- Plot -->
+                <div class="surface">
+                    <div class="plot" id="plotWrap">
+                        <canvas id="canvas"></canvas>
+                        <div class="tooltip" id="tooltip"></div>
+                    </div>
+                </div>
+
+                <!-- Readout -->
+                <div class="readout">
+                    <div class="readout-item">
+                        <div class="readout-label">points plotted</div>
+                        <div class="readout-value" id="pointsOut">—</div>
+                    </div>
+                    <div class="readout-item">
+                        <div class="readout-label">time simulated</div>
+                        <div class="readout-value" id="timeOut">—</div>
+                    </div>
+                    <div class="readout-item">
+                        <div class="readout-label">final error (deg)</div>
+                        <div class="readout-value" id="finalOut">—</div>
+                    </div>
+                    <div class="readout-item">
+                        <div class="readout-label">max |error| (deg)</div>
+                        <div class="readout-value" id="maxOut">—</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="./app.js"></script>
+</body>
+
+</html>
