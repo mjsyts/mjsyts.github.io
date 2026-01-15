@@ -7,10 +7,35 @@ Includes long-form writing, sound design posts, and interactive WebAudio applets
 
 ## Local development
 
+```bash
 bundle install
 bundle exec jekyll serve
+```
 
 The site will be available at the local URL printed by Jekyll.
+
+### Publishing articles
+
+1. **Set publish date**: Update the `date` field in the article's frontmatter to the intended publication date
+2. **Set published flag**: Change `published: false` to `published: true` in the frontmatter
+3. **Commit and push**: The article will be live on GitHub Pages
+
+### Queueing email notifications
+
+After publishing a new article, add an entry to `_data/notify_queue.yml`:
+
+```yaml
+- id: YYYY-MM-DD-article-slug
+  post: /development/article-permalink/   # article URL path
+  type: new_article                       # new_article | update | milestone
+  subject: "Your article title is live!"
+  excerpt: "Brief description for the email"
+  audience: dsp                           # dsp | sound_design | both
+  status: queued                          # queued | sent
+  created_at: YYYY-MM-DD
+```
+
+When the email is sent through MailerLite, update `status: queued` to `status: sent`.
 
 ## Repository structure
 

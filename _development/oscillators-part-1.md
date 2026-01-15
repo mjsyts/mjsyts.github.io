@@ -6,6 +6,7 @@ last_modified_at: 2026-01-15
 series: "Oscillators"
 part: 1
 published: true
+permalink: /development/oscillators-part-1/
 tags: [dsp, oscillator, synthesis, c++]
 desc: "Introduction to oscillators in discrete time."
 thumb: "/assets/images/thumbs/development/oscillator.webp"
