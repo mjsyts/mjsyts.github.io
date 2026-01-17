@@ -1,14 +1,14 @@
 ---
 layout: post
 title: "Oscillators — Part 3: Discontinuities and Aliasing"
-date: 2026-01-14
+date: 2026-01-17
 last_modified_at: 2026-01-17
 series: "Oscillators"
 part: 3
-published: false
+published: true
 tags: [dsp, oscillator, synthesis, c++]
 permalink: /development/oscillators-part-3/
-desc: "DESC_PLACEHOLDER"
+desc: "How waveform discontinuities produce aliasing in discrete-time oscillators, even when phase is handled correctly."
 thumb: "/assets/images/thumbs/development/oscillator.webp"
 ---
 
@@ -36,8 +36,27 @@ Once discontinuities exist, their consequences are unavoidable. A discrete-time 
 
 Instead, it **folds back**.
 
-As harmonics exceed the representable bandwidth, they reflect around **Nyquist limit**: (`Fs / 2`), and reappear at lower frequencies. These components are no longer harmonically related to the fundamental. As the oscillator’s frequency increases, they move downward rather than upward, producing inharmonic structure that was never present in the original signal.
+As harmonics exceed the representable bandwidth, they reflect around the **Nyquist limit**: (`Fs / 2`), and reappear at lower frequencies. These components are no longer harmonically related to the fundamental. As the oscillator’s frequency increases, they move downward rather than upward, producing inharmonic structure that was never present in the original signal.
 
-This behavior is still fully deterministic. Nothing “random” is happening. Nothing is numerically broken. The oscillator is behaving exactly as a finite system must when asked to represent sharp change.
+This behavior is still fully deterministic. Nothing “random” is happening and nothing is numerically broken. The oscillator is behaving exactly as a finite system must when asked to represent sharp change.
 
 Aliasing is therefore not "artifact polluting an otherwise correct oscillator." It is the inevitable spectral consequence of discontinuity colliding with the limitations of discrete time.
+
+## Try It Out
+
+Use the visualizer below to see and hear how different naïve oscillators alias as their frequency increases. The oscillator frequency sweep runs from 20 Hz to just under the sample rate, deliberately crossing the Nyquist limit.
+
+<div class="applet applet--lg">
+  <div class="applet__wrap">
+    <iframe
+      class="applet__frame"
+      src="/applets/oscillator/p3/aliasing.html"
+      loading="lazy"
+      title="Naive Oscillator Aliasing">
+    </iframe>
+  </div>
+</div>
+
+## What's Next
+
+In the next article, we'll discuss antialiasing.
