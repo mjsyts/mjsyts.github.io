@@ -16,6 +16,8 @@ export class Spectrogram {
   }
 
   start() {
+    this.stop();
+
     const { g, c, a, buf } = this;
     const w = c.width, h = c.height;
 
@@ -33,11 +35,12 @@ export class Spectrogram {
         g.fillRect(w - 1, y, 1, 1);
       }
     };
+
     draw();
   }
 
   stop() {
-    cancelAnimationFrame(this.raf);
+    if (this.raf) cancelAnimationFrame(this.raf);
     this.raf = 0;
   }
 }
