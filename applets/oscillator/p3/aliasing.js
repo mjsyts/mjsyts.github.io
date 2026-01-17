@@ -28,27 +28,33 @@ function clearCanvasFallback() {
 async function setupOnce() {
   if (osc) return;
 
+  // 1) ensure context + master exist
+  await engine.init();
+
+  // 2) load worklet
   await engine.loadWorklet("./naive-osc.worklet.js");
 
+  // 3) create node with a live context
   osc = new AudioWorkletNode(engine.ctx, "naive-osc", {
     numberOfOutputs: 1,
     outputChannelCount: [1],
   });
 
+  // 4) analyser tap
   analyser = engine.ctx.createAnalyser();
   analyser.fftSize = 2048;
   analyser.smoothingTimeConstant = 0.0;
 
-  // tap signal for viz
   osc.connect(analyser);
 
-  // audio output through your master gain
+  // 5) tell engine about the node *after* master exists
   engine.setNode(osc);
 
   spec = new Spectrogram($("spec"), analyser);
 
   $("sr").textContent = `sr: ${engine.sampleRate}`;
 }
+
 
 function setWave() {
   const map = { sine: 0, square: 1, saw: 2, triangle: 3 };
