@@ -20,6 +20,10 @@ let F1 = 20000;
 let sweepStart = 0;
 let sweepSecs = 0;
 
+let lastU = 0;        // current sweep position (0..1)
+let heldHz = 440;     // last frozen frequency
+
+
 // ---------- helpers ----------
 
 const uToHz = (u) => F0 * Math.pow(F1 / F0, Math.max(0, Math.min(1, u)));
@@ -98,28 +102,49 @@ function setGain() {
   engine.setParam("gain", Math.pow(10, db / 20));
 }
 
-function startSweep(seconds) {
+function startSweep(seconds, startU = 0) {
   const p = osc.parameters.get("freq");
   const t0 = engine.ctx.currentTime;
 
+  const total = Number(seconds);
+  const u0 = Math.max(0, Math.min(1, startU));
+  const remainingU = Math.max(0, 1 - u0);
+
+  // if we're already basically at the end, just pin freq
+  if (remainingU <= 1e-4) {
+    const hz = uToHz(1);
+    p.cancelScheduledValues(t0);
+    engine.setParam("freq", hz);
+    updateFreqReadout(hz);
+    lastU = 1;
+    return;
+  }
+
+  // keep perceived sweep speed consistent:
+  // remaining time scales with remaining u
+  const dur = Math.max(0.05, total * remainingU);
+
   sweepStart = t0;
-  sweepSecs = Number(seconds);
+  sweepSecs = dur;
 
   const curve = new Float32Array(256);
   for (let i = 0; i < curve.length; i++) {
-    curve[i] = uToHz(i / (curve.length - 1));
+    const u = u0 + (i / (curve.length - 1)) * remainingU; // u0..1
+    curve[i] = uToHz(u);
   }
 
   p.cancelScheduledValues(t0);
-  p.setValueCurveAtTime(curve, t0, sweepSecs);
+  p.setValueCurveAtTime(curve, t0, dur);
 
   if (engine._sweepTimer) clearInterval(engine._sweepTimer);
   engine._sweepTimer = setInterval(() => {
     if (!running || hold) return;
-    const u = (engine.ctx.currentTime - sweepStart) / sweepSecs;
+    const u = u0 + Math.max(0, Math.min(1, (engine.ctx.currentTime - sweepStart) / sweepSecs)) * remainingU;
+    lastU = u;
     updateFreqReadout(uToHz(u));
   }, 60);
 }
+
 
 function freezeAtCurrentFreq() {
   const now = engine.ctx.currentTime;
@@ -203,10 +228,14 @@ $("hold").addEventListener("click", () => {
     freezeAtCurrentFreq();
     setStatus("playing");
   } else if (running && hold) {
-    // hold → sweep
+    // hold → sweep (resume from held freq / position)
     hold = false;
-    startSweep($("dur").value);
-    setStatus("sweeping");
+    const resumeU = hzToU(heldHz);   // or just lastU
+    lastU = resumeU;
+
+startSweep($("dur").value, resumeU);
+setStatus("sweeping");
+
   } else {
     // stopped
     hold = !hold;
