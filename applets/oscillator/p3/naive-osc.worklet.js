@@ -1,7 +1,7 @@
 class NaiveOsc extends AudioWorkletProcessor {
   static get parameterDescriptors() {
     return [
-      { name: "freq", defaultValue: 440, minValue: 0, maxValue: 24000, automationRate: "a-rate" },
+      { name: "freq", defaultValue: 440, minValue: 0, maxValue: 96000, automationRate: "a-rate" },
       { name: "gain", defaultValue: 0.2, minValue: 0, maxValue: 1, automationRate: "k-rate" },
       { name: "wave", defaultValue: 0, minValue: 0, maxValue: 3, automationRate: "k-rate" },
     ];

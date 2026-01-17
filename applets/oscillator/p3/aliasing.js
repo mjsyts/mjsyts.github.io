@@ -5,7 +5,8 @@ const $ = (id) => document.getElementById(id);
 
 const engine = new AudioEngine();
 
-const F0 = 20, F1 = 20000;
+let F0 = 20;
+let F1 = 20000; // placeholder until engine init
 const uToHz = (u) => F0 * Math.pow(F1 / F0, Math.max(0, Math.min(1, u)));
 const niceHz = (hz) => (hz >= 1000 ? `${(hz / 1000).toFixed(2)} kHz` : `${Math.round(hz)} Hz`);
 
@@ -30,6 +31,7 @@ async function setupOnce() {
 
   // 1) ensure context + master exist
   await engine.init();
+  F1 = Math.max(20000, engine.sampleRate * 0.95);
 
   // 2) load worklet
   await engine.loadWorklet("./naive-osc.worklet.js");
