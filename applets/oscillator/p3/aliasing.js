@@ -1,14 +1,9 @@
-import { AudioEngine } from "/applets/host/audio.js";
+import { AudioEngine } from "../../host/audio.js";
 import { Spectrogram } from "./spectrogram.js";
 
 const $ = (id) => document.getElementById(id);
 
 const engine = new AudioEngine();
-
-let F0 = 20;
-let F1 = 20000; // placeholder until engine init
-const uToHz = (u) => F0 * Math.pow(F1 / F0, Math.max(0, Math.min(1, u)));
-const niceHz = (hz) => (hz >= 1000 ? `${(hz / 1000).toFixed(2)} kHz` : `${Math.round(hz)} Hz`);
 
 let osc = null;
 let analyser = null;
@@ -17,141 +12,158 @@ let spec = null;
 let running = false;
 let hold = false;
 
-function setStatus(t) { $("status").textContent = t; }
+// frequency range (upper bound set after init)
+let F0 = 20;
+let F1 = 20000;
 
-function clearCanvasFallback() {
-  const c = $("spec");
-  const g = c.getContext("2d", { alpha: false });
-  g.fillStyle = "#fff";
-  g.fillRect(0, 0, c.width, c.height);
+// sweep state
+let sweepStart = 0;
+let sweepSecs = 0;
+
+// ---------- helpers ----------
+
+const uToHz = (u) => F0 * Math.pow(F1 / F0, Math.max(0, Math.min(1, u)));
+const hzToU = (hz) =>
+  Math.log(Math.max(F0, Math.min(F1, hz)) / F0) / Math.log(F1 / F0);
+
+const niceHz = (hz) =>
+  hz >= 1000 ? `${(hz / 1000).toFixed(2)} kHz` : `${Math.round(hz)} Hz`;
+
+function setStatus(t) {
+  $("status").textContent = t;
 }
+
+function updateHoldUI() {
+  $("mode").textContent = hold ? "hold" : "sweep";
+  $("hold").textContent = hold ? "hold: on" : "hold: off";
+
+  $("freqLabel").hidden = !hold;
+  $("freq").hidden = !hold;
+  $("freqVal").hidden = !hold;
+
+  $("dur").disabled = hold;
+  $("dur").style.opacity = hold ? "0.55" : "1";
+  $("durVal").style.opacity = hold ? "0.55" : "1";
+
+  $("toggle").textContent = running
+    ? "stop"
+    : hold
+    ? "play"
+    : "play sweep";
+}
+
+function updateFreqReadout(hz) {
+  $("freqReadout").textContent = niceHz(hz);
+  if (hold) $("freqVal").textContent = niceHz(hz);
+}
+
+// ---------- setup ----------
 
 async function setupOnce() {
   if (osc) return;
 
-  // 1) ensure context + master exist
   await engine.init();
-  F1 = Math.max(20000, engine.sampleRate * 0.95);
-
-  // 2) load worklet
   await engine.loadWorklet("./naive-osc.worklet.js");
 
-  // 3) create node with a live context
   osc = new AudioWorkletNode(engine.ctx, "naive-osc", {
     numberOfOutputs: 1,
     outputChannelCount: [1],
   });
 
-  // 4) analyser tap
   analyser = engine.ctx.createAnalyser();
   analyser.fftSize = 2048;
-  analyser.smoothingTimeConstant = 0.0;
+  analyser.smoothingTimeConstant = 0;
 
   osc.connect(analyser);
-
-  // 5) tell engine about the node *after* master exists
   engine.setNode(osc);
 
   spec = new Spectrogram($("spec"), analyser);
 
+  // extend sweep beyond Nyquist
+  F1 = engine.sampleRate * 0.95;
+
   $("sr").textContent = `sr: ${engine.sampleRate}`;
 }
 
+// ---------- audio control ----------
 
 function setWave() {
   const map = { sine: 0, square: 1, saw: 2, triangle: 3 };
   engine.setParam("wave", map[$("wave").value] ?? 0);
 }
 
-function setGainFromUI() {
+function setGain() {
   const db = Number($("gain").value);
   $("gainVal").textContent = `${db} dB`;
   engine.setParam("gain", Math.pow(10, db / 20));
 }
 
-function setDurFromUI() {
-  $("durVal").textContent = `${$("dur").value}s`;
-}
-
-function setHoldUI() {
-  $("mode").textContent = hold ? "hold" : "sweep";
-  $("hold").textContent = hold ? "hold: on" : "hold: off";
-
-  const show = hold;
-  $("freqLabel").hidden = !show;
-  $("freq").hidden = !show;
-  $("freqVal").hidden = !show;
-
-  // duration irrelevant in hold mode
-  $("dur").disabled = hold;
-  $("dur").style.opacity = hold ? "0.55" : "1";
-  $("durVal").style.opacity = hold ? "0.55" : "1";
-
-  $("toggle").textContent = running ? "stop" : (hold ? "play" : "play sweep");
-}
-
-function updateFreqUI(hz) {
-  $("freqReadout").textContent = niceHz(hz);
-  if (hold) $("freqVal").textContent = niceHz(hz);
-}
-
-function runSweep(seconds) {
+function startSweep(seconds) {
   const p = osc.parameters.get("freq");
-  const t = engine.ctx.currentTime;
+  const t0 = engine.ctx.currentTime;
+
+  sweepStart = t0;
+  sweepSecs = Number(seconds);
 
   const curve = new Float32Array(256);
   for (let i = 0; i < curve.length; i++) {
     curve[i] = uToHz(i / (curve.length - 1));
   }
 
-  p.cancelScheduledValues(t);
-  p.setValueCurveAtTime(curve, t, Number(seconds));
+  p.cancelScheduledValues(t0);
+  p.setValueCurveAtTime(curve, t0, sweepSecs);
 
-  // approximate readout during sweep
-  const t0 = engine.ctx.currentTime;
-  const secs = Number(seconds);
   if (engine._sweepTimer) clearInterval(engine._sweepTimer);
   engine._sweepTimer = setInterval(() => {
     if (!running || hold) return;
-    const u = Math.max(0, Math.min(1, (engine.ctx.currentTime - t0) / secs));
-    updateFreqUI(uToHz(u));
+    const u = (engine.ctx.currentTime - sweepStart) / sweepSecs;
+    updateFreqReadout(uToHz(u));
   }, 60);
 }
 
-function setHoldFreqFromUI() {
-  const hz = uToHz(Number($("freq").value));
+function freezeAtCurrentFreq() {
+  const now = engine.ctx.currentTime;
+  const u =
+    sweepSecs > 0
+      ? Math.max(0, Math.min(1, (now - sweepStart) / sweepSecs))
+      : 0.5;
+
+  const hz = uToHz(u);
+
+  const p = osc.parameters.get("freq");
+  p.cancelScheduledValues(now);
   engine.setParam("freq", hz);
-  $("freqVal").textContent = niceHz(hz);
-  updateFreqUI(hz);
+
+  $("freq").value = hzToU(hz);
+  updateFreqReadout(hz);
 }
+
+// ---------- start / stop ----------
 
 async function start() {
   await setupOnce();
 
-  setStatus("init…");
   await engine.start();
-
   setWave();
-  setGainFromUI();
+  setGain();
 
-  // start viz only when running
   spec.start();
 
   if (hold) {
-    setHoldFreqFromUI();
+    const hz = uToHz(Number($("freq").value));
+    engine.setParam("freq", hz);
+    updateFreqReadout(hz);
     setStatus("playing");
   } else {
-    runSweep($("dur").value);
+    startSweep($("dur").value);
     setStatus("sweeping");
   }
 
   running = true;
-  $("toggle").classList.remove("primary");
-  setHoldUI();
+  updateHoldUI();
 }
 
 async function stop() {
-  setStatus("stop…");
   running = false;
 
   if (engine._sweepTimer) {
@@ -159,28 +171,59 @@ async function stop() {
     engine._sweepTimer = null;
   }
 
-  // stop viz loop to save CPU
-  if (spec) spec.stop();
-
+  spec.stop();
   await engine.stop();
-  setStatus("idle");
 
-  $("toggle").classList.add("primary");
-  setHoldUI();
+  setStatus("idle");
+  updateHoldUI();
 }
 
-// ---- UI wiring ----
+// ---------- UI wiring ----------
 
-$("dur").addEventListener("input", setDurFromUI);
-$("gain").addEventListener("input", () => {
-  $("gainVal").textContent = `${$("gain").value} dB`;
-  if (osc && engine.ctx) setGainFromUI();
+$("toggle").addEventListener("click", async () => {
+  try {
+    if (!running) await start();
+    else await stop();
+  } catch (e) {
+    console.error(e);
+    setStatus("error");
+  }
 });
+
+$("hold").addEventListener("click", () => {
+  if (!osc) {
+    hold = !hold;
+    updateHoldUI();
+    return;
+  }
+
+  if (running && !hold) {
+    // sweep → hold
+    hold = true;
+    freezeAtCurrentFreq();
+    setStatus("playing");
+  } else if (running && hold) {
+    // hold → sweep
+    hold = false;
+    startSweep($("dur").value);
+    setStatus("sweeping");
+  } else {
+    // stopped
+    hold = !hold;
+  }
+
+  updateHoldUI();
+});
+
+$("dur").addEventListener("input", () => {
+  $("durVal").textContent = `${$("dur").value}s`;
+});
+
+$("gain").addEventListener("input", setGain);
 
 $("freq").addEventListener("input", () => {
   const hz = uToHz(Number($("freq").value));
-  $("freqVal").textContent = niceHz(hz);
-  updateFreqUI(hz);
+  updateFreqReadout(hz);
   if (running && hold) engine.setParam("freq", hz);
 });
 
@@ -190,43 +233,11 @@ $("wave").addEventListener("change", () => {
 
 $("clear").addEventListener("click", () => {
   if (spec) spec.clear();
-  else clearCanvasFallback();
 });
 
-$("hold").addEventListener("click", async () => {
-  // switch modes safely
-  if (running) await stop();
-  hold = !hold;
+// ---------- init ----------
 
-  // sensible default when turning hold on
-  if (hold) {
-    $("freq").value = "0.5";
-    const hz = uToHz(0.5);
-    $("freqVal").textContent = niceHz(hz);
-    updateFreqUI(hz);
-  } else {
-    $("freqReadout").textContent = "—";
-  }
-
-  setHoldUI();
-});
-
-$("toggle").addEventListener("click", async () => {
-  try {
-    if (!running) await start();
-    else await stop();
-  } catch (e) {
-    console.error(e);
-    setStatus("error");
-    running = false;
-    $("toggle").classList.add("primary");
-    setHoldUI();
-  }
-});
-
-// ---- initial paint ----
-setDurFromUI();
+$("durVal").textContent = `${$("dur").value}s`;
 $("gainVal").textContent = `${$("gain").value} dB`;
 setStatus("idle");
-setHoldUI();
-clearCanvasFallback();
+updateHoldUI();
