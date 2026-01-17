@@ -2,7 +2,7 @@
 layout: post
 title: "LFSR Noise Generator — Part 1: Concept & Minimal Core"
 date: 2025-12-30
-last_modified_at: 2026-01-15
+last_modified_at: 2026-01-17
 series: "LFSR Noise Generator"
 part: 1
 permalink: /development/lfsr-noise-part-1/
