@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Oscillators — Part 3: Discontinuities, aliasing, and why naïve oscillators break"
+title: "Oscillators — Part 3: Discontinuities and Aliasing"
 date: 2026-01-14
 last_modified_at: 2026-01-15
 series: "Oscillators"
@@ -40,4 +40,4 @@ As harmonics exceed the representable bandwidth, they reflect around **Nyquist l
 
 This behavior is still fully deterministic. Nothing “random” is happening. Nothing is numerically broken. The oscillator is behaving exactly as a finite system must when asked to represent sharp change.
 
-Aliasing is therefore not "artifact polluting an otherwise correct oscillator." It is the inevitable spectral of discontinuity colliding with the limitations of discrete time.
+Aliasing is therefore not "artifact polluting an otherwise correct oscillator." It is the inevitable spectral consequence of discontinuity colliding with the limitations of discrete time.
