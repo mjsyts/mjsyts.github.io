@@ -2,7 +2,7 @@
 layout: post
 title: "Oscillators — Part 3: Discontinuities and Aliasing"
 date: 2026-01-14
-last_modified_at: 2026-01-15
+last_modified_at: 2026-01-17
 series: "Oscillators"
 part: 3
 published: false
