@@ -1,82 +1,84 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Naive Oscillator Aliasing</title>
 
-  <link rel="stylesheet" href="/applets/shared/applet-theme.css" />
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Naive Oscillator Aliasing</title>
+
+    <link rel="stylesheet" href="/applets/shared/applet-theme.css" />
 </head>
 
 <body>
-  <div class="applet">
-    <div class="applet-wrap">
-      <div class="app-main">
+    <div class="applet">
+        <div class="applet-wrap">
+            <div class="app-main">
 
-        <div class="panel panel--padded">
-          <div class="audio-head">
-            <div class="audio-title">
-              <div class="label" style="font-family: Pickllle, var(--ui); font-size: 1rem;">
-                naive oscillator aliasing
-              </div>
+                <div class="panel panel--padded">
+                    <div class="audio-head">
+                        <div class="audio-title">
+                            <div class="label" style="font-family: Pickllle, var(--ui); font-size: 1rem;">
+                                naive oscillator aliasing
+                            </div>
+                        </div>
+                        <div class="audio-meta">
+                            <div class="audio-sr mono" id="sr">sr: —</div>
+                            <div class="audio-sr mono" id="freqTop">freq: —</div>
+                            <div class="audio-status mono" id="status">idle</div>
+                        </div>
+
+                    </div>
+
+                    <div class="row wrap" style="margin-top:10px;">
+                        <span class="label">wave</span>
+                        <select id="wave" class="input" style="flex:0 0 160px;">
+                            <option value="sine">sine</option>
+                            <option value="square">square</option>
+                            <option value="saw">saw</option>
+                            <option value="triangle">triangle</option>
+                        </select>
+
+                        <span class="label">seconds</span>
+                        <input id="dur" class="range compact" type="range" min="2" max="12" step="1" value="6">
+                        <span id="durVal" class="audio-val">6s</span>
+
+                        <span class="spacer"></span>
+                        <button id="clear" class="btn">clear</button>
+
+                        <!-- force a new line for gain group -->
+                        <span style="flex-basis:100%; height:0;"></span>
+
+                        <span class="label">gain</span>
+                        <input id="gain" class="range compact" type="range" min="-36" max="-6" step="1" value="-18">
+                        <span id="gainVal" class="audio-val">-18 dB</span>
+
+                        <span class="label" id="freqLabel" hidden>freq</span>
+                        <input id="freq" class="range compact" type="range" min="0" max="1" step="0.001" value="0.5"
+                            hidden>
+                        <span id="freqVal" class="audio-val" hidden>—</span>
+                    </div>
+                </div>
+
+                <div class="surface">
+                    <canvas id="spec" width="960" height="420"></canvas>
+                </div>
+
+                <div class="readout">
+                    <div class="readout-item">
+                        <div class="readout-label">mode</div>
+                        <div class="readout-value" id="mode">sweep</div>
+                    </div>
+                    <div class="readout-item">
+                        <div class="readout-label">frequency</div>
+                        <div class="readout-value" id="freqReadout">—</div>
+                    </div>
+                </div>
+
             </div>
-            <div class="audio-meta">
-              <div class="audio-sr mono" id="sr">sr: —</div>
-              <div class="audio-status mono" id="status">idle</div>
-            </div>
-          </div>
-
-          <div class="row wrap" style="margin-top:10px;">
-            <span class="label">wave</span>
-            <select id="wave" class="input" style="flex:0 0 160px;">
-              <option value="sine">sine</option>
-              <option value="square">square</option>
-              <option value="saw">saw</option>
-              <option value="triangle">triangle</option>
-            </select>
-
-            <button id="toggle" class="btn primary">play sweep</button>
-            <button id="hold" class="btn">hold: off</button>
-
-            <span class="label">seconds</span>
-            <input id="dur" class="range compact" type="range" min="2" max="12" step="1" value="6">
-            <span id="durVal" class="audio-val">6s</span>
-
-            <span class="spacer"></span>
-            <button id="clear" class="btn">clear</button>
-
-            <!-- force a new line for gain group -->
-            <span style="flex-basis:100%; height:0;"></span>
-
-            <span class="label">gain</span>
-            <input id="gain" class="range compact" type="range" min="-36" max="-6" step="1" value="-18">
-            <span id="gainVal" class="audio-val">-18 dB</span>
-
-            <span class="label" id="freqLabel" hidden>freq</span>
-            <input id="freq" class="range compact" type="range" min="0" max="1" step="0.001" value="0.5" hidden>
-            <span id="freqVal" class="audio-val" hidden>—</span>
-          </div>
         </div>
-
-        <div class="surface">
-          <canvas id="spec" width="960" height="420"></canvas>
-        </div>
-
-        <div class="readout">
-          <div class="readout-item">
-            <div class="readout-label">mode</div>
-            <div class="readout-value" id="mode">sweep</div>
-          </div>
-          <div class="readout-item">
-            <div class="readout-label">frequency</div>
-            <div class="readout-value" id="freqReadout">—</div>
-          </div>
-        </div>
-
-      </div>
     </div>
-  </div>
 
-  <script type="module" src="./aliasing.js"></script>
+    <script type="module" src="./aliasing.js"></script>
 </body>
+
 </html>
