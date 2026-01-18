@@ -1,7 +1,7 @@
 @font-face {
   font-family: "Pickllle";
-  src: url("/assets/fonts/Pickllle.ttf") format("truetype");
-  font-weight: normal;
+  src: url("/assets/fonts/OCPickllleVARVF.woff2") format("woff2");
+  font-weight: 100 900;  
   font-style: normal;
   font-display: swap;
 }
