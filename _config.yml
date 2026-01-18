@@ -14,6 +14,9 @@ kramdown:
   math_engine: mathjax
   syntax_highlighter: rouge
 
+plugins:
+  jekyll-feed
+
 # Nav
 nav:
   - title: Home
