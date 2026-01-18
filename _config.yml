@@ -15,7 +15,7 @@ kramdown:
   syntax_highlighter: rouge
 
 plugins:
-  jekyll-feed
+  - jekyll-feed
 
 # Nav
 nav:
