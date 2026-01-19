@@ -1,6 +1,7 @@
 title: "M. Josiah Sytsma"
 url: "https://www.mjsyts.com"
 baseurl: ""
+timezone: UTC
 
 markdown: kramdown
 theme: null
