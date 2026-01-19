@@ -200,41 +200,6 @@
   }
 }
 
-/* =========================================================
-   FORCE logo base + eye overlay to share one coordinate space
-   (mobile drift killer)
-   Put this at the VERY BOTTOM of header.css
-   ========================================================= */
-
-.site-header .logo {
-  position: relative;
-}
-
-/* Base art must never crop */
-.site-header .logo .logo-base,
-.site-header .logo img.logo-base {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: contain !important;
-}
-
-/* Overlay must be the full logo box (not 28%, not centered) */
-.site-header .logo .logo-eye {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  pointer-events: none;
-}
-
-.site-header .logo .logo-eye svg {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  max-width: none !important;
-  max-height: none !important;
-  transform: none !important;
-  display: block;
+@media (max-width: 800px) {
+  .logo-eye { display: none !important; }
 }
