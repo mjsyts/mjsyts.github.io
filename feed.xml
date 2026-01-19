@@ -2,7 +2,10 @@
 layout: null
 ---
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss
+  version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+>
   <channel>
     <title>{{ site.title | xml_escape }}</title>
     <link>{{ site.url }}/</link>
@@ -10,16 +13,14 @@ layout: null
     <language>en-us</language>
     <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
 
-    <!-- <atom:link href="{{ site.url }}/feed.xml" rel="self" type="application/rss+xml" /> -->
+    <atom:link
+      href="{{ site.url }}/feed.xml"
+      rel="self"
+      type="application/rss+xml"
+    />
 
     {%- assign dev_items = site.development | sort: "date" | reverse -%}
     {%- assign blog_items = site.posts | sort: "date" | reverse -%}
-
-    {%- comment -%}
-      If you ONLY want development posts in the feed, use dev_items alone.
-      If you want both, we concat and sort.
-    {%- endcomment -%}
-
     {%- assign items = dev_items | concat: blog_items | sort: "date" | reverse -%}
 
     {%- for post in items limit:20 -%}
@@ -28,10 +29,28 @@ layout: null
       <link>{{ site.url }}{{ post.url }}</link>
       <guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
       <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+
       <description><![CDATA[
-{{ post.desc | default: post.excerpt | default: post.content | strip_html | strip | truncate: 280 }}
+        {%- if post.thumb -%}
+        <p>
+          <img
+            src="{{ site.url }}{{ post.thumb }}"
+            alt=""
+            style="max-width:100%;height:auto;display:block;"
+          />
+        </p>
+        {%- endif -%}
+
+        {{ post.desc
+            | default: post.excerpt
+            | default: post.content
+            | strip_html
+            | strip
+            | truncate: 280
+        }}
       ]]></description>
     </item>
     {%- endfor -%}
+
   </channel>
 </rss>

@@ -9,7 +9,7 @@ published: true
 tags: [dsp, oscillator, synthesis, c++]
 permalink: /development/oscillators-part-3/
 desc: "How waveform discontinuities produce aliasing in discrete-time oscillators, even when phase is handled correctly."
-thumb: "/assets/images/thumbs/development/oscillator.webp"
+image: "/assets/images/thumbs/development/oscillator.webp"
 ---
 
 ## After Phase
