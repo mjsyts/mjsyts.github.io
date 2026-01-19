@@ -1,17 +1,16 @@
 <header class="site-header">
   <div class="brand">
     <span class="logo" aria-label="Site logo">
-      <img
-        src="{{ '/assets/images/chameleon_logo.png' | relative_url }}"
-        alt="Chameleon logo"
-        class="logo-fallback"
-        loading="eager"
-      />
+      <img src="{{ '/assets/images/chameleon_logo-96.png' | relative_url }}" srcset="
+    {{ '/assets/images/chameleon_logo-96.png'  | relative_url }} 1x,
+    {{ '/assets/images/chameleon_logo-192.png' | relative_url }} 2x
+  " alt="Chameleon logo" class="logo-base" width="96" height="96" />
 
-      <span class="logo-svg" aria-hidden="true">
-        {% include logo.min.svg %}
+      <span class="logo-svg logo-eye" aria-hidden="true">
+        {% include logo-eye.svg %}
       </span>
     </span>
+
 
     <div class="brand-core">
       <div class="brand-title">

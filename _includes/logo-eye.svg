@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="1024"
+   height="1024"
+   viewBox="0 0 1024 1024"
+   sodipodi:docname="logo-eye.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   inkscape:export-filename="mjsyts.github.io/_includes/logo_layered.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <filter
+       inkscape:label="Thick Paint"
+       inkscape:menu="Bumps"
+       inkscape:menu-tooltip="Thick painting effect with turbulence"
+       style="color-interpolation-filters:sRGB"
+       id="filter57"
+       x="-0.01871985"
+       y="-0.01871985"
+       width="1.0374397"
+       height="1.0374397">
+      <feGaussianBlur
+         result="result6"
+         stdDeviation="0.9"
+         id="feGaussianBlur56" />
+      <feTurbulence
+         type="fractalNoise"
+         baseFrequency="0.12"
+         numOctaves="3"
+         result="result2"
+         id="feTurbulence56" />
+      <feDisplacementMap
+         yChannelSelector="A"
+         xChannelSelector="R"
+         scale="10"
+         in2="result2"
+         result="result5"
+         in="result6"
+         id="feDisplacementMap56" />
+      <feBlend
+         in="result6"
+         in2="result5"
+         mode="lighten"
+         result="fbSourceGraphic"
+         id="feBlend56" />
+      <feColorMatrix
+         result="result2"
+         type="luminanceToAlpha"
+         in="fbSourceGraphic"
+         id="feColorMatrix56" />
+      <feDiffuseLighting
+         diffuseConstant="0.64999998"
+         result="result1"
+         surfaceScale="-4"
+         id="feDiffuseLighting56">
+        <feDistantLight
+           azimuth="225"
+           elevation="35"
+           id="feDistantLight56" />
+      </feDiffuseLighting>
+      <feComposite
+         result="result3"
+         k3="0.5"
+         k1="1.37"
+         in="result1"
+         operator="arithmetic"
+         in2="fbSourceGraphic"
+         id="feComposite56"
+         k2="0"
+         k4="0" />
+      <feComposite
+         result="result5"
+         operator="in"
+         in="result3"
+         in2="result3"
+         id="feComposite57" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#cccccc"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="1"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.82132641"
+     inkscape:cx="428.57504"
+     inkscape:cy="401.7891"
+     inkscape:window-width="1728"
+     inkscape:window-height="993"
+     inkscape:window-x="0"
+     inkscape:window-y="33"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1" />
+  <circle
+     style="display:inline;fill:#ffe6d5;stroke-width:0.879871;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+     id="eye"
+     cx="804.07965"
+     cy="339.98288"
+     r="57.692768"
+     inkscape:label="eye" />
+  <circle
+     style="display:inline;fill:#333333;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+     id="pupil"
+     cx="804.07965"
+     cy="339.98288"
+     r="23.163286"
+     inkscape:label="pupil" />
+  <path
+     id="closed"
+     style="display:none;fill:#333333;stroke-width:1.32763;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+     d="m 851.625,333.41602 a 48.005974,48.005974 0 0 1 -47.61914,42.5957 48.005974,48.005974 0 0 1 -47.54102,-41.49805 48.005974,48.005974 0 0 0 -0.39062,5.46875 48.005974,48.005974 0 0 0 48.00586,48.00586 48.005974,48.005974 0 0 0 48.00586,-48.00586 48.005974,48.005974 0 0 0 -0.46094,-6.5664 z"
+     inkscape:label="closed" />
+</svg>

@@ -21,28 +21,36 @@
 }
 
 .logo {
+  position: relative;
   width: 96px;
   height: 96px;
   border-radius: 24px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex: 0 0 auto;
 }
 
-.logo img,
-.logo svg {
+/* base raster */
+.logo-base {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
+  object-fit: cover;
 }
 
-/* JS swap */
-.logo-svg { display: none; }
-.js .logo-svg { display: block; }
-.js .logo-fallback { display: none; }
+/* eye overlay */
+.logo-eye {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.logo-eye svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* tweak once to align the eye */
+  /* transform: translate(0px, 0px); */
+}
 
 .brand-core {
   display: flex;
@@ -58,12 +66,13 @@
   color: var(--blue);
   letter-spacing: 0.04em;
   /* Use BRAND-LEVEL variations */
-  font-variation-settings: 
+  font-variation-settings:
     "JMBL" var(--pickllle-brand-jmbl),
     "COUT" var(--pickllle-brand-cout),
     "STGR" var(--pickllle-brand-stgr);
   text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
-  white-space: nowrap; /* desktop intent */
+  white-space: nowrap;
+  /* desktop intent */
 }
 
 .brand-tagline {
@@ -93,7 +102,8 @@
 }
 
 .kicker-line {
-  white-space: nowrap; /* desktop intent */
+  white-space: nowrap;
+  /* desktop intent */
 }
 
 /* ---------------------------------------------------------
@@ -133,6 +143,20 @@
     border-radius: 16px;
   }
 
+  .logo-eye svg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    /* set the eye size relative to the logo box */
+    width: 28%;
+    height: auto;
+
+    display: block;
+    transform: translate(-50%, -50%) translate(0px, 0px);
+  }
+
+
   .brand-core {
     align-items: center;
   }
@@ -140,8 +164,10 @@
   .brand-title {
     font-size: 2.05rem;
     line-height: 1;
-    white-space: normal;        /* override desktop nowrap */
-    overflow-wrap: anywhere;    /* prevent horizontal scroll */
+    white-space: normal;
+    /* override desktop nowrap */
+    overflow-wrap: anywhere;
+    /* prevent horizontal scroll */
   }
 
   .brand-tagline {
@@ -161,7 +187,8 @@
   }
 
   .kicker-line {
-    white-space: normal; /* allow wrap on mobile */
+    white-space: normal;
+    /* allow wrap on mobile */
   }
 
   /* nav shrinks vertically */
