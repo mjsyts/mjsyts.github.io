@@ -2,10 +2,7 @@
 layout: null
 ---
 <?xml version="1.0" encoding="UTF-8"?>
-<rss
-  version="2.0"
-  xmlns:atom="http://www.w3.org/2005/Atom"
->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>{{ site.title | xml_escape }}</title>
     <link>{{ site.url }}/</link>
@@ -19,9 +16,22 @@ layout: null
       type="application/rss+xml"
     />
 
-    {%- assign dev_items = site.development | sort: "date" | reverse -%}
-    {%- assign blog_items = site.posts | sort: "date" | reverse -%}
-    {%- assign items = dev_items | concat: blog_items | sort: "date" | reverse -%}
+    {%- assign dev_items =
+        site.development
+        | where_exp: "p", "p.date"
+    -%}
+
+    {%- assign blog_items =
+        site.posts
+        | where_exp: "p", "p.date"
+    -%}
+
+    {%- assign items =
+        dev_items
+        | concat: blog_items
+        | sort: "date"
+        | reverse
+    -%}
 
     {%- for post in items limit:20 -%}
     <item>
