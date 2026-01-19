@@ -2,6 +2,7 @@ title: "M. Josiah Sytsma"
 url: "https://www.mjsyts.com"
 baseurl: ""
 timezone: America/New_York
+description: "Rowdy Mouse"
 
 markdown: kramdown
 theme: null
