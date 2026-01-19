@@ -8,7 +8,7 @@ part: 2
 permalink: /development/lfsr-noise-part-2/
 tags: [dsp, noise, lfsr, nes, gameboy, webaudio, c++]
 desc: "Adding a frequency control to the LFSR noise generator."
-thumb: "/assets/images/thumbs/development/lfsr.webp"
+thumb: "/assets/images/thumbs/development/lfsr.jpg"
 ---
 
 ## Where We Left Off

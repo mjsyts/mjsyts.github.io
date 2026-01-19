@@ -9,7 +9,7 @@ published: true
 permalink: /development/oscillators-part-2/
 tags: [dsp, oscillator, synthesis, c++]
 desc: "How floating-point arithmetic affects oscillator phase over long runtimes, even when phase remains bounded."
-thumb: "/assets/images/thumbs/development/oscillator.webp"
+thumb: "/assets/images/thumbs/development/oscillator.jpg"
 ---
 
 ## Where We Left Off
