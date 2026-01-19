@@ -2,7 +2,7 @@
 layout: post
 title: "Oscillators — Part 2: Oscillator Phase and Numerical Behavior"
 date: 2026-01-15
-last_modified_at: 2026-01-15
+last_modified_at: 2026-01-19
 series: "Oscillators"
 part: 2
 published: true
