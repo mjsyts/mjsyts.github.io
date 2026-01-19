@@ -21,6 +21,12 @@ kramdown:
 plugins:
   - jekyll-feed
 
+# Include development collection in RSS feed
+feed:
+  collections:
+    - posts
+    - development
+
 # Nav
 nav:
   - title: Home
