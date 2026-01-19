@@ -3,12 +3,12 @@
 const POSTS = [
   {% for post in site.development reversed %}
   {
-    slug: "{{ post.url }}",
-    title: "{{ post.title }}",
+    slug: {{ post.url | jsonify }},
+    title: {{ post.title | jsonify }},
     date: "{{ post.date | date: '%Y-%m-%d' }}",
     tags: {{ post.tags | jsonify }},
-    desc: "{{ post.desc }}",
-    image: "{{ post.thumb }}"
+    desc: {{ post.desc | jsonify }},
+    image: {{ post.thumb | jsonify }}
   }{% unless forloop.last %},{% endunless %}
   {% endfor %}
 ];
@@ -30,9 +30,10 @@ function render(posts) {
 
     el.innerHTML = `
       <a href="${p.slug}" class="archive-card__link">
+        ${p.image ? `
         <div class="archive-card__thumb">
           <img src="${p.image}" alt="" loading="lazy" />
-        </div>
+        </div>` : ``}
         <div class="archive-card__body">
           <h2 class="archive-card__title">${p.title}</h2>
           <p class="archive-card__desc">${p.desc}</p>
@@ -79,7 +80,6 @@ function update() {
     out = out.filter(p => p.tags.includes(activeTag));
   }
 
-  // Sort
   const sortMode = sortSelect.value;
   if (sortMode === "old") {
     out.sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -96,4 +96,4 @@ searchInput.addEventListener("input", update);
 sortSelect.addEventListener("change", update);
 
 buildTags();
-render(POSTS);
+update();
