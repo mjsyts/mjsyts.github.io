@@ -22,11 +22,13 @@
 
 .logo {
   position: relative;
-  width: 96px;
-  height: 96px;
-  border-radius: 24px;
+  --logo-size: clamp(64px, 12vw, 96px);
+  width: var(--logo-size);
+  height: var(--logo-size);
+  border-radius: calc(var(--logo-size) / 4);
   overflow: hidden;
   flex: 0 0 auto;
+  aspect-ratio: 1 / 1;
 }
 
 /* base raster */
@@ -137,21 +139,6 @@
     gap: 0.5rem;
   }
 
-  .logo {
-    width: 64px;
-    height: 64px;
-    border-radius: 16px;
-  }
-
-  .logo-eye svg {
-    position: static;
-    /* set the eye size relative to the logo box */
-    width: 100%;
-    height: 100%;
-    transform: none;
-  }
-
-
   .brand-core {
     align-items: center;
   }
@@ -198,8 +185,4 @@
     padding: 0.45rem 0.7rem;
     font-size: 0.75rem;
   }
-}
-
-@media (max-width: 800px) {
-  .logo-eye { display: none !important; }
 }
