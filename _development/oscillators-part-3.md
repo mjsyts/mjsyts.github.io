@@ -24,6 +24,182 @@ If everything about phase is handled correctly, any remaining instability must c
 
 When phase is mapped to an output, that mapping is not always smooth. Sine waves vary continuously, but many other waveforms do not. Sharp corners and jumps introduce discontinuities that discrete-time systems can only approximate.
 
+## The Four Basic Waveforms
+
+Below are mathematical representations and naïve C++ implementations of **sine**, **saw**, **square**, and **triangle** waves. This assumes a phase accumulator $$ p ∈ [0, 1) $$ and frequency $$ f $$ at sample rate $$ F_s $$.
+
+### Shared Phase Accumulator
+
+- Phase increment: 
+
+$$ \Delta = \frac{f}{F_s} $$
+
+- Phase update and wrap:
+
+$$
+p \leftarrow p + \Delta
+$$
+
+$$
+\text{if } p \ge 1,\quad p \leftarrow p - 1
+$$
+
+```cpp
+struct Phase {
+    float p = 0.f;   // phase
+    float dp = 0.f;  // phase increment
+
+    void setFrequency(float f, float Fs) {
+        dp = f / Fs;
+    }
+
+    float tick() {
+        p += dp;
+        if (p >= 1.0f)
+            p -= 1.0f;
+        return p;
+    }
+};
+```
+
+### Waveforms
+
+#### Sine Wave:
+
+$$
+y(p) = \sin(2\pi p)
+$$
+
+```cpp
+float sine(float p) {
+    return std::sinf(2.0f * float(M_PI) * p);
+}
+```
+#### Sawtooth (rising):
+
+$$
+y(p) = 2p - 1
+$$
+
+```cpp
+float saw(float p) {
+    return 2.0f * p - 1.0f;
+}
+```
+
+#### Square Wave (50% Duty Cycle):
+
+$$
+y(p) =
+\begin{cases}
++1, & p < 0.5 \\
+-1, & p \ge 0.5
+\end{cases}
+$$
+
+```cpp
+float square(float p) {
+    return (p < 0.5f) ? 1.0f : -1.0f;
+}
+```
+
+#### Triangle Wave:
+
+$$
+y(p) = 1 - 4\left|p - \tfrac{1}{2}\right|
+$$
+
+```cpp
+float triangle(float p) {
+    return 1.0f - 4.0f * std::fabs(p - 0.5f);
+}
+```
+
+### Full Implementation
+
+```cpp
+#pragma once
+#include <cmath>
+
+struct Oscillator {
+    enum class Waveform { Sine, Saw, Square, Triangle };
+
+    void setSampleRate(float sampleRate) {
+        Fs = sampleRate;
+        updatePhaseInc();
+    }
+
+    void setFrequency(float frequency) {
+        f = frequency;
+        updatePhaseInc();
+    }
+
+    void setWaveform(Waveform w) {
+        waveform = w;
+    }
+
+    void resetPhase(float p0 = 0.f) {
+        phase.p = p0; // assume p0 in [0,1) for this naïve example
+    }
+
+    float tick() {
+        const float p = phase.tick();
+        switch (waveform) {
+            case Waveform::Sine:     return sine(p);
+            case Waveform::Saw:      return saw(p);
+            case Waveform::Square:   return square(p);
+            case Waveform::Triangle: return triangle(p);
+        }
+        return 0.0f;
+    }
+
+private:
+    // --- Phase accumulator ---
+    struct Phase {
+        float p = 0.f;   // phase
+        float dp = 0.f;  // phase increment
+
+        void setFrequency(float f, float Fs) { dp = f / Fs; }
+
+        float tick() {
+            p += dp;
+            if (p >= 1.0f) p -= 1.0f;
+            return p;
+        }
+    };
+
+    // --- Waveforms (naïve / band-unlimited) ---
+    static float sine(float p) {
+        return std::sinf(2.0f * float(M_PI) * p);
+    }
+
+    static float saw(float p) {
+        return 2.0f * p - 1.0f;
+    }
+
+    static float square(float p) {
+        return (p < 0.5f) ? 1.0f : -1.0f;
+    }
+
+    static float triangle(float p) {
+        return 1.0f - 4.0f * std::fabs(p - 0.5f);
+    }
+
+    void updatePhaseInc() {
+        phase.setFrequency(f, Fs);
+    }
+
+    // Stored state
+    Phase phase;
+    Waveform waveform = Waveform::Sine;
+
+    float f  = 440.0f;
+    float Fs = 48000.0f;
+};
+```
+
+## Spectral Consequences of Discontinuity
+
 In discrete time, abrupt change becomes wideband energy. The sharper the transition, the broader the spectrum it demands. When that demand exceeds what the system can represent, the excess energy doesn’t disappear—it shows up where it doesn’t belong.
 
 This problem—known as **aliasing**—is not a separate phenomenon, but the direct result of discontinuity in a finite system.

@@ -48,6 +48,12 @@
       cxx: "cpp",
       "c++": "cpp",
 
+      // Some renderers (Rouge/kramdown) emit `plaintext` or `text`
+      // for fences with no explicit language. Treat those as generic
+      // code so the UI shows "CODE" instead of "PLAINTEXT".
+      plaintext: "code",
+      text: "code",
+
       supercollider: "sclang",
       sclang: "sclang",
       sc: "sclang",
@@ -104,10 +110,15 @@
     if (dataLang) return normalizeLangKey(dataLang);
 
     // 2) language-* classes
+    // Try several places: the <code>, the <pre>, the block itself, and
+    // also check parent wrappers (Rouge often puts the language on an
+    // outer div while the inner div has class "highlight").
     const classToken =
       pickLangTokenFromClasses(code?.className || "") ||
       pickLangTokenFromClasses(pre?.className || "") ||
       pickLangTokenFromClasses(blockEl.className || "") ||
+      pickLangTokenFromClasses(blockEl.parentElement?.className || "") ||
+      pickLangTokenFromClasses(blockEl.parentElement?.parentElement?.className || "") ||
       pickLangTokenFromClasses(figure?.className || "");
 
     if (classToken) return normalizeLangKey(classToken);
