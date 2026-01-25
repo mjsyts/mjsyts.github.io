@@ -115,9 +115,9 @@ float triangle(float p) {
 }
 ```
 
-### Waveform Graph
+<!-- ### Waveform Graph
 
-{% include figures/wf-graph/graph.html %}
+{% include figures/wf-graph/graph.html %} -->
 
 ### Full Implementation
 
