@@ -1,4 +1,4 @@
-import { AudioEngine } from "../../host/audio.js";
+import { AudioEngine } from "../audio.js";
 import { Spectrogram } from "./spectrogram.js";
 
 const $ = (id) => document.getElementById(id);
