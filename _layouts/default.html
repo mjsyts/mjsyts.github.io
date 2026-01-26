@@ -7,6 +7,9 @@
   {% if page.applet_theme %}
     <link rel="stylesheet" href="{{ '/applets/shared/applet-theme.css' | relative_url }}">
   {% endif %}
+  {% if page.wf_graph %}
+    <link rel="stylesheet" href="{{ '/assets/css/components/wf-graph.css' | relative_url }}">
+  {% endif %}
 </head>
 <body{% if page.url=='/' %} class="page-home" {% endif %}>
   <div class="wrap">
@@ -27,6 +30,9 @@
   <script defer src="{{ '/assets/js/chameleon-eye.js' | relative_url }}"></script>
   <script defer src="{{ '/assets/js/contact-form.js' | relative_url }}"></script>
   <script defer src="{{ '/assets/js/codeblocks.js' | relative_url }}"></script>
+  {% if page.wf_graph %}
+    <script defer src="{{ '/assets/js/wf-graph.js' | relative_url }}"></script>
+  {% endif %}
 
   <!-- MathJax -->
   <script>
