@@ -96,6 +96,7 @@ Other waveforms can be expressed as different mappings from phase to amplitude. 
 ## A Minimal Naïve Sine Oscillator
 
 ```cpp
+#pragma once
 #include <cmath>
 
 class SinOsc {

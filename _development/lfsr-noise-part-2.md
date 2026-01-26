@@ -152,6 +152,8 @@ So *now* the whole thing is:
 <div data-codegroup markdown="1" data-labels='{"cpp":"C++ ","javascript":"JavaScript (AudioWorklet)"}'>
 
 ```cpp
+#pragma once
+
 class LFSRNoise {
 public:
   void setAmp(float a) { mAmp = a; }

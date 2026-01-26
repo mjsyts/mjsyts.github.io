@@ -63,6 +63,8 @@ We need to keep track of the shift register over the lifetime of the processor i
 <div data-codegroup markdown="1" data-labels='{"cpp":"C++ ","javascript":"JavaScript (AudioWorklet)"}'>
 
 ```cpp
+#pragma once
+
 class LFSRNoise {
 public:
   LFSRNoise();
@@ -168,6 +170,8 @@ Once we add an amplitude parameter, the whole thing is:
 <div data-codegroup markdown="1" data-labels='{"cpp":"C++ ","javascript":"JavaScript (AudioWorklet)"}'>
 
 ```cpp
+#pragma once
+
 class LFSRNoise {
 public:
   void setAmp(float a) { mAmp = a; }

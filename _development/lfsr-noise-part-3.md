@@ -221,6 +221,8 @@ For the full implementation, we'll add a new width control and a reset trigger s
 <div data-codegroup markdown="1" data-labels='{"cpp":"C++ ","javascript":"JavaScript (AudioWorklet)"}'>
 
 ```cpp
+#pragma once
+
 class LFSRNoise {
 public:
     LFSRNoise(int w)
