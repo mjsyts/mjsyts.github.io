@@ -37,7 +37,7 @@ To keep Part 1 focused, we’ll use the simplest possible version: a fixed 15‑
 
 ## Core Algorithm (Step by Step)
 
-The NES and GameBoy use the same core LFSR structure:
+The NES[^nes_noise] and GameBoy[^gb_noise] use the same core LFSR structure:
 
 1. XOR the two right‑most bits (LSB &amp; bit1)
 2. Right‑shift
@@ -273,3 +273,12 @@ Again, this version has no control over:
 ## What Comes Next
 
 Now that we have a simple working core, the next step is to make it "playable" by adding a frequency control.
+
+---
+
+[^nes_noise]: NESdev Wiki. *APU Noise*. https://www.nesdev.org/wiki/APU_Noise
+
+[^gb_noise]: GbdevWiki. *Gameboy sound hardware — Noise Channel*. https://gbdev.gg8.se/wiki/articles/Gameboy_sound_hardware#Noise_Channel
+
+
+
