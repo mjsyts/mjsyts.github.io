@@ -275,7 +275,6 @@ Again, this version has no control over:
 Now that we have a simple working core, the next step is to make it "playable" by adding a frequency control.
 
 ---
-
 [^nes_noise]: NESdev Wiki. *APU Noise*. https://www.nesdev.org/wiki/APU_Noise
 
 [^gb_noise]: GbdevWiki. *Gameboy sound hardware — Noise Channel*. https://gbdev.gg8.se/wiki/articles/Gameboy_sound_hardware#Noise_Channel
