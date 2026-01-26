@@ -122,6 +122,7 @@ float triangle(float p) {
 ### Full Implementation
 
 ```cpp
+#pragma once
 #include <cmath>
 
 class Oscillator {
