@@ -18,7 +18,7 @@ In Part 1, we handled phase accumulation and phase wrapping. This article will d
 
 ## A Quick Note About Floating Point Precision
 
-In the naïve oscillator example, we used double‑precision phase values to keep numerical behavior from distracting from the phase‑accumulator model itself. In this article, the examples switch to single‑precision floating point, reflecting common practice in real‑time audio DSP, where `float` is typically chosen for performance and memory efficiency. 
+In the naïve oscillator example, we used double‑precision phase values to keep numerical behavior from distracting from the phase‑accumulator model itself. In this article, the examples switch to single‑precision floating point, reflecting common practice in real‑time audio DSP, where `float` is typically chosen for performance and memory efficiency.[^smith]
 
 This change doesn’t alter the oscillator’s structure or its intended behavior, but it makes the consequences of numerical representation easier to observe. With single precision, the effects of repeated accumulation, wrapping strategy, and long‑term stability become visible much sooner.
 
@@ -37,7 +37,7 @@ This prevents unbounded growth, precision collapse, and outright numerical failu
 
 ## Floating-Point Accumulation
 
-Phase accumulators rely on repeated addition. Each step introduces a small rounding error. Individually, these errors are negligible. Over time, they accumulate.
+Phase accumulators rely on repeated addition. Each step introduces a small rounding error. Individually, these errors are negligible. Over time, they accumulate.[^goldberg]
 
 Important distinctions:
 
@@ -118,3 +118,10 @@ This plot compares a single-precision phase accumulator against a double-precisi
 ## What's Next
 
 In the next article, we'll keep the same phase model but turn to the discontinuities that arise when phase is mapped to an output waveform, even when phase itself is handled correctly.
+
+## Notes
+
+[^smith]: Smith, Steven W. "DSP Software" *The Scientist and Engineer's Guide to
+Digital Signal Processing*. [https://www.dspguide.com/ch4.htm](https://www.dspguide.com/ch4.htm)
+
+[^goldberg]: Goldberg, David. “What Every Computer Scientist Should Know About Floating-Point Arithmetic.” *ACM Computing Surveys*, 1991. [https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html)
