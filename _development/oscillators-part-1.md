@@ -145,8 +145,8 @@ In the next article, we will be looking at phase and numerical precision.
 
 ## Notes
 
-[^oppenheim]: Oppenheim, Alan V., and Ronald W. Schafer. *Discrete-Time Signal Processing*. Pearson, 2010. [https://www.pearson.com/en-us/subject-catalog/p/Oppenheim-Discrete-Time-Signal-Processing-3rd-Edition/P200000003226](https://www.pearson.com/en-us/subject-catalog/p/Oppenheim-Discrete-Time-Signal-Processing-3rd-Edition/P200000003226)
+[^oppenheim]: Oppenheim, Alan V., and Ronald W. Schafer. *Discrete-Time Signal Processing*. Pearson, 2010. [https://www.pearson.com/en-us/subject-catalog/p/Oppenheim-Discrete-Time-Signal-Processing-3rd-Edition/P200000003226](https://www.pearson.com/en-us/subject-catalog/p/Oppenheim-Discrete-Time-Signal-Processing-3rd-Edition/P200000003226).
 
-[^smith]: Smith, Steven W. "The Sampling Theorem." *The Scientist and Engineer's Guide to Digital Signal Processing*. [https://www.dspguide.com/ch3/2.htm](https://www.dspguide.com/ch3/2.htm)
+[^smith]: Smith, Steven W. "The Sampling Theorem." *The Scientist and Engineer's Guide to Digital Signal Processing*. [https://www.dspguide.com/ch3/2.htm](https://www.dspguide.com/ch3/2.htm).
 
-[^hummels]: Hummels, Don. *Numerically Controlled Oscillators*. University of Maine. [https://web.eece.maine.edu/~hummels/classes/ece486/docs/NCO_tutorial.pdf](https://web.eece.maine.edu/~hummels/classes/ece486/docs/NCO_tutorial.pdf)
+[^hummels]: Hummels, Don. *Numerically Controlled Oscillators*. University of Maine. [https://web.eece.maine.edu/~hummels/classes/ece486/docs/NCO_tutorial.pdf](https://web.eece.maine.edu/~hummels/classes/ece486/docs/NCO_tutorial.pdf).

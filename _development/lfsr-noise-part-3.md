@@ -150,7 +150,7 @@ We *should* effectively end up with ```0 0 0``` after the right shift. A 3-bit i
 
 In fact, it will *continue* to pass the zero check in what is effectively a terminal state *28 more times* before the only set bit in the register gets cleared by the feedback bit.
 
- ** *Note that the SuperCollider plugin doesn't do any bitmasking. Its internal logic is a bit different from what we'll end up with here.*
+ ** *Note that the SuperCollider plugin doesn't do any bitmasking. Its internal logic is a bit different from what we'll end up with here.*[^sc_lfsr]
 
 ## Variable Width Step Function
 
@@ -452,3 +452,7 @@ Experiment with different width values to hear how the tonal character changes:
 - **15 bits**: The standard NES/Game Boy noise mode
 
 Try the reset button to manually reset the LFSR state back to its seed value.
+
+## Notes
+
+[^sc_lfsr]: Sytsma, Josiah. *LFSRNoise UGens*. Source code, 2024. [https://github.com/mjsyts/LFSRNoiseUGens/blob/main/LFSRNoiseUGens/LFSRNoise.cpp](https://github.com/mjsyts/LFSRNoiseUGens/blob/main/LFSRNoiseUGens/LFSRNoise.cpp).

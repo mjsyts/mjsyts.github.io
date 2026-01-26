@@ -207,7 +207,7 @@ private:
 
 In discrete time, abrupt change becomes wideband energy. The sharper the transition, the broader the spectrum it demands. When that demand exceeds what the system can represent, the excess energy doesn’t disappear—it shows up where it doesn’t belong.
 
-This problem—known as **aliasing**—is not a separate phenomenon, but the direct result of discontinuity in a finite system.
+This problem—known as **aliasing**—is not a separate phenomenon, but the direct result of discontinuity in a finite system.[^smith]
 
 Phase wrapping prevents unbounded growth. It does **not** remove sharp edges. A perfectly wrapped oscillator can still fail once discontinuities enter the picture.
 
@@ -217,7 +217,7 @@ Once discontinuities exist, their consequences are unavoidable. A discrete-time 
 
 Instead, it **folds back**.
 
-As harmonics exceed the representable bandwidth, they reflect around the **Nyquist limit**: (`Fs / 2`), and reappear at lower frequencies. These components are no longer harmonically related to the fundamental. As the oscillator’s frequency increases, they move downward rather than upward, producing inharmonic structure that was never present in the original signal.
+As harmonics exceed the representable bandwidth, they reflect around the **Nyquist limit**: (`Fs / 2`), and reappear at lower frequencies. These components are no longer harmonically related to the fundamental. As the oscillator’s frequency increases, they move downward rather than upward, producing inharmonic structure that was never present in the original signal.[^j_smith]
 
 This behavior is still fully deterministic. Nothing “random” is happening and nothing is numerically broken. The oscillator is behaving exactly as a finite system must when asked to represent sharp change.
 
@@ -241,3 +241,11 @@ Use the visualizer below to see and hear how different naïve oscillators alias 
 ## What's Next
 
 In the next article, we'll discuss antialiasing.
+
+## Notes
+
+[^j_smith]: Smith, Julian O. "Aliasing of Sampled Signals." *Mathematics of the Discrete Fourier Transform (DFT), with Audio Applications*. [https://ccrma.stanford.edu/~jos/st/Aliasing_Sampled_Signals.html](https://ccrma.stanford.edu/~jos/st/Aliasing_Sampled_Signals.html).
+
+[^smith]: Smith, Steven W. "The Sampling Theorem." *The Scientist and Engineer's Guide to Digital Signal Processing*. [https://www.dspguide.com/ch3/2.htm](https://www.dspguide.com/ch3/2.htm).
+
+[^oppenheim]: Oppenheim, Alan V., and Ronald W. Schafer. *Discrete-Time Signal Processing*. Pearson, 2010. [https://www.pearson.com/en-us/subject-catalog/p/Oppenheim-Discrete-Time-Signal-Processing-3rd-Edition/P200000003226](https://www.pearson.com/en-us/subject-catalog/p/Oppenheim-Discrete-Time-Signal-Processing-3rd-Edition/P200000003226).

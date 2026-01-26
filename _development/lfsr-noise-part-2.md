@@ -270,4 +270,6 @@ registerProcessor("lfsr-noise", LfsrNoiseProcessor);
 
 Our next step is to start varying the width of the shift register, which will introduce its own set of unique problems.
 
-[^sc_lfsr]: Sytsma, Josiah. *LFSRNoise UGens*. Source code, 2024. [https://github.com/mjsyts/LFSRNoiseUGens/blob/main/LFSRNoiseUGens/LFSRNoise.cpp](https://github.com/mjsyts/LFSRNoiseUGens/blob/main/LFSRNoiseUGens/LFSRNoise.cpp)
+## Notes
+
+[^sc_lfsr]: Sytsma, Josiah. *LFSRNoise UGens*. Source code, 2024. [https://github.com/mjsyts/LFSRNoiseUGens/blob/main/LFSRNoiseUGens/LFSRNoise.cpp](https://github.com/mjsyts/LFSRNoiseUGens/blob/main/LFSRNoiseUGens/LFSRNoise.cpp).
