@@ -35,7 +35,7 @@ This separation allows the system to behave musically. We are not changing *what
 
 Adding a frequency control introduces a timing mismatch: audio advances sample by sample, but the LFSR advances in discrete steps.
 
-To bridge that gap, I’m using a **phase accumulator** — the same mechanism used in digital oscillators, repurposed here to schedule register updates.
+To bridge that gap, I’m using a **phase accumulator** — the same mechanism used in digital oscillators, repurposed here to schedule register updates.[^sc_lfsr]
 
 Each audio sample advances a running phase value. When that phase crosses one or more whole cycles, the LFSR steps accordingly and the phase wraps. Between steps, the register output is held.
 
@@ -269,3 +269,5 @@ registerProcessor("lfsr-noise", LfsrNoiseProcessor);
 ## What’s Next
 
 Our next step is to start varying the width of the shift register, which will introduce its own set of unique problems.
+
+[^sc_lfsr]: Sytsma, Josiah. *LFSRNoise UGens*. Source code, 2024. [https://github.com/mjsyts/LFSRNoiseUGens/blob/main/LFSRNoiseUGens/LFSRNoise.cpp](https://github.com/mjsyts/LFSRNoiseUGens/blob/main/LFSRNoiseUGens/LFSRNoise.cpp)
