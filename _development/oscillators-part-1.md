@@ -17,11 +17,11 @@ This series is about digital oscillators as algorithms operating under discrete-
 
 > **The oscillator is the smallest system in which the fundamental constraints of discrete-time audio already apply.** 
 
-Part 1 focuses on establishing a basic model and working definition. Later posts address specific implementation strategies, aliasing, bandlimiting, and oversampling. 
+Part 1 focuses on establishing a basic model and working definition. Later posts address specific implementation strategies, aliasing, and antialiasing. 
 
 ## Discrete Time as a Constraint 
 
-Sound unfolds continuously in the physical world, but computers don't store or operate on continuous processes. To represent sound in a form that can be indexed, stored in memory, and manipulated algorithmically, time must be **discretized** — sampled at regular intervals. A useful analogy is a flipbook: continuous motion is represented as a sequence of individual pages. We will consider digital audio as a sequence of sampled values indexed by `n` taken at the sample rate `Fs`. 
+Sound unfolds continuously in the physical world, but computers don't store or operate on continuous processes. To represent sound in a form that can be indexed, stored in memory, and manipulated algorithmically, time must be **discretized** — sampled at regular intervals. A useful analogy is a flipbook: continuous motion is represented as a sequence of individual pages. We will consider digital audio as a sequence of sampled values indexed by `n` taken at the sample rate `Fs`.[^oppenheim] 
 
 <div class="applet applet--md"> <iframe class="applet__frame" src="/applets/oscillator/p1/discrete-time/index.html" loading="lazy"></iframe> </div> 
 
@@ -32,7 +32,7 @@ An oscillator has the following properties:
 - It **varies**: the signal is not constant. 
 - It is **cyclic**: the same sequence of values repeats in the same order. 
 
-In discrete time, cyclic repetition means there exists a finite period $N$ such that $$ x[n] = x[n + N] $$ for exact sample-periodic signals.   
+In discrete time, cyclic repetition means there exists a finite period $N$ such that $$ x[n] = x[n + N] $$ for exact sample-periodic signals.  
 
 Signals that fail to meet one or more of these conditions are not oscillators: 
 - A **constant signal** is sustained but does not vary. 
@@ -43,14 +43,14 @@ This definition is structural rather than perceptual - it does not depend on how
 
 ## Period and Frequency 
 
-In discrete time, we quantify the **period** of an oscillator in **samples**. For an exactly periodic discrete-time oscillator, **frequency** is a derived quantity: $$ f = Fs / N $$ 
+In discrete time, we quantify the **period** of an oscillator in **samples**. For an exactly periodic discrete-time oscillator, **frequency** is a derived quantity: $$ f = Fs / N $$
 
-As a consequence, not all frequency values are perfectly representable in digital audio. Exact cyclic repetition requires the period `N` to be an integer number of samples. This means that only frequencies of the form `Fs / N` can repeat exactly. For many frequencies, `Fs / f` is not an integer. In those cases, the signal can get very close to the desired frequency, but it cannot repeat with perfect sample-level periodicity. This limitation follows directly from discrete time and does not depend on the waveform or implementation. In other words:  
+As a consequence, not all frequency values are perfectly representable in digital audio. Exact cyclic repetition requires the period `N` to be an integer number of samples. This means that only frequencies of the form `Fs / N` can repeat exactly. For many frequencies, `Fs / f` is not an integer. In those cases, the signal can get very close to the desired frequency, but it cannot repeat with perfect sample-level periodicity. This limitation follows directly from discrete time and does not depend on the waveform or implementation.[^oppenheim][^smith] In other words:  
 
 ***Discrete time gives you a grid of sample points, and many periods do not align exactly with that grid.*** 
 
 For example:  
-At 48 kHz, a 440 Hz tone would require a period of 109.09 samples and we can't have a .09th sample. A phase accumulator solves this by allowing fractional phase increments, even though the underlying cycle never aligns perfectly with the sample grid over any finite window. 
+At 48 kHz, a 440 Hz tone would require a period of 109.09 samples and we can't have a .09th sample. A phase accumulator solves this by allowing fractional phase increments, even though the underlying cycle never aligns perfectly with the sample grid over any finite window.[^hummels]
 
 ## State and Phase 
 It is helpful to think of generating an oscillator as repeating a pattern. To do that, the generator must remember where it is within the pattern. An oscillator is therefore a **stateful system**. At each sample, it produces an output and updates an internal state that determines what comes next. That state represents position within a cycle. We call this position **phase**.  
@@ -61,7 +61,7 @@ The separation of **phase as position** and **waveform as shape** will be centra
 
 ## The Phase Accumulator Model 
 
-Once phase is treated as a state variable, the simplest way to generate an oscillator is to advance that state by a fixed amount at each sample. This approach is known as the **phase accumulator model**. At every step, phase is incremented, wrapped when it exceeds the cycle, and then mapped to an output value. 
+Once phase is treated as a state variable, the simplest way to generate an oscillator is to advance that state by a fixed amount at each sample. This approach is known as the **phase accumulator model**.[^hummels][^oppenheim] At every step, phase is incremented, wrapped when it exceeds the cycle, and then mapped to an output value.
 
 <p style="text-align: center; font-weight: 600; font-style: italic;"> In this series we’ll normalize phase so the cycle length is 1. </p> 
 
@@ -85,7 +85,7 @@ output = waveform(phase)
 
 ## From Phase to Signal 
 
-The phase accumulator tells us *where* we are in a cycle, but does not specify *what the signal looks like*. In order to produce audio, we need a **waveform**: a function that maps phase to an amplitude value. In its simplest form: 
+The phase accumulator tells us *where* we are in a cycle, but does not specify *what the signal looks like*. In order to produce audio, we need a **waveform**: a function that maps phase to an amplitude value.[^hummels] In its simplest form: 
 $$ y[n]=waveform(phase[n]) $$  
 
 Since we're normalizing phase to [0,1), a sine wave for example is just a convenient mapping: 
@@ -142,3 +142,12 @@ We will address these issues throughout the series.
 ## What's Next
 
 In the next article, we will be looking at phase and numerical precision.
+
+## Notes
+
+[^oppenheim]: Oppenheim, Alan V., and Ronald W. Schafer. *Discrete-Time Signal Processing*. Pearson, 2010. [https://www.pearson.com/en-us/subject-catalog/p/Oppenheim-Discrete-Time-Signal-Processing-3rd-Edition/P200000003226](https://www.pearson.com/en-us/subject-catalog/p/Oppenheim-Discrete-Time-Signal-Processing-3rd-Edition/P200000003226)
+
+[^smith]: Smith, Steven W. "The Sampling Theorem." *The Scientist and Engineer's Guide to
+Digital Signal Processing*. [https://www.dspguide.com/ch3/2.htm](https://www.dspguide.com/ch3/2.htm)
+
+[^hummels]: Hummels, Don. *Numerically Controlled Oscillators*. University of Maine. [https://web.eece.maine.edu/~hummels/classes/ece486/docs/NCO_tutorial.pdf](https://web.eece.maine.edu/~hummels/classes/ece486/docs/NCO_tutorial.pdf)
