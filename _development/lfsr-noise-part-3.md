@@ -2,7 +2,7 @@
 layout: post
 title: "LFSR Noise Generator — Part 3: Variable Width & Terminal States"
 date: 2026-01-11
-last_modified_at: 2026-01-19
+last_modified_at: 2026-01-26
 series: "LFSR Noise Generator"
 part: 3
 permalink: /development/lfsr-noise-part-3/
