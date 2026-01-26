@@ -1,4 +1,3 @@
-<!-- _includes/figures/wf-graph/graph.html -->
 <div class="applet wf" data-wf>
   <div class="applet-wrap">
     <div class="app-main">
@@ -6,30 +5,11 @@
       <!-- Toggles -->
       <div class="panel panel--padded">
         <div class="row wrap wf__toggles" role="group" aria-label="Toggle functions">
-          <button class="btn wf__btn is-on"
-                  data-target="phase"
-                  style="--dot:#4A4A4A"
-                  aria-pressed="true">phase</button>
-
-          <button class="btn wf__btn is-on"
-                  data-target="sine"
-                  style="--dot:var(--blue)"
-                  aria-pressed="true">sine</button>
-
-          <button class="btn wf__btn is-on"
-                  data-target="saw"
-                  style="--dot:var(--gold)"
-                  aria-pressed="true">saw</button>
-
-          <button class="btn wf__btn is-on"
-                  data-target="square"
-                  style="--dot:var(--coral)"
-                  aria-pressed="true">square</button>
-
-          <button class="btn wf__btn is-on"
-                  data-target="tri"
-                  style="--dot:var(--green)"
-                  aria-pressed="true">triangle</button>
+          <button class="btn wf__btn is-on" data-target="phase" style="--dot:#4A4A4A" aria-pressed="true">phase</button>
+          <button class="btn wf__btn is-on" data-target="sine" style="--dot:var(--blue)" aria-pressed="true">sine</button>
+          <button class="btn wf__btn is-on" data-target="saw" style="--dot:var(--gold)" aria-pressed="true">saw</button>
+          <button class="btn wf__btn is-on" data-target="square" style="--dot:var(--coral)" aria-pressed="true">square</button>
+          <button class="btn wf__btn is-on" data-target="tri" style="--dot:var(--green)" aria-pressed="true">triangle</button>
         </div>
       </div>
 
@@ -44,17 +24,34 @@
           <!-- Background -->
           <rect class="wf__bg" x="0" y="0" width="980" height="440" rx="14"></rect>
 
-          <!-- Phase (bounded band: 0→1 with visible wrap/reset) -->
+          <!-- Axes -->
+          <g class="wf__axes" stroke="#888" stroke-width="2">
+            <line x1="70" y1="380" x2="910" y2="380" /> <!-- x-axis -->
+            <line x1="70" y1="55"  x2="70"  y2="380" /> <!-- y-axis -->
+          </g>
+
+          <!-- Optional gridlines -->
+          <g stroke="#aaa" stroke-width="1">
+            <line x1="70" y1="272" x2="910" y2="272" />
+            <line x1="70" y1="165" x2="910" y2="165" />
+            <line x1="70" y1="380" x2="910" y2="380" />
+          </g>
+
+          <!-- Phase -->
           <g data-wf-series="phase" class="wf__series wf__series--phase">
             <path d="M 70 135 L 910 55"></path>
             <line x1="910" y1="55" x2="910" y2="135"></line>
           </g>
 
-          <!-- Sine -->
+          <!-- Corrected Sine -->
           <g data-wf-series="sine" class="wf__series wf__series--sine">
-            <path d="M 70 272
-                     C 175 165, 385 165, 490 272
-                     C 595 380, 805 380, 910 272"></path>
+            <path d="
+              M 70 272
+              C 70 165, 186 165, 280 272
+              C 280 380, 164 380, 490 272
+              C 490 165, 606 165, 700 272
+              C 700 380, 584 380, 910 272
+            " />
           </g>
 
           <!-- Saw -->
