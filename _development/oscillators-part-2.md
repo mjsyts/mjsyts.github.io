@@ -121,7 +121,7 @@ In the next article, we'll keep the same phase model but turn to the discontinui
 
 ## Notes
 
-[^smith]: Smith, Steven W. "DSP Software" *The Scientist and Engineer's Guide to
+[^smith]: Smith, Steven W. "DSP Software." *The Scientist and Engineer's Guide to
 Digital Signal Processing*. [https://www.dspguide.com/ch4.htm](https://www.dspguide.com/ch4.htm)
 
 [^goldberg]: Goldberg, David. “What Every Computer Scientist Should Know About Floating-Point Arithmetic.” *ACM Computing Surveys*, 1991. [https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html)
