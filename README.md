@@ -37,6 +37,99 @@ After publishing a new article, add an entry to `_data/notify_queue.yml`:
 
 When the email is sent through MailerLite, update `status: queued` to `status: sent`.
 
+## Citations & References
+
+This site uses Markdown footnotes (via kramdown) for citations.
+
+---
+
+### Inline citations
+
+Use footnote references inline:
+
+```
+Aliasing is unavoidable at discontinuities.[^stilson99]
+```
+
+The text inside `[^ ]` is an identifier only (not displayed).
+Use short, lowercase, meaningful IDs.
+
+Good examples:
+
+* `[^stilson99]`
+* `[^follin_gdc]`
+* `[^smith_blep]`
+
+Avoid numeric or vague IDs.
+
+---
+
+### Footnote definitions
+
+Define footnotes at the **bottom of the Markdown file**:
+
+```
+[^stilson99]: Stilson, Timothy, and Julius O. Smith. *Alias-Free Digital Synthesis of Classic Analog Waveforms*. CCRMA, 1999. https://ccrma.stanford.edu/~stilti/papers/blit.pdf
+```
+
+Footnotes may be reused multiple times in a post by referencing the same ID.
+
+---
+
+### Formatting style
+
+Use the following format consistently:
+
+```
+Last, First. *Title*. Publisher / Venue, Year. URL.
+```
+
+Guidelines:
+
+* Author names: Last, First
+* Titles: italicized
+* URLs: placed at the end
+* Do not hyperlink the entire entry
+* Omit access dates unless the source is volatile
+
+Examples:
+
+```
+[^roads96]: Roads, Curtis. *The Computer Music Tutorial*. MIT Press, 1996.
+[^follin_gdc]: Follin, Tim. *Composing for the NES*. Game Developers Conference, 2018. https://www.youtube.com/watch?v=XXXX
+```
+
+---
+
+### Multiple citations
+
+Multiple sources may be cited in a single location:
+
+```
+This approach is well documented.[^stilson99][^smith_phd]
+```
+
+---
+
+### Works Cited (optional)
+
+For source-heavy posts, a dedicated references section may be used:
+
+```
+## Works Cited
+{: .refs }
+```
+
+Entries are formatted the same way as footnotes.
+
+---
+
+### Styling
+
+Citation styling is handled globally via `citations.css`.
+No per-post HTML or CSS is required.
+
+
 ## Repository structure
 
 ```
