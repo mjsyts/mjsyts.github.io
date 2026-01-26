@@ -57,8 +57,8 @@ struct Phase {
 
     float tick() {
         p += dp;
-        if (p >= 1.0f)
-            p -= 1.0f;
+        if (p >= 1.f)
+            p -= 1.f;
         return p;
     }
 };
@@ -74,7 +74,7 @@ $$
 
 ```cpp
 float sine(float p) {
-    return std::sinf(2.0f * float(M_PI) * p);
+    return std::sinf(2.f * float(M_PI) * p);
 }
 ```
 #### Sawtooth (rising):
@@ -85,7 +85,7 @@ $$
 
 ```cpp
 float saw(float p) {
-    return 2.0f * p - 1.0f;
+    return 2.f * p - 1.f;
 }
 ```
 
@@ -101,7 +101,7 @@ $$
 
 ```cpp
 float square(float p) {
-    return (p < 0.5f) ? 1.0f : -1.0f;
+    return (p < 0.5f) ? 1.f : -1.f;
 }
 ```
 
@@ -113,7 +113,7 @@ $$
 
 ```cpp
 float triangle(float p) {
-    return 1.0f - 4.0f * std::fabs(p - 0.5f);
+    return 1.f - 4.f * std::fabs(p - 0.5f);
 }
 ```
 
@@ -125,7 +125,8 @@ float triangle(float p) {
 #pragma once
 #include <cmath>
 
-struct Oscillator {
+class Oscillator {
+public:
     enum class Waveform { Sine, Saw, Square, Triangle };
 
     void setSampleRate(float sampleRate) {
@@ -154,7 +155,7 @@ struct Oscillator {
             case Waveform::Square:   return square(p);
             case Waveform::Triangle: return triangle(p);
         }
-        return 0.0f;
+        return 0.f;
     }
 
 private:
@@ -167,26 +168,26 @@ private:
 
         float tick() {
             p += dp;
-            if (p >= 1.0f) p -= 1.0f;
+            if (p >= 1.f) p -= 1.f;
             return p;
         }
     };
 
     // --- Waveforms (naïve / band-unlimited) ---
     static float sine(float p) {
-        return std::sinf(2.0f * float(M_PI) * p);
+        return std::sinf(2.f * float(M_PI) * p);
     }
 
     static float saw(float p) {
-        return 2.0f * p - 1.0f;
+        return 2.f * p - 1.f;
     }
 
     static float square(float p) {
-        return (p < 0.5f) ? 1.0f : -1.0f;
+        return (p < 0.5f) ? 1.f : -1.f;
     }
 
     static float triangle(float p) {
-        return 1.0f - 4.0f * std::fabs(p - 0.5f);
+        return 1.f - 4.f * std::fabs(p - 0.5f);
     }
 
     void updatePhaseInc() {
@@ -197,8 +198,8 @@ private:
     Phase phase;
     Waveform waveform = Waveform::Sine;
 
-    float f  = 440.0f;
-    float Fs = 48000.0f;
+    float f  = 440.f;
+    float Fs = 48000.f;
 };
 ```
 
