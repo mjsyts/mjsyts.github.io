@@ -10,8 +10,7 @@ permalink: /development/oscillators-part-3/
 tags: [dsp, oscillator, synthesis, c++]
 desc: "How waveform discontinuities produce aliasing in discrete-time oscillators, even when phase is handled correctly."
 thumb: "/assets/images/thumbs/development/oscillator.jpg"
-# applet_theme: true
-# wf_graph: true
+desmos: true
 ---
 
 ## After Phase
@@ -117,7 +116,9 @@ float triangle(float p) {
 }
 ```
 
-<!-- ### Waveform Graph -->
+### Waveform Graph
+
+<iframe src="https://www.desmos.com/calculator/qbolruq9da?embed" width="960" height="500" style="border: 1px solid #ccc" frameborder=0></iframe>
 
 ### Full Implementation
 
