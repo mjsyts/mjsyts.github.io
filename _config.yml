@@ -46,7 +46,7 @@ nav:
     status: draft
   - title: Writing
     url: /writing/
-    status: live
+    status: draft
   - title: Development
     url: /development/
     status: live
