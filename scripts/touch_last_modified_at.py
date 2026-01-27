@@ -9,7 +9,7 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 TODAY = date.today().isoformat()
 
-TARGET_DIRS = [ROOT / "_posts", ROOT / "_development"]
+TARGET_DIRS = [ROOT / "_posts", ROOT / "_development", ROOT / "writing"]
 
 def git_changed_files() -> list[Path]:
     # Compare against previous commit on the branch.

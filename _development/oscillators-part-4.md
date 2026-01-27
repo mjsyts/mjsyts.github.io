@@ -50,9 +50,48 @@ With **min**imum-phase **b**and**l**imited st**ep** (**MinBLEP**), we smooth a d
 
 A **poly**nomial **b**and**l**imited st**ep** (**PolyBLEP**) replaces a discontinuity with a tiny smoothing curve computed directly from the oscillator’s phase. The idea is simple: whenever the waveform jumps, we add a short, smoothed curve that removes the infinitely sharp edge.[^valimaki] The oscillator remains naïve everywhere else, so we can easily integrate it directly in the oscillator class we built in [part 3 of the series]({% link _development/oscillators-part-3.md %}#full-implementation "Naïve oscillator class implementation").
 
-The poly
+PolyBLEP adds a short polynomial correction centered on the discontinuity. Below, we will implement **2nd-order PolyBLEP**, which modifies two samples: one before and one after the wrap point.
+
+## Fractional Delay
+
+The discontinuity doesn't happen *exactly* at a sample point — it happens somewhere *between* two consecutive samples.
+Phase wraps from ~1.0 back to ~0.0 each cycle. Right after that wrap, the **fractional delay** `d` can be calculated:
+
+```
+d = phase / phaseIncrement
+```
+
+This value ranges from 0 to 1 and represents where within the sample interval the discontinuity occurred. For example, if `d = 0.2`, the wrap happened 20% of the way into the interval. If `d = 0.8`, it happened 80% of the way through. This fractional position determines how the correction is shaped.
+
+## The Correction Polynomial
+
+We use `d` to compute the two values that need to be corrected:
+
+- The sample **before** the discontinuity: 
+
+$$ \frac{d^2}{2} $$
+
+- The sample **after** the discontinuity: 
+
+$$ \frac{d^2}{2} + d - \frac{1}{2} $$
+
+These quadratic expressions are derived from integrated linear interpolation (see Table I in Välimäki et al.[^valimaki]). They create a smooth, bandlimited transition that cancels the discontinuity's energy above Nyquist while keeping the correction localized to just two samples.
+
+## Implementation
+
+The correction polynomial can be implemented like so:
+
+```cpp
+float polyBlepBefore(float d) {
+    return d * d / 2.f;
+}
+
+float polyBlepAfter(float d) {
+    return d * d / 2.f + d - 0.5f;
+}
+```
 
 ## Notes
 
 <!-- [^brandt]: Brandt, Eli. *Hard Sync Without Aliasing*. Carnegie Mellon University. [https://www.cs.cmu.edu/~eli/papers/icmc01-hardsync.pdf](https://www.cs.cmu.edu/~eli/papers/icmc01-hardsync.pdf) -->
-[^valimaki]: Välimäki, V., Pekonen, J., & Nam, J. 
+[^valimaki]: Välimäki, Vesa, Jussi Pekonen, & Juhan Nam. "Perceptually informed synthesis of bandlimited classical waveforms using integrated polynomial interpolation." *Journal of the Acoustical Society of America*. Acoustical Society of America, 2012. [https://mac.kaist.ac.kr/pubs/ValimakiPeknenNam-jasa2012.pdf](https://mac.kaist.ac.kr/pubs/ValimakiPeknenNam-jasa2012.pdf)

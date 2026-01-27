@@ -44,12 +44,12 @@ nav:
   - title: Music
     url: /music/
     status: draft
+  - title: Writing
+    url: /writing/
+    status: live
   - title: Development
     url: /development/
     status: live
-  - title: Writing
-    url: /writing/
-    status: draft
 
 show_drafts_nav: false
 
@@ -58,6 +58,9 @@ collections:
   development:
     output: true
     permalink: /development/:name/
+  writing:
+    output: true
+    permalink: /writing/:name/
 
 # Defaults for collection entries
 defaults:

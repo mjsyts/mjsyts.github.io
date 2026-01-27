@@ -1,4 +1,4 @@
-// applets/_host/audio.js
+// applets/host/audio.js
 export class AudioEngine {
   constructor() {
     this.ctx = null;
