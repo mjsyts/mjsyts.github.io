@@ -4,6 +4,7 @@ title: "Syntax Highlighting Test"
 date: 2026-01-10
 tags: [test, syntax]
 published: false
+sitemap: false
 excerpt: "Test page for verifying C/C++ and JavaScript syntax highlighting, especially numeric literals with suffixes."
 ---
 

@@ -2,6 +2,7 @@
 title: "Post Style Test"
 description: "A kitchen-sink post to preview typography styles."
 published: false
+sitemap: false
 date: 2026-01-12
 ---
 
