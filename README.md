@@ -80,8 +80,8 @@ Footnotes may be reused multiple times in a post by referencing the same ID.
 
 Use the following format consistently:
 
-```
-Last, First. *Title*. Publisher / Venue, Year. URL.
+```md
+Last, First. *Title*. Publisher / Venue, Year. [URL](URL).
 ```
 
 Guidelines:

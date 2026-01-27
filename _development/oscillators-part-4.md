@@ -48,8 +48,11 @@ With **min**imum-phase **b**and**l**imited st**ep** (**MinBLEP**), we smooth a d
 
 ## PolyBLEP
 
-We can keep the underlying structure of our naïve oscillator since PolyBLEP is 
+A **poly**nomial **b**and**l**imited st**ep** (**PolyBLEP**) replaces a discontinuity with a tiny smoothing curve computed directly from the oscillator’s phase. The idea is simple: whenever the waveform jumps, we add a short, smoothed curve that removes the infinitely sharp edge.[^valimaki] The oscillator remains naïve everywhere else, so we can easily integrate it directly in the oscillator class we built in [part 3 of the series]({% link _development/oscillators-part-3.md %}#full-implementation "Naïve oscillator class implementation").
+
+The poly
 
 ## Notes
 
-[^brandt]: Brandt, Eli. *Hard Sync Without Aliasing*. Carnegie Mellon University. [https://www.cs.cmu.edu/~eli/papers/icmc01-hardsync.pdf](https://www.cs.cmu.edu/~eli/papers/icmc01-hardsync.pdf)
+<!-- [^brandt]: Brandt, Eli. *Hard Sync Without Aliasing*. Carnegie Mellon University. [https://www.cs.cmu.edu/~eli/papers/icmc01-hardsync.pdf](https://www.cs.cmu.edu/~eli/papers/icmc01-hardsync.pdf) -->
+[^valimaki]: Välimäki, V., Pekonen, J., & Nam, J. 
