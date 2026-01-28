@@ -20,6 +20,8 @@
 
   /* collapse behavior */
   --code-collapsed-max: 260px;
+  --code-collapse-threshold-padding: 60px;
+  --code-collapse-min-threshold: 240px;
 
   /* shared top-bar look */
   --codebar-bg: rgba(255,255,255,.35);
@@ -28,4 +30,13 @@
   /* fade overlay (avoid hardcoding your paper color in components) */
   --code-fade-from: rgba(250,249,246,0);
   --code-fade-to: rgba(250,249,246,.95);
+
+  /* animation timing */
+  --code-transition-duration: 0.2s;
+  --code-transition-timing: ease;
+
+  /* tab styling */
+  --codetab-active-bg: rgba(0,0,0,.04);
+  --codetab-active-border: var(--code-border);
+  --codetab-inactive-opacity: 0.78;
 }
