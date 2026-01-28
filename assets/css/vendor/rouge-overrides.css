@@ -96,6 +96,12 @@
   color: var(--green);
 }
 
+/* Some lexers tokenize the identifier after the type as .n instead of .nf.
+   Color an identifier immediately following a type token the same as function names. */
+.highlight .kt + .n {
+  color: var(--green);
+}
+
 /* Operators and punctuation — stay neutral */
 .highlight .o,
 .highlight .p {
