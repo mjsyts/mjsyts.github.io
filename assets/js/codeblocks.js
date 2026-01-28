@@ -229,7 +229,7 @@ const DOMBuilders = {
 
     const actions = document.createElement("div");
     actions.className = "codeblock__actions";
-    actions.appendChild(copyBtn);
+    if (copyBtn) actions.appendChild(copyBtn);
 
     bar.appendChild(lang);
     bar.appendChild(actions);
@@ -257,12 +257,15 @@ const DOMBuilders = {
     const bar = document.createElement("div");
     bar.className = "codegroup__bar";
 
-    const actions = document.createElement("div");
-    actions.className = "codegroup__actions";
-    actions.appendChild(copyBtn);
-
     bar.appendChild(tabsContainer);
-    bar.appendChild(actions);
+
+    if (copyBtn) {
+      const actions = document.createElement("div");
+      actions.className = "codegroup__actions";
+      actions.appendChild(copyBtn);
+      bar.appendChild(actions);
+    }
+
     return bar;
   },
 
