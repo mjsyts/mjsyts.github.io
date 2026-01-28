@@ -5,6 +5,23 @@
 
 
 /* =========================================================
+   Accessibility utilities
+   ========================================================= */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* =========================================================
    Shared primitives
    ========================================================= */
 
@@ -37,7 +54,8 @@
   justify-content: center;
   
   color: var(--code-muted);
-  transition: color 0.2s, background 0.2s;
+  transition: color var(--code-transition-duration) var(--code-transition-timing),
+              background var(--code-transition-duration) var(--code-transition-timing);
 }
 
 .codeblock__copy-btn:hover{
@@ -79,7 +97,7 @@
   letter-spacing: .08em;
   text-transform: lowercase;
   color: var(--code-text);
-  transition: background 0.2s;
+  transition: background var(--code-transition-duration) var(--code-transition-timing);
 }
 
 .codeblock__expand-btn:hover{
@@ -100,7 +118,7 @@
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-  transition: transform 0.2s;
+  transition: transform var(--code-transition-duration) var(--code-transition-timing);
 }
 
 /* Rotate arrow when expanded */
@@ -213,7 +231,9 @@
   font-size: 12px;
   letter-spacing: .08em;
   color: var(--code-text);
-  opacity: .78;
+  opacity: var(--codetab-inactive-opacity);
+  transition: background var(--code-transition-duration) var(--code-transition-timing),
+              opacity var(--code-transition-duration) var(--code-transition-timing);
 }
 
 .codegroup__tab:hover{
@@ -222,8 +242,13 @@
 
 .codegroup__tab[aria-selected="true"]{
   opacity: 1;
-  border-color: var(--code-border);
-  background: rgba(0,0,0,.04);
+  border-color: var(--codetab-active-border);
+  background: var(--codetab-active-bg);
+}
+
+.codegroup__tab:focus-visible{
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 /* Panels are transparent; container owns background */
