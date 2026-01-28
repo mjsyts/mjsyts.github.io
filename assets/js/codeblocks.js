@@ -537,8 +537,9 @@ class CodeBlockManager {
 
     // Create status region for accessibility
     this.statusRegion = DOMBuilders.statusRegion();
-    this.root.appendChild?.(this.statusRegion) ||
-      document.body.appendChild(this.statusRegion);
+    const statusParent =
+      this.root === document ? document.body : this.root;
+    statusParent.appendChild(this.statusRegion);
 
     // Process code groups first (they may contain blocks)
     if (this.options.enableTabs) {
