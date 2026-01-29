@@ -233,7 +233,7 @@ Use the visualizer below to see and hear how different naïve oscillators alias 
       class="applet__frame"
       src="/applets/oscillator/p3/aliasing/aliasing.html"
       loading="lazy"
-      title="Naive Oscillator Aliasing">
+      title="naive oscillator aliasing">
     </iframe>
   </div>
 </div>

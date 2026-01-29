@@ -200,7 +200,16 @@ iframe {
 }
 
 /* -----------------------------
-   Ranges
+    Checkboxes
+   ----------------------------- */
+
+input[type="checkbox"]:disabled+.label {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* -----------------------------
+    Ranges
    ----------------------------- */
 
 .range {
@@ -266,11 +275,9 @@ iframe {
 }
 
 .btn.primary {
-  background: linear-gradient(
-    180deg,
-    rgba(45, 92, 140, 0.18),
-    rgba(45, 92, 140, 0.10)
-  );
+  background: linear-gradient(180deg,
+      rgba(45, 92, 140, 0.18),
+      rgba(45, 92, 140, 0.10));
   border-color: rgba(45, 92, 140, 0.38);
 }
 

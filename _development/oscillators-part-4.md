@@ -79,6 +79,52 @@ These quadratic expressions are derived from integrated linear interpolation (se
 
 ## Implementation
 
+### Adding a PolyBLEP Toggle
+
+We will add `bool polyBLEP` as a private member variable with a public setter:
+
+```cpp
+class Oscillator{
+public:
+    //...
+    void setPolyBlep(bool enabled){
+        polyBlep = enabled;
+    }
+private:
+    bool polyBlep = false;
+}
+```
+
+### The Buffer Problem
+
+At this point a problem becomes apparent: the correction must be applied to the sample before the discontinuity, but by the time the wrap is detected, that sample has already been output. We cannot retroactively correct an output sample.
+
+The solution is to buffer the output by one sample. This allows the correction to be applied *before* the value is returned.
+
+### Tracking Phase History
+
+To detect discontinuities, the `Phase` struct must track the previous phase value.
+
+```cpp
+struct Phase {
+    float p = 0.f;      // phase
+    float prev = 0.f;   // previous phase <-THIS IS NEW
+    float dp = 0.f;     // phase increment
+
+    // ...
+    
+    float tick() {
+        prev = p;       // store before updating
+        p += dp;
+        if (p >= 1.f)
+            p -= 1.f;
+        return p;
+    }
+};
+```
+
+### Correction Functions
+
 The correction polynomial can be implemented like so:
 
 ```cpp
@@ -91,7 +137,306 @@ float polyBlepAfter(float d) {
 }
 ```
 
+<p style="font-style: italic;">
+**Triangle waves require a different correction due to their derivative discontinuities and are not covered in this article.
+</p>
+
+### Detection Functions
+
+Discontinuities must be detected by comparing phase before and after each update.
+
+The **wrap** can be detected when phase decreases:
+
+```cpp
+bool detectWrap(float phaseBefore, float phaseAfter) {
+    return phaseBefore > phaseAfter;
+}
+```
+
+**Threshold crossings** can be detected when phase rises past a specific value:
+
+```cpp
+bool detectRisingEdge(float phaseBefore, float phaseAfter, float threshold) {
+    return phaseBefore < threshold && phaseAfter >= threshold;
+}
+```
+
+When a discontinuity is detected, the fractional delay `d` must be calculated to determine where within the sample interval it occurred. The detection functions can be modified to calculate and return this value.
+
+```cpp
+// d is passed by reference (&) so the function can set its value
+bool detectWrap(float phaseBefore, float phaseAfter, float& d) {
+    if (phaseBefore > phaseAfter) {
+        d = phaseAfter / phase.dp;  // calculate fractional delay
+        return true;
+    }
+    return false;
+}
+
+bool detectRisingEdge(float phaseBefore, float phaseAfter, float threshold, float& d) {
+    if (phaseBefore < threshold && phaseAfter >= threshold) {
+        d = (phaseAfter - threshold) / phase.dp;  // calculate fractional delay
+        return true;
+    }
+    return false;
+}
+```
+
+### Modified `tick()` Function
+
+The modified `tick()` method in the `Oscillator` class generates the naïve sample, detects discontinuities, applies corrections, and buffers the output.
+
+We only need to detect discontinuities and apply the correction when `polyBlep = true`. We can add this conditional block to the function:
+
+```cpp
+if (polyBlep) {
+    float d;
+    
+    // Detect and correct wrap (saw and square)
+    if (detectWrap(phase.prev, p, d)) {
+        if (waveform == Waveform::Saw || waveform == Waveform::Square) {
+            previousSample += polyBlepBefore(d);
+            currentSample += polyBlepAfter(d);
+        }
+    }
+    
+    // Detect and correct 0.5 crossing (square only)
+    if (waveform == Waveform::Square) {
+        if (detectRisingEdge(phase.prev, p, 0.5f, d)) {
+            previousSample -= polyBlepBefore(d);
+            currentSample -= polyBlepAfter(d);
+        }
+    }
+}
+```
+
+Since the PolyBLEP oscillator needs a single-sample buffer, we should apply the buffer to *all* of the oscillator types, not just the PolyBLEP. This will go at the end of the `tick()` function:
+
+```cpp
+// Return buffered sample and store current for next iteration
+float output = previousSample;
+previousSample = currentSample;
+return output;
+```
+
+So the full `tick()` function looks like this:
+
+```cpp
+float tick() {
+    const float p = phase.tick();
+    
+    // Generate naïve sample
+    float currentSample;
+    switch (waveform) {
+        case Waveform::Sine:     currentSample = sine(p); break;
+        case Waveform::Saw:      currentSample = saw(p); break;
+        case Waveform::Square:   currentSample = square(p); break;
+        case Waveform::Triangle: currentSample = triangle(p); break;
+        default: currentSample = 0.f;
+    }
+    
+    // Apply PolyBLEP correction
+    if (polyBlep) {
+        float d;
+        
+        // Detect and correct wrap (saw and square)
+        if (detectWrap(phase.prev, p, d)) {
+            if (waveform == Waveform::Saw || waveform == Waveform::Square) {
+                previousSample += polyBlepBefore(d);
+                currentSample += polyBlepAfter(d);
+            }
+        }
+        
+        // Detect and correct 0.5 crossing (square only)
+        if (waveform == Waveform::Square) {
+            if (detectRisingEdge(phase.prev, p, 0.5f, d)) {
+                previousSample -= polyBlepBefore(d);
+                currentSample -= polyBlepAfter(d);
+            }
+        }
+    }
+    
+    // Return buffered sample and store current for next iteration
+    float output = previousSample;
+    previousSample = currentSample;
+    return output;
+}
+```
+
+## Full Implementation
+
+Here's the full `Oscillator` class with 2nd-order PolyBLEP:
+
+```cpp
+#pragma once
+#include <cmath>
+
+class Oscillator {
+public:
+    enum class Waveform { Sine, Saw, Square, Triangle };
+
+    void setSampleRate(float sampleRate) {
+        Fs = sampleRate;
+        updatePhaseInc();
+    }
+
+    void setFrequency(float frequency) {
+        f = frequency;
+        updatePhaseInc();
+    }
+
+    void setWaveform(Waveform w) {
+        waveform = w;
+    }
+
+    void setPolyBlep(bool enabled) {
+        polyBlep = enabled;
+    }
+
+    void resetPhase(float p0 = 0.f) {
+        phase.p = p0; // assume p0 in [0,1) for this naïve example
+    }
+
+    float tick() {
+        const float p = phase.tick();
+        
+        // Generate naïve sample
+        float currentSample;
+        switch (waveform) {
+            case Waveform::Sine:     currentSample = sine(p); break;
+            case Waveform::Saw:      currentSample = saw(p); break;
+            case Waveform::Square:   currentSample = square(p); break;
+            case Waveform::Triangle: currentSample = triangle(p); break;
+            default: currentSample = 0.f;
+        }
+        
+        // Apply PolyBLEP correction
+        if (polyBlep) {
+            float d;
+            
+            // Detect and correct wrap (saw and square)
+            if (detectWrap(phase.prev, p, d)) {
+                if (waveform == Waveform::Saw || waveform == Waveform::Square) {
+                    previousSample += polyBlepBefore(d);
+                    currentSample += polyBlepAfter(d);
+                }
+            }
+            
+            // Detect and correct 0.5 crossing (square only)
+            if (waveform == Waveform::Square) {
+                if (detectRisingEdge(phase.prev, p, 0.5f, d)) {
+                    previousSample -= polyBlepBefore(d);
+                    currentSample -= polyBlepAfter(d);
+                }
+            }
+        }
+        
+        // Return buffered sample and store current for next iteration
+        float output = previousSample;
+        previousSample = currentSample;
+        return output;
+    }
+
+private:
+    // --- Phase accumulator ---
+    struct Phase {
+        float p = 0.f;      // phase
+        float prev = 0.f;   // previous phase
+        float dp = 0.f;     // phase increment
+
+        void setFrequency(float f, float Fs) { dp = f / Fs; }
+
+        float tick() {
+            prev = p;
+            p += dp;
+            if (p >= 1.f) p -= 1.f;
+            return p;
+        }
+    };
+
+    // --- Waveforms (naïve / band-unlimited) ---
+    static float sine(float p) {
+        return std::sinf(2.f * float(M_PI) * p);
+    }
+
+    static float saw(float p) {
+        return 2.f * p - 1.f;
+    }
+
+    static float square(float p) {
+        return (p < 0.5f) ? 1.f : -1.f;
+    }
+
+    static float triangle(float p) {
+        return 1.f - 4.f * std::fabs(p - 0.5f);
+    }
+
+    static float polyBlepBefore(float d) {
+        return d * d / 2.f;
+    }
+
+    static float polyBlepAfter(float d) {
+        return d * d / 2.f + d - 0.5f;
+    }
+
+    bool detectWrap(float phaseBefore, float phaseAfter, float& d) {
+        if (phaseBefore > phaseAfter) {
+            d = phaseAfter / phase.dp;  // calculate fractional delay
+            return true;
+        }
+        return false;
+    }
+
+    bool detectRisingEdge(float phaseBefore, float phaseAfter, float threshold, float& d) {
+        if (phaseBefore < threshold && phaseAfter >= threshold) {
+            d = (phaseAfter - threshold) / phase.dp;  // calculate fractional delay
+            return true;
+        }
+        return false;
+    }
+
+    void updatePhaseInc() {
+        phase.setFrequency(f, Fs);
+    }
+
+    // Stored state
+    Phase phase;
+    Waveform waveform = Waveform::Sine;
+
+    float f  = 440.f;
+    float Fs = 48000.f;
+    float previousSample = 0.f;
+    bool polyBlep = false;
+};
+```
+
+## Try It Out
+
+The applet below demonstrates 2nd-order PolyBLEP antialiasing. Toggle PolyBLEP on and off while sweeping to hear the difference in aliasing suppression.
+
+<div class="applet applet--lg">
+  <div class="applet__wrap">
+    <iframe
+      class="applet__frame"
+      src="/applets/oscillator/p4/aliasing/aliasing.html"
+      loading="lazy"
+      title="polyBLEP oscillator aliasing">
+    </iframe>
+  </div>
+</div>
+
+## What's Next
+
+
+
+## Further Reading
+
+[FAUST PolyBLEP Oscillator Library](https://faustlibraries.grame.fr/libs/oscillators/#polyblep-based-oscillators)
+[Martin Finke's PolyBLEP Oscillator Tutorial](https://www.martin-finke.de/articles/audio-plugins-018-polyblep-oscillator/)
+
 ## Notes
 
 <!-- [^brandt]: Brandt, Eli. *Hard Sync Without Aliasing*. Carnegie Mellon University. [https://www.cs.cmu.edu/~eli/papers/icmc01-hardsync.pdf](https://www.cs.cmu.edu/~eli/papers/icmc01-hardsync.pdf) -->
 [^valimaki]: Välimäki, Vesa, Jussi Pekonen, & Juhan Nam. "Perceptually informed synthesis of bandlimited classical waveforms using integrated polynomial interpolation." *Journal of the Acoustical Society of America*. Acoustical Society of America, 2012. [https://mac.kaist.ac.kr/pubs/ValimakiPeknenNam-jasa2012.pdf](https://mac.kaist.ac.kr/pubs/ValimakiPeknenNam-jasa2012.pdf)
+
+## Recommended

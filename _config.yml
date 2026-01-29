@@ -20,6 +20,7 @@ kramdown:
 
 plugins:
   - jekyll-feed
+  - jekyll-sitemap
 
 # Include development collection in RSS feed
 feed:

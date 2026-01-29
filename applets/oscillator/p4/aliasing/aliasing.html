@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -16,7 +17,7 @@
           <div class="audio-head">
             <div class="audio-title">
               <div class="label" style="font-family: Pickllle, var(--ui); font-size: 1rem; letter-spacing: 0.04em;">
-                naïve oscillator aliasing
+                polyBLEP oscillator aliasing
               </div>
             </div>
 
@@ -35,6 +36,11 @@
               <option value="saw">saw</option>
               <option value="triangle">triangle</option>
             </select>
+
+            <label class="checkbox-wrap">
+              <input type="checkbox" id="polyblep" />
+              <span class="label">polyBLEP</span>
+            </label>
 
             <button id="toggle" class="btn primary">play sweep</button>
 
@@ -64,4 +70,5 @@
 
   <script type="module" src="./aliasing.js"></script>
 </body>
+
 </html>

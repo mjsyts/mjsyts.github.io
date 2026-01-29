@@ -38,20 +38,38 @@ function setWave() {
   if (osc) engine.setParam("wave", map[$("wave").value] ?? 0);
 }
 
+function setPolyBlep() {
+  if (osc) engine.setParam("polyblep", $("polyblep").checked ? 1 : 0);
+}
+
 function updateFreqReadout(hz) {
   const t = isFinite(hz) ? (hz >= 1000 ? `${(hz/1000).toFixed(2)} kHz` : `${Math.round(hz)} Hz`) : "—";
   $("freqTop").textContent = `freq: ${t}`;
+}
+
+function updatePolyBlepAvailability() {
+  const wave = $("wave").value;
+  const checkbox = $("polyblep");
+  
+  // Only enable for saw and square
+  if (wave === "saw" || wave === "square") {
+    checkbox.disabled = false;
+  } else {
+    checkbox.disabled = true;
+    checkbox.checked = false;
+    if (osc) engine.setParam("polyblep", 0);
+  }
 }
 
 async function setupOnce() {
   if (osc) return;
 
   await engine.init();
-  await engine.loadWorklet("./naive-osc.worklet.js");
+  await engine.loadWorklet("./polyblep-osc.worklet.js");
 
   updateFreqReadout(NaN);
 
-  osc = new AudioWorkletNode(engine.ctx, "naive-osc", {
+  osc = new AudioWorkletNode(engine.ctx, "polyblep-osc", {
     numberOfOutputs: 1,
     outputChannelCount: [1],
   });
@@ -100,6 +118,7 @@ async function start() {
   await engine.start();
 
   setWave();
+  updatePolyBlepAvailability();
   updateGainUI();
 
   spec.start();
@@ -151,10 +170,15 @@ $("gain").addEventListener("input", () => {
 
 $("wave").addEventListener("change", () => {
   setWave();
+  updatePolyBlepAvailability();
 });
 
 $("clear").addEventListener("click", () => {
   if (spec) spec.clear();
+});
+
+$("polyblep").addEventListener("change", () => {
+  setPolyBlep();
 });
 
 // ---- initial ----
