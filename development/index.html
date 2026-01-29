@@ -40,6 +40,21 @@ title: Development
 </main>
 
 <link rel="stylesheet" href="/assets/css/pages/archive.css" />
-<script defer src="/assets/js/archives/development-archive.js.liquid"></script>
+<script>
+window.ARCHIVE_POSTS = [
+  {% for post in site.development reversed %}
+  {
+    slug: {{ post.url | jsonify }},
+    title: {{ post.title | jsonify }},
+    date: "{{ post.date | date: '%Y-%m-%d' }}",
+    tags: {{ post.tags | jsonify }},
+    desc: {{ post.desc | jsonify }},
+    image: {{ post.thumb | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+];
+window.ARCHIVE_CONFIG = { mode: "link" };
+</script>
+<script defer src="/assets/js/archive.js"></script>
 
 {% include subscribe-disclosure.html %}
