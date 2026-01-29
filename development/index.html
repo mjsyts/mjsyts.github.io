@@ -17,7 +17,7 @@ title: Development
     <div class="archive__controls" role="search">
       <label class="archive-field">
         <span class="archive-field__label">Search</span>
-        <input id="searchInput" type="search" placeholder="e.g., lfsr, audio, unity…" />
+        <input id="searchInput" type="search" placeholder="e.g., lfsr, audio, unity…" autocomplete="off" />
       </label>
 
       <label class="archive-field">
@@ -28,9 +28,11 @@ title: Development
           <option value="az">Title A–Z</option>
         </select>
       </label>
+
+      <button id="clearBtn" class="archive-btn" type="button">Clear</button>
     </div>
 
-    <div id="tagBar" class="archive-tags"></div>
+    <div id="tagBar" class="archive-tags" aria-label="Filter tags"></div>
     <p class="archive__meta" id="resultsMeta">—</p>
   </header>
 
@@ -40,6 +42,21 @@ title: Development
 </main>
 
 <link rel="stylesheet" href="/assets/css/pages/archive.css" />
-<script defer src="/assets/js/archives/development-archive.js.liquid"></script>
+<script>
+window.ARCHIVE_POSTS = [
+  {% for post in site.development reversed %}
+  {
+    slug: {{ post.url | jsonify }},
+    title: {{ post.title | jsonify }},
+    date: "{{ post.date | date: '%Y-%m-%d' }}",
+    tags: {{ post.tags | jsonify }},
+    desc: {{ post.desc | jsonify }},
+    image: {{ post.thumb | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+  {% endfor %}
+];
+window.ARCHIVE_CONFIG = { mode: "link", showAllTag: true, showClearBtn: true };
+</script>
+<script defer src="/assets/js/archive.js"></script>
 
 {% include subscribe-disclosure.html %}

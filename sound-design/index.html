@@ -73,4 +73,13 @@ title: Sound Design
 </main>
 
 <link rel="stylesheet" href="/assets/css/pages/archive.css" />
-<script defer src="/assets/js/archives/sound-design-archive.js.liquid"></script>
+<script>
+window.ARCHIVE_POSTS = {{ site.data.sound_design.items | jsonify }};
+window.ARCHIVE_CONFIG = {
+  mode: "video",
+  showPagination: true,
+  showClearBtn: true,
+  showAllTag: true
+};
+</script>
+<script defer src="/assets/js/archive.js"></script>
