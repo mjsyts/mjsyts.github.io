@@ -12,7 +12,7 @@ desc: "PLACEHOLDER"
 thumb: "/assets/images/thumbs/writing/do-you-know-squarepusher.jpg"
 ---
 
-## Musical Expectation
+<!-- ## Musical Expectation
 
 When we listen to music, we are not simply hearing sound. As we listen, we are constantly forming expectations about **how sound should behave in time**. Those expectations operate at multiple levels: physical continuity, harmonic motion, formal progression, even language. When they are denied without being contradicted, the result can feel frustrating.
 
@@ -43,7 +43,4 @@ A sustained electronic kick drum illustrates this. Although a kick drum cannot s
 <script type="module">
   import "{{ '/applets/kick-decay/app.js' | relative_url }}";
 </script>
-
-
-
-## MOuse
+ -->
