@@ -1,13 +1,13 @@
 ---
 layout: post
 title: "Oscillators — Part 4: Antialiasing"
-date: 2026-01-21
+date: 2026-01-29
 last_modified_at: 2026-01-29
 series: "Oscillators"
 part: 4
-published: false
+published: true
 permalink: /development/oscillators-part-4/
-tags: [dsp, oscillator, synthesis, c++]
+tags: [dsp, oscillator, synthesis, c++, antialiasing, polyblep, blep]
 desc: "An introduction to oscillator antialiasing through BLEP/PolyBLEP."
 thumb: "/assets/images/thumbs/development/oscillator.jpg"
 ---
@@ -427,16 +427,15 @@ The applet below demonstrates 2nd-order PolyBLEP antialiasing. Toggle PolyBLEP o
 
 ## What's Next
 
-
+This concludes the oscillator series. We've built a complete phase accumulator model, addressed numerical stability, identified aliasing as the consequence of discontinuity, and implemented 2nd-order PolyBLEP antialiasing for saw and square waves.
+Several topics remain outside the scope of this series: higher-order PolyBLEP corrections, the triangle wave antialiasing (which requires integrated PolyBLEP due to derivative discontinuities), MinBLEP, and alternative antialiasing approaches such as oversampling. These techniques will be addressed in future articles.
 
 ## Further Reading
 
-[FAUST PolyBLEP Oscillator Library](https://faustlibraries.grame.fr/libs/oscillators/#polyblep-based-oscillators)
-[Martin Finke's PolyBLEP Oscillator Tutorial](https://www.martin-finke.de/articles/audio-plugins-018-polyblep-oscillator/)
+- [FAUST PolyBLEP Oscillator Library](https://faustlibraries.grame.fr/libs/oscillators/#polyblep-based-oscillators)
+- [Martin Finke's PolyBLEP Oscillator Tutorial](https://www.martin-finke.de/articles/audio-plugins-018-polyblep-oscillator/)
 
 ## Notes
 
 <!-- [^brandt]: Brandt, Eli. *Hard Sync Without Aliasing*. Carnegie Mellon University. [https://www.cs.cmu.edu/~eli/papers/icmc01-hardsync.pdf](https://www.cs.cmu.edu/~eli/papers/icmc01-hardsync.pdf) -->
 [^valimaki]: Välimäki, Vesa, Jussi Pekonen, & Juhan Nam. "Perceptually informed synthesis of bandlimited classical waveforms using integrated polynomial interpolation." *Journal of the Acoustical Society of America*. Acoustical Society of America, 2012. [https://mac.kaist.ac.kr/pubs/ValimakiPeknenNam-jasa2012.pdf](https://mac.kaist.ac.kr/pubs/ValimakiPeknenNam-jasa2012.pdf)
-
-## Recommended

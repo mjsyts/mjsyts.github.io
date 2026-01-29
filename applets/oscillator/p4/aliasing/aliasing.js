@@ -118,7 +118,6 @@ async function start() {
   await engine.start();
 
   setWave();
-  updatePolyBlepAvailability();
   updateGainUI();
 
   spec.start();
@@ -186,3 +185,4 @@ updateDurUI();
 $("gainVal").textContent = `${$("gain").value} dB`;
 setStatus("idle");
 updateFreqReadout(NaN);
+updatePolyBlepAvailability(); 

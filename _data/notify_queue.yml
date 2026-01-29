@@ -15,3 +15,12 @@
   audience: dsp              # dsp | sound_design | both
   status: sent             # queued | sent
   created_at: 2026-01-17
+
+  - id: 2026-01-29-osc-p4
+  post: /development/oscillators-part-4/   # whatever your permalink is
+  type: new_article          # new_article | update | milestone
+  subject: "Oscillators — Part 4: Antialiasing"
+  excerpt: "Wrapping up the oscillator series with an introduction to antialiasing using PolyBLEP for bandlimited waveforms."
+  audience: dsp              # dsp | sound_design | both
+  status: queued             # queued | sent
+  created_at: 2026-01-29
