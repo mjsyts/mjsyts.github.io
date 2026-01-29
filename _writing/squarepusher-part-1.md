@@ -2,7 +2,7 @@
 layout: post
 title: "Do You Know Squarepusher - Part 1: Why Glitch Works"
 date: 2026-01-22
-last_modified_at: 2026-01-22
+last_modified_at: 2026-01-29
 series: "Do You Know Squarepusher"
 part: 1
 permalink: /writing/squarepusher-part-1/
