@@ -2,7 +2,7 @@
 layout: post
 title: "LFSR Noise Generator — Part 2: Adding a Frequency Control"
 date: 2026-01-02
-last_modified_at: 2026-01-26
+last_modified_at: 2026-01-31
 series: "LFSR Noise Generator"
 part: 2
 permalink: /development/lfsr-noise-part-2/
