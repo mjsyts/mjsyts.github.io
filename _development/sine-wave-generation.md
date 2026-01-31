@@ -212,14 +212,14 @@ The IIR resonator (often called the "magic circle" algorithm) uses a simple two-
 The resonator is initialized with a frequency-dependent coefficient and two initial states. The downside is numerical drift—over long periods, amplitude and frequency can slowly drift due to floating-point rounding errors.
 ```cpp
 class SineIIR {
-    float y1 = 1.0f;  // Initialize with unit amplitude
-    float y2 = 0.0f;
+    float y1 = 1.f;  // Initialize with unit amplitude
+    float y2 = 0.f;
     float coeff;
     
 public:
     SineIIR(float freq, float sample_rate) {
         // coefficient = 2 * cos(2π * freq / sample_rate)
-        coeff = 2.0f * std::cosf(2.0f * M_PI * freq / sample_rate);
+        coeff = 2.f * std::cosf(2.f * M_PI * freq / sample_rate);
     }
     
     float process() {
@@ -236,14 +236,14 @@ public:
 The State Variable Filter (SVF) configured as an oscillator provides better stability than the IIR magic circle while maintaining similar efficiency.[^chamberlin] It uses three state variables and is less prone to amplitude drift.
 ```cpp
 class SineSVF {
-    float low = 0.0f;
-    float band = 1.0f;  // Initialize for unit amplitude
+    float low = 0.f;
+    float band = 1.f;  // Initialize for unit amplitude
     float freq_coeff;
     
 public:
     SineSVF(float freq, float sample_rate) {
         // frequency coefficient
-        freq_coeff = 2.0f * std::sinf(M_PI * freq / sample_rate);
+        freq_coeff = 2.f * std::sinf(M_PI * freq / sample_rate);
     }
     
     float process() {
