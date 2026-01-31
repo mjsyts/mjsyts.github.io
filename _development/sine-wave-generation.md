@@ -17,13 +17,13 @@ Digital audio synthesis requires sine wave generation for oscillators, LFOs and 
 
 | Method | Variant | Accuracy | Speed | Memory | FM/PM | Best For |
 |--------|---------|----------|-------|--------|-------|----------|
-| **Direct** | `std::sinf()` | Excellent | Moderate | None | Excellent | General purpose, prototyping, single LFO |
-| **Table** | Linear interpolation | Good | Fast | 4-16KB | Good | Multiple oscillators |
-| | Cubic interpolation | Excellent | Fast | 4-16KB | Excellent | High-quality synthesis |
-| **Polynomial** | Taylor (low-order) | Fair-Good | Fast | None | Fair-Good | Embedded, simple LFOs |
-| | Minimax | Good-Excellent | Fast | None | Good-Excellent | Quality/speed balance |
-| **Resonator** | IIR (magic circle) | Good | Fastest | None | Poor | Fixed-frequency LFOs |
-| | SVF | Good | Fastest | None | Fair | Modulation sources |
+| [**Direct**](#direct-evaluation) | `std::sinf()` | Excellent | Moderate | None | Excellent | General purpose, prototyping, single LFO |
+| [**Table**](#table) | [Linear interpolation](#linear-interpolation) | Good | Fast | 4-16KB | Good | Multiple oscillators |
+| | [Cubic interpolation](#cubic-interpolation) | Excellent | Fast | 4-16KB | Excellent | High-quality synthesis |
+| [**Polynomial**](#polynomial) | [Taylor (low-order)](#taylor-series) | Fair-Good | Fast | None | Fair-Good | Embedded, simple LFOs |
+| | [Minimax](#minimax-approximation) | Good-Excellent | Fast | None | Good-Excellent | Quality/speed balance |
+| [**Resonator**](#resonator) | [IIR (magic circle)](#iir-resonator-magic-circle) | Good | Fastest | None | Poor | Fixed-frequency LFOs |
+| | [SVF](#svf-resonator) | Good | Fastest | None | Fair | Modulation sources |
 
 ## Phase Accumulation
 
