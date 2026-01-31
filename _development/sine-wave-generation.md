@@ -195,7 +195,7 @@ inline float sine_minimax(float phase) {
 }
 ```
 
-**Note:** The normalization to [-π, π] is important for accuracy—polynomials behave poorly for large inputs.
+<p style="font-style: italic;">**The normalization to [-π, π] is important for accuracy—polynomials behave poorly for large inputs.</p>
 
 ### Taylor vs. Minimax
 
