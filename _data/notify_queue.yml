@@ -25,7 +25,7 @@
   status: sent             # queued | sent
   created_at: 2026-01-29
 
-  - id: 2026-01-30-sine
+- id: 2026-01-30-sine
   post: /development/sine-wave-generation/   # whatever your permalink is
   type: new_article          # new_article | update | milestone
   subject: "Four Appoaches to Sine Wave Generation"
