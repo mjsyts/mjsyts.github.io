@@ -6,7 +6,7 @@ last_modified_at: 2026-01-26
 series: "LFSR Noise Generator"
 part: 3
 permalink: /development/lfsr-noise-part-3/
-tags: [dsp, noise, lfsr, nes, gameboy, webaudio, c++]
+tags: [dsp, noise, lfsr, nes, gameboy, webaudio, synthesis, c++]
 desc: "Adding variable register width and reset logic."
 thumb: "/assets/images/thumbs/development/lfsr.jpg"
 ---

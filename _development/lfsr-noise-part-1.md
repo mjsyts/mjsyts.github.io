@@ -6,7 +6,7 @@ last_modified_at: 2026-01-26
 series: "LFSR Noise Generator"
 part: 1
 permalink: /development/lfsr-noise-part-1/
-tags: [dsp, noise, lfsr, nes, gameboy, webaudio, c++]
+tags: [dsp, noise, lfsr, nes, gameboy, webaudio, synthesis, c++]
 desc: "Minimal 15-bit LFSR core and bipolar noise output."
 thumb: "/assets/images/thumbs/development/lfsr.jpg"
 ---
