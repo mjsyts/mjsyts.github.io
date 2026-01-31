@@ -67,7 +67,7 @@ The table should be shared across all oscillator instances within your code. Con
 
 ### Lookup Table
 
-This is an example implementation of a static singleton pattern for a lookup table with 2048 values.[^meyers] A table size of 2048 provides good balance between memory usage (8KB) and interpolation accuracy. Smaller tables require better interpolation; larger tables waste memory for diminishing returns.
+This is an example implementation of a static singleton pattern for a lookup table with 2048 values.[^meyers] A table size of 2048 provides good balance between memory usage (8KB) and interpolation accuracy. Smaller tables require better interpolation. Larger tables waste memory for diminishing returns.
 SuperCollider uses a lookup table for <a href="https://doc.sccode.org/Classes/SinOsc.html">the <code>SinOsc</code> UGen</a>.
 ```cpp
 #include <array>
@@ -200,7 +200,7 @@ inline float sine_minimax(float phase) {
 
 ### Taylor vs. Minimax
 
-Taylor series are mathematically elegant and easy to derive, but minimax polynomials provide superior accuracy for the same computational cost. For production code, use minimax; for educational purposes or quick prototyping, Taylor series are fine. VCV currently (as of January 2026) uses a 9th-order Taylor approximation.[^belt]
+Taylor series are mathematically elegant and easy to derive, but minimax polynomials provide superior accuracy for the same computational cost. For production code, use minimax. For educational purposes or quick prototyping, Taylor series are fine. VCV currently (as of January 2026) uses a 9th-order Taylor approximation.[^belt]
 
 ## Resonator
 
@@ -271,8 +271,8 @@ The SVF resonator is slightly more expensive (four multiplies, three adds) but s
 
 The following methods are valid but impractical for most audio applications:
 - **CORDIC**: Iterative algorithm suited for hardware/FPGA, too slow for software
-- **FFT Synthesis**: Generates sine via inverse FFT; massive overkill for single oscillators
-- **Triangle Waveshaping**: Maps triangle wave through transfer function; limited practical use
+- **FFT Synthesis**: Generates sine via inverse FFT - massive overkill for single oscillators
+- **Triangle Waveshaping**: Maps triangle wave through transfer function - limited practical use
 
 ## Notes
 
