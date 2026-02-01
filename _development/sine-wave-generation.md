@@ -216,6 +216,8 @@ The IIR resonator (often called the "magic circle" algorithm) uses a simple two-
 
 The resonator is initialized with a frequency-dependent coefficient and two initial states. The downside is numerical drift—over long periods, amplitude and frequency can slowly drift due to floating-point rounding errors.
 ```cpp
+#include <cmath>
+
 class SineIIR {
     float y1 = 1.f;  // Initialize with unit amplitude
     float y2 = 0.f;
@@ -240,6 +242,8 @@ public:
 
 The State Variable Filter (SVF) configured as an oscillator provides better stability than the IIR magic circle while maintaining similar efficiency.[^chamberlin] It uses three state variables and is less prone to amplitude drift.
 ```cpp
+#include <cmath>
+
 class SineSVF {
     float low = 0.f;
     float band = 1.f;  // Initialize for unit amplitude
