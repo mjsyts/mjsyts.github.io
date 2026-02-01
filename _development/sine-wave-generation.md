@@ -65,7 +65,7 @@ Using a lookup table is much faster than direct evaluation, but requires storing
 
 The table should be shared across all oscillator instances within your code. Constructing a separate table per oscillator wastes memory and initialization time. In modular environments like [VCV Rack](https://vcvrack.com/ "VCV Rack"), each plugin is a self-contained library, so even with a singleton pattern, you may end up with multiple sine tables in memory if different developers each implement their own. This is one reason VCV Rack's core library uses polynomial approximation instead.[^belt]
 
-<p style="font-style: italic;">**SuperCollider uses a lookup table for <a href="https://doc.sccode.org/Classes/SinOsc.html">the <code>SinOsc</code> UGen</a>.</p>
+<p style="font-style: italic;">**SuperCollider uses a lookup table for <a href="https://doc.sccode.org/Classes/SinOsc.html">the <code>SinOsc</code> UGen</a>.</p>[^sc]
 
 ### Lookup Table
 
@@ -208,7 +208,7 @@ Taylor series are mathematically elegant and easy to derive, but minimax polynom
 
 Resonator methods generate sine waves by implementing a digital filter that naturally oscillates at a specific frequency. Unlike other methods, resonators maintain internal state and are most efficient for generating continuous waveforms at a fixed frequency. They're ideal for LFOs and modulation sources that don't require frequent frequency changes. The implementations below use a full class as opposed to inlining the function, since they are derived from a ringing filter.  
 
-<p style="font-style: italic;">**SuperCollider uses a ringing filter for <a href="https://doc.sccode.org/Classes/FSinOsc.html">the <code>FSinOsc</code> UGen</a>.</p>
+<p style="font-style: italic;">**SuperCollider uses a ringing filter for <a href="https://doc.sccode.org/Classes/FSinOsc.html">the <code>FSinOsc</code> UGen</a>.</p>[^sc]
 
 ### IIR Resonator (Magic Circle)
 
@@ -284,6 +284,8 @@ The following methods are valid but impractical for most audio applications:
 [^belt]: Belt, Andrew. "VCO." *VCV Rack*. Source code, 2026. [https://github.com/VCVRack/Fundamental/blob/v2/src/VCO.cpp](https://github.com/VCVRack/Fundamental/blob/v2/src/VCO.cpp).
 
 [^meyers]: Meyers, Scott. *Effective C++*. Addison-Wesley, 2005. [https://www.informit.com/store/effective-c-plus-plus-55-specific-ways-to-improve-your-9780321334879](https://www.informit.com/store/effective-c-plus-plus-55-specific-ways-to-improve-your-9780321334879).
+
+[^sc]: McCartney, James. "OscUGens." *SuperCollider*. Source code, 2002. [https://github.com/supercollider/supercollider/blob/f4262495182e6c5c8f01bc1d65c54bcc34d683a2/server/plugins/OscUGens.cpp#L4](https://github.com/supercollider/supercollider/blob/f4262495182e6c5c8f01bc1d65c54bcc34d683a2/server/plugins/OscUGens.cpp#L4).
 
 [^remez]: Remez, Eugene. "Sur la calcul effectiv des polynomes d'approximation de Tschebyscheff." *Comptes Rendus de l'Académie des Sciences*, 1934. For a modern treatment see: Powell, M. J. D. *Approximation Theory and Methods*. Cambridge University Press, 1981. 
 
