@@ -285,7 +285,7 @@ The following methods are valid but impractical for most audio applications:
 
 [^meyers]: Meyers, Scott. *Effective C++*. Addison-Wesley, 2005. [https://www.informit.com/store/effective-c-plus-plus-55-specific-ways-to-improve-your-9780321334879](https://www.informit.com/store/effective-c-plus-plus-55-specific-ways-to-improve-your-9780321334879).
 
-[^sc]: McCartney, James. "OscUGens." *SuperCollider*. Source code, 2002. [https://github.com/supercollider/supercollider/blob/f4262495182e6c5c8f01bc1d65c54bcc34d683a2/server/plugins/OscUGens.cpp#L4](https://github.com/supercollider/supercollider/blob/f4262495182e6c5c8f01bc1d65c54bcc34d683a2/server/plugins/OscUGens.cpp#L4).
+[^sc]: McCartney, James. "OscUGens." *SuperCollider*. Source code, 2002. [https://github.com/supercollider/supercollider/blob/f4262495182e6c5c8f01bc1d65c54bcc34d683a2/server/plugins/OscUGens.cpp](https://github.com/supercollider/supercollider/blob/f4262495182e6c5c8f01bc1d65c54bcc34d683a2/server/plugins/OscUGens.cpp).
 
 [^remez]: Remez, Eugene. "Sur la calcul effectiv des polynomes d'approximation de Tschebyscheff." *Comptes Rendus de l'Académie des Sciences*, 1934. For a modern treatment see: Powell, M. J. D. *Approximation Theory and Methods*. Cambridge University Press, 1981. 
 
