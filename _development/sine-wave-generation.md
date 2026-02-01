@@ -2,7 +2,7 @@
 layout: post
 title: "Four Approaches to Sine Waves"
 date: 2026-01-31
-last_modified_at: 2026-01-31
+last_modified_at: 2026-02-01
 permalink: /development/sine-wave-generation/
 tags: [dsp, sine, oscillator, filter, wavetable, synthesis, c++]
 published: true
