@@ -65,10 +65,12 @@ Using a lookup table is much faster than direct evaluation, but requires storing
 
 The table should be shared across all oscillator instances within your code. Constructing a separate table per oscillator wastes memory and initialization time. In modular environments like [VCV Rack](https://vcvrack.com/ "VCV Rack"), each plugin is a self-contained library, so even with a singleton pattern, you may end up with multiple sine tables in memory if different developers each implement their own. This is one reason VCV Rack's core library uses polynomial approximation instead.[^belt]
 
+<p style="font-style: italic;">**SuperCollider uses a lookup table for <a href="https://doc.sccode.org/Classes/SinOsc.html">the <code>SinOsc</code> UGen</a>.</p>
+
 ### Lookup Table
 
 This is an example implementation of a static singleton pattern for a lookup table with 2048 values.[^meyers] A table size of 2048 provides good balance between memory usage (8KB) and interpolation accuracy. Smaller tables require better interpolation. Larger tables waste memory for diminishing returns.  
-SuperCollider uses a lookup table for <a href="https://doc.sccode.org/Classes/SinOsc.html">the <code>SinOsc</code> UGen</a>.
+
 ```cpp
 #include <array>
 
@@ -205,7 +207,8 @@ Taylor series are mathematically elegant and easy to derive, but minimax polynom
 ## Resonator
 
 Resonator methods generate sine waves by implementing a digital filter that naturally oscillates at a specific frequency. Unlike other methods, resonators maintain internal state and are most efficient for generating continuous waveforms at a fixed frequency. They're ideal for LFOs and modulation sources that don't require frequent frequency changes. The implementations below use a full class as opposed to inlining the function, since they are derived from a ringing filter.  
-SuperCollider uses a ringing filter for <a href="https://doc.sccode.org/Classes/FSinOsc.html">the <code>FSinOsc</code> UGen</a>.
+
+<p style="font-style: italic;">**SuperCollider uses a ringing filter for <a href="https://doc.sccode.org/Classes/FSinOsc.html">the <code>FSinOsc</code> UGen</a>.</p>
 
 ### IIR Resonator (Magic Circle)
 
