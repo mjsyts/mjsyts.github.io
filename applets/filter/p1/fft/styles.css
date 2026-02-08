@@ -1,0 +1,30 @@
+.canvas-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+}
+
+/* Frequency gets more vertical space */
+#spectrum {
+  /* Canvas internal resolution will be taller */
+}
+
+#waveform {
+  /* Canvas internal resolution will be shorter */
+}

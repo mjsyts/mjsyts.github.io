@@ -1,0 +1,48 @@
+---
+sitemap: false
+---
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Time vs Frequency Domain</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/applets/shared/applet-theme.css">
+</head>
+
+<body class="applet">
+    <div class="applet-wrap">
+        <div class="app-main">
+
+            <!-- Header -->
+            <div class="audio-head">
+                <h1 class="audio-title">Fourier Transform</h1>
+                <div class="audio-meta">
+                    <span class="audio-status" id="status">initializing...</span>
+                </div>
+            </div>
+
+            <!-- Canvases -->
+            <div class="surface">
+                <div class="canvas-container">
+                    <div class="canvas-wrapper">
+                        <div class="label" style="margin-bottom: 0.35rem;">frequency domain</div>
+                        <canvas id="spectrum" width="800" height="400"></canvas>
+                    </div>
+                    <div class="canvas-wrapper">
+                        <div class="label" style="margin-bottom: 0.35rem;">time domain</div>
+                        <canvas id="waveform" width="800" height="150"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="applet.js"></script>
+</body>
+
+</html>
