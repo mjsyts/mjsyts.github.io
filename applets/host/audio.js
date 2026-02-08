@@ -17,6 +17,47 @@ export class AudioEngine {
     this.master.connect(this.ctx.destination);
   }
 
+  async initWithMic(fftSize = 4096) {
+    if (this.ctx) return;
+
+    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Request mic access
+    this.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+    // Create analyser
+    this.analyser = this.ctx.createAnalyser();
+    this.analyser.fftSize = fftSize;
+    this.analyser.smoothingTimeConstant = 0.8;
+
+    // Connect mic → analyser
+    const source = this.ctx.createMediaStreamSource(this.stream);
+    source.connect(this.analyser);
+
+    // Allocate buffers
+    this.timeData = new Uint8Array(this.analyser.fftSize);
+    this.freqData = new Uint8Array(this.analyser.frequencyBinCount);
+  }
+
+  getTimeData() {
+    if (!this.analyser || !this.timeData) return null;
+    this.analyser.getByteTimeDomainData(this.timeData);
+    return this.timeData;
+  }
+
+  getFreqData() {
+    if (!this.analyser || !this.freqData) return null;
+    this.analyser.getByteFrequencyData(this.freqData);
+    return this.freqData;
+  }
+
+  cleanup() {
+    if (this.stream) {
+      this.stream.getTracks().forEach(track => track.stop());
+      this.stream = null;
+    }
+  }
+
   get sampleRate() {
     return this.ctx?.sampleRate ?? 0;
   }
