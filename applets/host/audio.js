@@ -5,6 +5,11 @@ export class AudioEngine {
     this.master = null;
     this.node = null;
     this.connected = false;
+
+    this.stream = null;
+    this.analyser = null;
+    this.timeData = null;
+    this.freqData = null;
   }
 
   async init() {
