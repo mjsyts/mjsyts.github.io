@@ -36,7 +36,9 @@ In the time domain, the guitar and the 60Hz hum are completely interleaved. In t
 
 Use the applet below to see a signal in both domains simultaneously. Try whistling, clapping, or playing music near your microphone.
 
-[applet here]
+<div class="applet applet--lg"> 
+    <iframe class="applet__frame" src="applets/filter/p1/fft/index.html" loading="lazy"></iframe> 
+</div> 
 
 The spectrum shows which frequencies are present and how loud. A **filter** modifies this spectrum - removing some frequencies, emphasizing others, leaving the rest unchanged. We might use a 60 Hz **notch filter** to remove the power supply hum from an electric guitar recording.
 
