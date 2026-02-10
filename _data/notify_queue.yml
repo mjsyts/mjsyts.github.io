@@ -40,5 +40,5 @@
   subject: "Filters — Part 1: The Frequency Domain and Why It Matters"
   excerpt: "Understanding the frequency domain, Fourier transforms, and the spectral view of sound that makes filtering possible."
   audience: dsp              # dsp | sound_design | both
-  status: queued             # queued | sent
+  status: sent             # queued | sent
   created_at: 2026-02-10
