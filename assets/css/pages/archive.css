@@ -135,6 +135,18 @@
 
 .archive-pills{ margin-top: 10px; display:flex; flex-wrap:wrap; gap: 6px; }
 
+.archive-card__title a,
+.archive-card__desc a{
+  text-decoration: none;
+}
+
+.archive-card__title a:hover,
+.archive-card__desc a:hover,
+.archive-card__title a:focus-visible,
+.archive-card__desc a:focus-visible{
+  text-decoration: none;
+}
+
 .archive-pill{
   font-size: 12px;
   border: 1px solid var(--archive-line);
