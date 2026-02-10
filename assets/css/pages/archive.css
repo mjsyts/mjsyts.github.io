@@ -32,6 +32,12 @@
 
 .archive__title{ margin: 0 0 10px; line-height: 1.05; }
 
+.archive-card__link{
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 .archive__lede{
   margin: 0 0 16px;
   max-width: 62ch;
@@ -116,6 +122,12 @@
 
 .archive-card:hover{ background: var(--archive-panel); }
 
+.archive-card__link{
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 .archive-card__thumb{ aspect-ratio: 16 / 9; background: var(--archive-panel); }
 
 .archive-card__thumb img{
@@ -134,18 +146,6 @@
 .archive-card__desc{ font-size: 13px; color: var(--archive-muted); margin-top: 6px; }
 
 .archive-pills{ margin-top: 10px; display:flex; flex-wrap:wrap; gap: 6px; }
-
-.archive-card__title a,
-.archive-card__desc a{
-  text-decoration: none;
-}
-
-.archive-card__title a:hover,
-.archive-card__desc a:hover,
-.archive-card__title a:focus-visible,
-.archive-card__desc a:focus-visible{
-  text-decoration: none;
-}
 
 .archive-pill{
   font-size: 12px;
