@@ -1,0 +1,63 @@
+---
+sitemap: false
+---
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Time vs Frequency Domain</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/applets/shared/applet-theme.css">
+</head>
+
+<body class="applet" role="application" aria-label="Fourier Transform">
+    <div class="applet-wrap">
+        <main class="app-main">
+            <section class="panel panel--padded audio-panel" aria-label="Controls">
+                <header class="audio-head">
+                    <div class="audio-title label">fourier transform</div>
+                    <div class="audio-control">
+                        <label for="source-select" class="label">source:</label>
+                        <select id="source-select" class="audio-select">
+                            <option value="clean">guitar (clean)</option>
+                            <option value="hum">guitar (with hum)</option>
+                            <option value="mic">microphone</option>
+                        </select>
+                        <button id="play-pause-btn" class="audio-button">play</button>
+                    </div>
+                    <div class="audio-meta">
+                        <div class="audio-sr mono" id="sr">sample rate: —</div>
+                        <div class="audio-status mono" id="status">initializing...</div>
+                    </div>
+                </header>
+            </section>
+
+            <!-- Canvases -->
+            <div class="surface">
+                <div id="overlay" class="overlay" style="display: none;">
+                    <div class="overlay-content">
+                        <div class="overlay-text">Click to start</div>
+                        <div class="overlay-subtext">Allow microphone access to visualize audio</div>
+                    </div>
+                </div>
+                <div class="canvas-container">
+                    <div class="canvas-wrapper">
+                        <div class="label" style="margin-bottom: 0.35rem;">frequency domain</div>
+                        <canvas id="spectrum" width="800" height="400"></canvas>
+                    </div>
+                    <div class="canvas-wrapper">
+                        <div class="label" style="margin-bottom: 0.35rem;">time domain</div>
+                        <canvas id="waveform" width="800" height="150"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="applet.js"></script>
+</body>
+
+</html>
