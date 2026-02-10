@@ -13,20 +13,36 @@ sitemap: false
     <link rel="stylesheet" href="/applets/shared/applet-theme.css">
 </head>
 
-<body class="applet">
+<body class="applet" role="application" aria-label="Fourier Transform">
     <div class="applet-wrap">
-        <div class="app-main">
-
-            <!-- Header -->
-            <div class="audio-head">
-                <h1 class="audio-title">Fourier Transform</h1>
-                <div class="audio-meta">
-                    <span class="audio-status" id="status">initializing...</span>
-                </div>
-            </div>
+        <main class="app-main">
+            <section class="panel panel--padded audio-panel" aria-label="Controls">
+                <header class="audio-head">
+                    <div class="audio-title label">fourier transform</div>
+                    <div class="audio-control">
+                        <label for="source-select" class="label">source:</label>
+                        <select id="source-select" class="audio-select">
+                            <option value="clean">guitar (clean)</option>
+                            <option value="hum">guitar (with hum)</option>
+                            <option value="mic">microphone</option>
+                        </select>
+                        <button id="play-pause-btn" class="audio-button">play</button>
+                    </div>
+                    <div class="audio-meta">
+                        <div class="audio-sr mono" id="sr">sample rate: —</div>
+                        <div class="audio-status mono" id="status">initializing...</div>
+                    </div>
+                </header>
+            </section>
 
             <!-- Canvases -->
             <div class="surface">
+                <div id="overlay" class="overlay">
+                    <div class="overlay-content">
+                        <div class="overlay-text">Click to start</div>
+                        <div class="overlay-subtext">Allow microphone access to visualize audio</div>
+                    </div>
+                </div>
                 <div class="canvas-container">
                     <div class="canvas-wrapper">
                         <div class="label" style="margin-bottom: 0.35rem;">frequency domain</div>
@@ -38,8 +54,7 @@ sitemap: false
                     </div>
                 </div>
             </div>
-
-        </div>
+        </main>
     </div>
 
     <script type="module" src="applet.js"></script>

@@ -7,6 +7,53 @@
   min-width: 0;
 }
 
+.surface {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, var(--panel), rgba(255, 255, 255, 0.65));
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: var(--radius-sm);
+  transition: background 0.2s ease;
+}
+
+.overlay:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.75));
+}
+
+.overlay-content {
+  text-align: center;
+  padding: 2rem;
+}
+
+.overlay-text {
+  font-family: var(--ui);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  font-size: 1.25rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.overlay-subtext {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+
 .canvas-wrapper {
   position: relative;
   width: 100%;

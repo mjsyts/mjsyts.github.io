@@ -8,8 +8,8 @@ part: 1
 published: false
 permalink: /development/filters-part-1/
 tags: [dsp, filter, fft, fourier, webaudio, synthesis, c++]
-desc: "PLACEHOLDER"
-thumb: "/assets/images/thumbs/development/filters.jpg"
+desc: "Understanding the frequency domain, Fourier transforms, and the spectral view of sound that makes filtering possible."
+thumb: "/assets/images/thumbs/development/filter.jpg"
 ---
 
 ## The Time Domain
@@ -34,6 +34,8 @@ We record sounds as amplitude over time — the time domain. The Fourier transfo
 
 In the time domain, the guitar and the 60Hz hum are completely interleaved. In the frequency domain, they appear as separate components. The guitar's harmonics show up as distinct peaks. The hum shows up as a spike at 60Hz.
 
+## Try It Out
+
 Use the applet below to see a signal in both domains simultaneously. Try whistling, clapping, or playing music near your microphone.
 
 <div class="applet applet--lg"> 
@@ -45,6 +47,24 @@ The spectrum shows which frequencies are present and how loud. A **filter** modi
 ## What's Next
 
 In the next article, we will discuss frequency response and create a simple one-pole filter.
+
+## See Also
+
+### Fundamentals
+
+- [Fourier Transform for Spectral Analysis and Machine Listening - Ted Moore](https://learn.flucoma.org/learn/fourier-transform/)
+- [Interactive Explanation of the Fourier Transform - Jack Schaedler](https://jackschaedler.github.io/circles-sines-signals/dft_introduction.html)
+
+### Platform-Specific Implementations
+
+- [CSound](https://csound.com/docs/manual/fft.html)
+- [FAUST](https://faustdoc.grame.fr/examples/analysis/#fft)
+- [JUCE](https://juce.com/tutorials/tutorial_simple_fft/)
+- [MATLAB](https://www.mathworks.com/help/matlab/fourier-analysis-and-filtering.html)
+- [Max/MSP](https://docs.cycling74.com/learn/articles/14_analysischapter03/)
+- [PureData](http://www.pd-tutorial.com/english/ch03s08.html)
+- [SuperCollider](https://doc.sccode.org/Guides/FFT-Overview.html)
+- [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode)
 
 ## Notes
 
