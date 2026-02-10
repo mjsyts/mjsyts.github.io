@@ -208,7 +208,7 @@ Taylor series are mathematically elegant and easy to derive, but minimax polynom
 
 Resonator methods generate sine waves by implementing a digital filter that naturally oscillates at a specific frequency. Unlike other methods, resonators maintain internal state and are most efficient for generating continuous waveforms at a fixed frequency. They're ideal for LFOs and modulation sources that don't require frequent frequency changes. The implementations below use a full class as opposed to inlining the function, since they are derived from a ringing filter.  
 
-**SuperCollider uses a ringing filter for [the `FSinOsc` UGen](https://doc.sccode.org/Classes/FSinOsc.html).[^sc]
+SuperCollider uses a ringing filter for [the `FSinOsc` UGen](https://doc.sccode.org/Classes/FSinOsc.html).[^sc]
 
 ### IIR Resonator (Magic Circle)
 
