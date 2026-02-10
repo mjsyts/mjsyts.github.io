@@ -4,6 +4,7 @@ let cleanBuffer = null;
 let humBuffer = null;
 let currentSource = null; // 'clean', 'hum', or 'mic'
 let bufferSourceNode = null; // for stopping/starting audio playback
+let gainNode = null; // for fading audio
 let isPlaying = false;
 
 const engine = new AudioEngine();
@@ -98,24 +99,36 @@ function drawWaveformGridAndLabels(ctx, canvas) {
 }
 
 function draw() {
-  // Only request next frame if playing
+  // Request next frame at start so it's continuous while playing
   if (isPlaying) {
     requestAnimationFrame(draw);
   }
 
-  // Read data from analyser
-  const timeData = engine.getTimeData();
-  const freqData = engine.getFreqData();
-
-  if (!timeData || !freqData) return;
+  // Read data from analyser - these might be null if not initialized
+  let timeData = null;
+  let freqData = null;
+  
+  try {
+    timeData = engine.getTimeData();
+    freqData = engine.getFreqData();
+  } catch (e) {
+    // Analyser not ready yet
+  }
 
   // Draw waveform to canvas
-  // Clear canvas
   waveformCtx.fillStyle = 'rgba(250, 249, 246, 1)';
   waveformCtx.fillRect(0, 0, waveformCanvas.width, waveformCanvas.height);
-
-  // Draw grid and labels
   drawWaveformGridAndLabels(waveformCtx, waveformCanvas);
+  
+  // Draw spectrum to canvas
+  spectrumCtx.fillStyle = 'rgba(250, 249, 246, 1)';
+  spectrumCtx.fillRect(0, 0, spectrumCanvas.width, spectrumCanvas.height);
+  drawSpectrumGridAndLabels(spectrumCtx, spectrumCanvas, 20, 10000);
+
+  // If we don't have data, just return with grids drawn
+  if (!timeData || !freqData) {
+    return;
+  }
 
   // Set line style
   waveformCtx.strokeStyle = 'rgba(222, 141, 116, 0.8)';
@@ -138,17 +151,10 @@ function draw() {
 
   waveformCtx.stroke();
 
-  // Draw spectrum to canvas
-  // Clear canvas
-  spectrumCtx.fillStyle = 'rgba(250, 249, 246, 1)';
-  spectrumCtx.fillRect(0, 0, spectrumCanvas.width, spectrumCanvas.height);
-
+  // Draw spectrum data
   const minFreq = 20;
   const maxFreq = 10000;
   const nyquist = engine.sampleRate / 2;
-
-  // Draw grid and labels
-  drawSpectrumGridAndLabels(spectrumCtx, spectrumCanvas, minFreq, maxFreq);
 
   // Set fill color for spectrum bars (theme coral)
   spectrumCtx.fillStyle = 'rgba(67, 160, 189, 0.8)';
@@ -196,60 +202,129 @@ async function switchToSource(source) {
   stopCurrentSource();
   
   currentSource = source;
+  const playBtn = $("play-pause-btn");
   
   if (source === 'mic') {
-    // Show overlay, wait for user to click
+    // Show overlay, disable play button
     $("overlay").style.display = 'flex';
+    playBtn.disabled = true;
     setStatus("click to allow microphone");
   } else {
-    // Hide overlay
+    // Hide overlay, enable play button
     $("overlay").style.display = 'none';
-    
-    // Play the selected buffer
-    const buffer = source === 'clean' ? cleanBuffer : humBuffer;
-    playBuffer(buffer);
-    setStatus(`playing: ${source}`);
+    playBtn.disabled = false;
+    playBtn.textContent = 'play';
+    setStatus(`ready: ${source}`);
   }
 }
 
 function playBuffer(buffer) {
   if (!engine.audioContext) {
     engine.audioContext = new AudioContext();
+    engine.ctx = engine.audioContext; // Keep AudioEngine happy
+  }
+  
+  // Resume context if suspended
+  if (engine.audioContext.state === 'suspended') {
+    engine.audioContext.resume();
   }
   
   // Create analyser if needed (for FFT visualization)
   if (!engine.analyser) {
     engine.analyser = engine.audioContext.createAnalyser();
     engine.analyser.fftSize = 4096;
+  }
+  
+  // Create gain node for fading if needed
+  if (!gainNode) {
+    gainNode = engine.audioContext.createGain();
+    gainNode.connect(engine.analyser);
     engine.analyser.connect(engine.audioContext.destination);
   }
+  
+  // Initialize data arrays for visualization
+  if (!engine.timeData) {
+    engine.timeData = new Uint8Array(engine.analyser.fftSize);
+  }
+  if (!engine.freqData) {
+    engine.freqData = new Uint8Array(engine.analyser.frequencyBinCount);
+  }
+  
+  // Fade in from 0 to 1 over 50ms
+  const now = engine.audioContext.currentTime;
+  gainNode.gain.setValueAtTime(0, now);
+  gainNode.gain.linearRampToValueAtTime(1, now + 0.05);
   
   // Create buffer source node
   bufferSourceNode = engine.audioContext.createBufferSource();
   bufferSourceNode.buffer = buffer;
   bufferSourceNode.loop = true; // Loop the guitar
-  bufferSourceNode.connect(engine.analyser);
+  bufferSourceNode.connect(gainNode);
   bufferSourceNode.start();
   
   isPlaying = true;
   $("play-pause-btn").textContent = "pause";
   
-  // Start drawing if not already
+  // Set sample rate and start drawing
   if (!engine.sampleRate) {
     engine.sampleRate = engine.audioContext.sampleRate;
-    requestAnimationFrame(draw);
   }
+  requestAnimationFrame(draw);
 }
 
 function stopCurrentSource() {
-  if (bufferSourceNode) {
+  if (bufferSourceNode && gainNode && engine.audioContext) {
+    // Fade out over 50ms before stopping
+    const now = engine.audioContext.currentTime;
+    gainNode.gain.cancelScheduledValues(now);
+    gainNode.gain.setValueAtTime(gainNode.gain.value, now);
+    gainNode.gain.linearRampToValueAtTime(0, now + 0.05);
+    
+    // Stop after fade completes
+    setTimeout(() => {
+      if (bufferSourceNode) {
+        bufferSourceNode.stop();
+        bufferSourceNode.disconnect();
+        bufferSourceNode = null;
+      }
+    }, 60);
+  } else if (bufferSourceNode) {
     bufferSourceNode.stop();
     bufferSourceNode.disconnect();
     bufferSourceNode = null;
   }
   
-  if (currentSource === 'mic' && engine.mediaStream) {
-    engine.mediaStream.getTracks().forEach(track => track.stop());
+  // Clean up mic resources
+  if (currentSource === 'mic' && engine.stream) {
+    engine.stream.getTracks().forEach(track => track.stop());
+    engine.stream = null;
+  }
+  
+  // Clean up AudioEngine context when switching from mic to buffer
+  if (currentSource === 'mic' && engine.ctx) {
+    if (engine.analyser) {
+      engine.analyser.disconnect();
+      engine.analyser = null;
+    }
+    engine.ctx = null;
+    engine.timeData = null;
+    engine.freqData = null;
+  }
+  
+  // Clean up buffer context when switching from buffer to mic
+  if (currentSource !== 'mic' && engine.audioContext) {
+    if (gainNode) {
+      gainNode.disconnect();
+      gainNode = null;
+    }
+    if (engine.analyser) {
+      engine.analyser.disconnect();
+      engine.analyser = null;
+    }
+    engine.audioContext = null;
+    engine.ctx = null;
+    engine.timeData = null;
+    engine.freqData = null;
   }
   
   isPlaying = false;
@@ -265,9 +340,8 @@ async function setupMic() {
     $("play-pause-btn").textContent = "pause";
     $("overlay").style.display = 'none';
     
-    if (!engine.sampleRate) {
-      requestAnimationFrame(draw);
-    }
+    // Start the draw loop
+    requestAnimationFrame(draw);
   } catch (err) {
     setStatus("error: " + err.message);
   }
@@ -293,20 +367,36 @@ $("play-pause-btn").addEventListener('click', () => {
   } else {
     // Toggle buffer playback
     if (isPlaying) {
-      engine.audioContext.suspend();
+      if (engine.audioContext) {
+        engine.audioContext.suspend();
+      }
       isPlaying = false;
       $("play-pause-btn").textContent = "play";
     } else {
-      engine.audioContext.resume();
-      isPlaying = true;
-      $("play-pause-btn").textContent = "pause";
+      // Always create a fresh buffer source when playing
+      if (!bufferSourceNode) {
+        const buffer = currentSource === 'clean' ? cleanBuffer : humBuffer;
+        playBuffer(buffer);
+        setStatus(`playing: ${currentSource}`);
+      } else {
+        // Resume from pause
+        if (engine.audioContext) {
+          engine.audioContext.resume();
+        }
+        isPlaying = true;
+        $("play-pause-btn").textContent = "pause";
+        // Restart animation loop
+        requestAnimationFrame(draw);
+      }
     }
   }
 });
 
-// Wait for user interaction
+// Load audio files and set initial source
 loadAudioFiles().then(() => {
-  setStatus("ready");
-  // Auto-start with clean guitar
-  switchToSource('clean');
+  currentSource = 'clean';
+  setStatus("ready: clean");
+  $("play-pause-btn").disabled = false;
+  // Draw initial grids
+  requestAnimationFrame(draw);
 });

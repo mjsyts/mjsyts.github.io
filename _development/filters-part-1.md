@@ -1,11 +1,11 @@
 ---
 layout: post
 title: "Filters — Part 1: The Frequency Domain and Why It Matters"
-date: 2026-02-08
-last_modified_at: 2026-02-08
+date: 2026-02-10
+last_modified_at: 2026-02-10
 series: "Filters"
 part: 1
-published: false
+published: true
 permalink: /development/filters-part-1/
 tags: [dsp, filter, fft, fourier, webaudio, synthesis, c++]
 desc: "Understanding the frequency domain, Fourier transforms, and the spectral view of sound that makes filtering possible."
@@ -36,7 +36,7 @@ In the time domain, the guitar and the 60Hz hum are completely interleaved. In t
 
 ## Try It Out
 
-Use the applet below to see a signal in both domains simultaneously. Try whistling, clapping, or playing music near your microphone.
+Use the applet below to see a signal in both domains simultaneously. The guitar recordings demonstrate how a 60 Hz hum appears as a distinct spike in the frequency domain while remaining invisible in the time domain. You can also switch to microphone input to visualize your own sounds.
 
 <div class="applet applet--lg"> 
     <iframe class="applet__frame" src="/applets/filter/p1/fft/index.html" loading="lazy"></iframe>

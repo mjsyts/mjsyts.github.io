@@ -26,6 +26,7 @@ body {
   -webkit-overflow-scrolling: touch;
   background: transparent;
   color: inherit;
+  scrollbar-gutter: stable;
 }
 
 img,
@@ -145,10 +146,48 @@ iframe {
   gap: 0.75rem;
   width: 100%;
   min-width: 0;
+  flex-wrap: wrap;
 }
 
 .audio-title {
   min-width: 0;
+}
+
+.audio-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+}
+
+.audio-button {
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  color: var(--text);
+  white-space: nowrap;
+  outline: none;
+}
+
+.audio-button:hover {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.audio-button:focus-visible {
+  border-color: rgba(45, 92, 140, 0.45);
+  box-shadow: 0 0 0 2px rgba(45, 92, 140, 0.18);
+}
+
+.audio-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .audio-meta {
@@ -200,7 +239,45 @@ iframe {
 }
 
 /* -----------------------------
-    Checkboxes
+   Select dropdowns
+   ----------------------------- */
+
+.audio-select,
+select.audio-select {
+  background: var(--panel-soft);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 0.35rem 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23111111' stroke-opacity='0.5' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  padding-right: 2rem;
+}
+
+.audio-select:hover {
+  background: rgba(255, 255, 255, 0.65);
+  border-color: var(--border);
+}
+
+.audio-select:focus {
+  border-color: rgba(45, 92, 140, 0.45);
+  box-shadow: 0 0 0 2px rgba(45, 92, 140, 0.18);
+}
+
+.audio-select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* -----------------------------
+   Checkboxes
    ----------------------------- */
 
 input[type="checkbox"]:disabled+.label {
