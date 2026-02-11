@@ -51,6 +51,9 @@ nav:
   - title: Development
     url: /development/
     status: live
+  - title: Tools
+    url: /tools/
+    status: live
 
 show_drafts_nav: false
 
