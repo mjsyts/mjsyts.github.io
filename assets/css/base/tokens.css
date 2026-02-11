@@ -1,15 +1,18 @@
 :root {
   --bg: #FAF9F6;
-  --text: #1A1A1A;
+  --bg-cream: #F4E9D8;
+  --bg-sky: #E8F4F8;
+
+  --text: #2C3E3A;
   --text-secondary: #4A4A4A;
   --text-primary: #43A0BD;
 
-  --green: #9FC353;
-  --aqua: #6ABCD5;
-  --gold: #D4990D;
-  --coral: #DE8D74;
-  --indigo: #7191AF;
-  --blue: #43A0BD;
+  --blue: #43A0BD;      /* Ocean Blue - Primary brand color */
+  --teal-deep: #2B6B7F; /* Deep Teal - text, headers, depth */
+  --aqua: #6BC4C4;      /* Aqua Teal - Secondary actions, info */
+  --green: #8DB848;     /* Leaf Green - Success states, nature */
+  --gold: #D19A3F;      /* Warm Gold - Highlights, accents, ctas */
+  --coral: #DC8B6C;     /* Coral Sunset - Warmth, energy, alerts */
 
   --clear: #00000000;
 
