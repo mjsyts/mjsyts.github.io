@@ -65,6 +65,9 @@ collections:
   writing:
     output: true
     permalink: /writing/:name/
+  tools:
+    output: true
+    permalink: /tools/:name/
 
 # Defaults for collection entries
 defaults:

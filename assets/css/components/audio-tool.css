@@ -1,17 +1,15 @@
-/* audio-tool.css */
-
-@import url('../css/base/tokens.css');
+@import url('/assets/css/base/tokens.css');
 
 :root {
     /* Dark theme overrides for tools */
     --bg-primary: #1a1a1a;
     --bg-secondary: #2a2a2a;
     --bg-tertiary: #3a3a3a;
-    --text-primary: #e0e0e0;
-    --text-secondary: #a0a0a0;
+    --text-tool: #e0e0e0;
+    --text-tool-secondary: #a0a0a0;
     --border: #404040;
     
-    /* Use token colors for spectra - already defined in tokens.css */
+    /* Use token colors for spectra */
     --spectrum-live: var(--blue);
     --spectrum-capture-1: var(--coral);
     --spectrum-capture-2: var(--aqua);
@@ -26,18 +24,13 @@
     padding: 0;
 }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    line-height: 1.6;
-}
-
 .tool-container {
     display: flex;
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
+    background: var(--bg-primary);
+    color: var(--text-tool);
 }
 
 .tool-header {
@@ -47,23 +40,28 @@ body {
     padding: 1rem 1.5rem;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border);
-    flex-shrink: 0; /* Prevent header from shrinking */
+    flex-shrink: 0;
 }
 
 .tool-header h1 {
     font-size: 1.5rem;
     font-weight: 600;
+    color: var(--text-tool);
+    font-family: var(--font-ui);
+    letter-spacing: normal;
+    margin: 0;
 }
 
 .init-button {
     padding: 0.5rem 1.5rem;
-    background: var(--accent);
+    background: var(--blue);
     color: white;
     border: none;
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
     transition: opacity 0.2s;
+    font-family: var(--font-ui);
 }
 
 .init-button:hover {
@@ -79,13 +77,13 @@ body {
     display: flex;
     flex: 1;
     overflow: hidden;
-    min-height: 0; /* Important for flex children */
+    min-height: 0;
 }
 
 #fft-canvas {
     flex: 1;
     background: var(--bg-primary);
-    min-width: 0; /* Allow canvas to shrink */
+    min-width: 0;
 }
 
 .controls-panel {
@@ -105,9 +103,10 @@ body {
     display: block;
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--text-tool-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    font-family: var(--font-ui);
 }
 
 .button-group {
@@ -119,12 +118,13 @@ body {
     flex: 1;
     padding: 0.5rem;
     background: var(--bg-tertiary);
-    color: var(--text-primary);
+    color: var(--text-tool);
     border: 1px solid var(--border);
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s;
     font-size: 0.85rem;
+    font-family: var(--font-ui);
 }
 
 .toggle-button:hover {
@@ -132,8 +132,8 @@ body {
 }
 
 .toggle-button.active {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--blue);
+    border-color: var(--blue);
     color: white;
 }
 
@@ -141,33 +141,86 @@ select {
     width: 100%;
     padding: 0.5rem;
     background: var(--bg-tertiary);
-    color: var(--text-primary);
+    color: var(--text-tool);
     border: 1px solid var(--border);
     border-radius: 4px;
     font-size: 0.9rem;
+    font-family: var(--font-ui);
+    cursor: pointer;
+}
+
+select option {
+    background: var(--bg-tertiary);
+    color: var(--text-tool);
 }
 
 input[type="range"] {
     width: 100%;
     margin: 0.5rem 0;
+    cursor: pointer;
+}
+
+input[type="range"] {
+    width: 100%;
+    margin: 0.5rem 0;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+}
+
+input[type="range"]::-webkit-slider-track {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    height: 6px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--blue);
+    cursor: pointer;
+    margin-top: -5px;
+}
+
+input[type="range"]::-moz-range-track {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    height: 6px;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--blue);
+    cursor: pointer;
+    border: none;
 }
 
 .control-group span {
     display: inline-block;
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--text-tool-secondary);
+    font-family: var(--font-ui);
 }
 
 .action-button {
     width: 100%;
     padding: 0.6rem;
     background: var(--bg-tertiary);
-    color: var(--text-primary);
+    color: var(--text-tool);
     border: 1px solid var(--border);
     border-radius: 4px;
     cursor: pointer;
     transition: background 0.2s;
     font-size: 0.9rem;
+    font-family: var(--font-ui);
 }
 
 .action-button:hover {
@@ -189,6 +242,7 @@ input[type="range"] {
     background: var(--bg-tertiary);
     border-radius: 4px;
     font-size: 0.85rem;
+    color: var(--text-tool);
 }
 
 .captured-item input[type="checkbox"] {
@@ -206,14 +260,15 @@ input[type="range"] {
     margin-left: auto;
     padding: 0.2rem 0.5rem;
     background: transparent;
-    color: var(--text-secondary);
+    color: var(--text-tool-secondary);
     border: none;
     cursor: pointer;
     font-size: 0.75rem;
+    font-family: var(--font-ui);
 }
 
 .captured-item button:hover {
-    color: var(--text-primary);
+    color: var(--text-tool);
 }
 
 .hidden {
@@ -229,18 +284,20 @@ input[type="range"] {
 
 details summary {
     cursor: pointer;
-    color: var(--text-secondary);
+    color: var(--text-tool-secondary);
     font-size: 0.9rem;
+    font-family: var(--font-ui);
 }
 
 details p {
     margin-top: 0.5rem;
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--text-tool-secondary);
+    font-family: var(--font-body);
 }
 
 details a {
-    color: var(--accent);
+    color: var(--blue);
     text-decoration: none;
 }
 
