@@ -1,0 +1,310 @@
+---
+title: Chameleon Brand Palette
+desc: Diverse colors extracted from logo while maintaining brand identity
+index: false
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chameleon Brand Palette</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding: 40px 20px;
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+            color: #43A0BD;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .section h2 {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .color-card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .color-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .color-swatch {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .color-info {
+            padding: 15px;
+            background: white;
+        }
+        
+        .color-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .color-hex {
+            font-family: 'Monaco', 'Courier New', monospace;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+        
+        .color-usage {
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
+        }
+        
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .old-palette {
+            opacity: 0.6;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enhanced Chameleon Color Palette</h1>
+        <p class="subtitle">Diverse colors extracted from your logo while maintaining brand identity</p>
+        
+        <div class="section">
+            <h2>New Proposed Palette</h2>
+            <div class="color-grid">
+                <div class="color-card" onclick="copyColor('#43A0BD')">
+                    <div class="color-swatch" style="background: #43A0BD;">
+                        <span class="badge">PRIMARY</span>
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Ocean Blue</div>
+                        <div class="color-hex">#43A0BD</div>
+                        <div class="color-usage">Brand identity (locked)</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#D19A3F')">
+                    <div class="color-swatch" style="background: #D19A3F;">
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Warm Gold</div>
+                        <div class="color-hex">#D19A3F</div>
+                        <div class="color-usage">Accents, CTAs, highlights</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#8DB848')">
+                    <div class="color-swatch" style="background: #8DB848;">
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Leaf Green</div>
+                        <div class="color-hex">#8DB848</div>
+                        <div class="color-usage">Success states, nature</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#DC8B6C')">
+                    <div class="color-swatch" style="background: #DC8B6C;">
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Coral Sunset</div>
+                        <div class="color-hex">#DC8B6C</div>
+                        <div class="color-usage">Warmth, energy, alerts</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#6BC4C4')">
+                    <div class="color-swatch" style="background: #6BC4C4;">
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Aqua Teal</div>
+                        <div class="color-hex">#6BC4C4</div>
+                        <div class="color-usage">Secondary actions, info</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#2B6B7F')">
+                    <div class="color-swatch" style="background: #2B6B7F;">
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Deep Teal</div>
+                        <div class="color-hex">#2B6B7F</div>
+                        <div class="color-usage">Text, headers, depth</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Supporting Colors</h2>
+            <div class="color-grid">
+                <div class="color-card" onclick="copyColor('#F4E9D8')">
+                    <div class="color-swatch" style="background: #F4E9D8; color: #333;">
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Cream</div>
+                        <div class="color-hex">#F4E9D8</div>
+                        <div class="color-usage">Backgrounds, warmth</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#E8F4F8')">
+                    <div class="color-swatch" style="background: #E8F4F8; color: #333;">
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Sky Tint</div>
+                        <div class="color-hex">#E8F4F8</div>
+                        <div class="color-usage">Subtle backgrounds</div>
+                    </div>
+                </div>
+                
+                <div class="color-card" onclick="copyColor('#2C3E3A')">
+                    <div class="color-swatch" style="background: #2C3E3A;">
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Forest Dark</div>
+                        <div class="color-hex">#2C3E3A</div>
+                        <div class="color-usage">Body text, contrast</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section old-palette">
+            <h2>Your Current Palette (For Reference)</h2>
+            <div class="color-grid">
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #43A0BD;">
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Blue 1</div>
+                        <div class="color-hex">#43A0BD</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #5BA8C0;">
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Blue 2 (similar)</div>
+                        <div class="color-hex">~#5BA8C0</div>
+                    </div>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #2E7A92;">
+                    </div>
+                    <div class="color-info">
+                        <div class="color-name">Blue 3 (darker)</div>
+                        <div class="color-hex">~#2E7A92</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Usage Guide</h2>
+            <div style="line-height: 1.8;">
+                <p style="margin-bottom: 15px;"><strong>Primary:</strong> Ocean Blue (#43A0BD) remains your core brand color for logos, main navigation, and key brand moments.</p>
+                
+                <p style="margin-bottom: 15px;"><strong>Warm Accents:</strong> Use Warm Gold and Coral Sunset to create visual interest and draw attention to CTAs, featured content, or interactive elements.</p>
+                
+                <p style="margin-bottom: 15px;"><strong>Natural Balance:</strong> Leaf Green brings freshness and works well for success states, growth-oriented messaging, or environmental themes.</p>
+                
+                <p style="margin-bottom: 15px;"><strong>Cool Harmony:</strong> Aqua Teal and Deep Teal provide variation within the cool spectrum without feeling redundant.</p>
+                
+                <p><strong>Neutrals:</strong> Cream and Sky Tint give you warm and cool background options, while Forest Dark provides strong text contrast.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function copyColor(hex) {
+            navigator.clipboard.writeText(hex).then(() => {
+                // Visual feedback
+                const temp = document.createElement('div');
+                temp.style.cssText = 'position: fixed; top: 20px; right: 20px; background: #333; color: white; padding: 12px 20px; border-radius: 6px; z-index: 1000; font-size: 14px;';
+                temp.textContent = `Copied ${hex}`;
+                document.body.appendChild(temp);
+                setTimeout(() => temp.remove(), 2000);
+            });
+        }
+    </script>
+</body>
+</html>
