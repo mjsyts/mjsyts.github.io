@@ -1,5 +1,5 @@
 // assets/js/tools/fft-analyzer.js
-import { AudioEngine } from '../../applets/host/audio.js';
+import { AudioEngine } from '../../../applets/host/audio.js';
 import FFT from 'https://cdn.skypack.dev/fft.js';
 
 class FFTAnalyzer {
