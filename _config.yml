@@ -48,8 +48,11 @@ nav:
   - title: Writing
     url: /writing/
     status: draft
-  - title: Development
+  - title: Audio & DSP
     url: /development/
+    status: live
+  - title: Tools
+    url: /tools/
     status: live
 
 show_drafts_nav: false
@@ -62,6 +65,9 @@ collections:
   writing:
     output: true
     permalink: /writing/:name/
+  tools:
+    output: true
+    permalink: /tools/:name/
 
 # Defaults for collection entries
 defaults:

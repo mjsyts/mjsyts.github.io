@@ -56,6 +56,10 @@ export class AudioEngine {
     return this.freqData;
   }
 
+  getAnalyser() {
+    return this.analyser;
+  }
+
   cleanup() {
     if (this.stream) {
       this.stream.getTracks().forEach(track => track.stop());
