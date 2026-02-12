@@ -111,7 +111,7 @@ class FFTAnalyzer {
             default: minFreq = 20; maxFreq = 20000;
         }
 
-        const sampleRate = this.audio.sampleRate() || 48000;
+        const sampleRate = this.audio.sampleRate || 48000;
 
         // Clear canvas
         const style = getComputedStyle(document.documentElement);
