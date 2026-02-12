@@ -1,6 +1,6 @@
 // assets/js/tools/fft-analyzer.js
 import { AudioEngine } from '../../applets/host/audio.js';
-import FFT from 'https://cdn.skypack.dev/fft.js'; 
+import FFT from 'https://cdn.skypack.dev/fft.js';
 
 class FFTAnalyzer {
     constructor() {
@@ -13,6 +13,9 @@ class FFTAnalyzer {
         this.windowType = 'hann';
         this.frequencyScale = 'log'; // 'log' or 'linear'
         this.smoothing = 0.8;
+
+        // FFT
+        this.fft = new FFT(this.fftSize);
 
         // Captured spectra
         this.captures = [];
@@ -65,12 +68,76 @@ class FFTAnalyzer {
     }
 
     draw() {
-        // Drawing updates
+        // Get time domain data
+        const timeData = this.audio.getTimeData();
+        if (!timeData) return;
+
+        // Apply window function
+        const windowed = this.applyWindow(timeData);
+
+        // Perform FFT
+        const out = this.fft.createComplexArray();
+        this.fft.realTransform(out, windowed);
+
+        // Calculate magnitudes
+        const magnitudes = new Float32Array(this.fftSize / 2);
+        for (let i = 0; i < magnitudes.length; i++) {
+            const real = out[2 * i];
+            const imaginary = out[2 * i + 1];
+            magnitudes[i] = Math.sqrt(real * real + imaginary * imaginary);
+        }
+
+        // Draw spectrum
+        this.drawSpectrum(magnitudes);
 
         if (this.running) {
             requestAnimationFrame(() => this.draw());
         }
     }
+
+    drawSpectrum(magnitudes) {
+        const width = this.canvas.width;
+        const height = this.canvas.height;
+
+        // Get colors from CSS custom properties
+        const style = getComputedStyle(document.documentElement);
+        const bgColor = style.getPropertyValue('--bg-primary').trim() || '#1a1a1a';
+        const lineColor = style.getPropertyValue('--primary-color').trim() || '#00ff88';
+
+        // Clear canvas
+        this.ctx.fillStyle = bgColor;
+        this.ctx.fillRect(0, 0, width, height);
+
+        // Convert to dB and normalize
+        const minDb = -90;
+        const maxDb = -10;
+
+        const dbValues = new Float32Array(magnitudes.length);
+        for (let i = 0; i < magnitudes.length; i++) {
+            const db = 20 * Math.log10(magnitudes[i] + 1e-10);
+            dbValues[i] = (db - minDb) / (maxDb - minDb);
+            dbValues[i] = Math.max(0, Math.min(1, dbValues[i]));
+        }
+
+        // Draw spectrum
+        this.ctx.strokeStyle = lineColor;
+        this.ctx.lineWidth = 2;
+        this.ctx.beginPath();
+
+        for (let i = 0; i < dbValues.length; i++) {
+            const x = (i / dbValues.length) * width;
+            const y = height - (dbValues[i] * height * 0.9);
+
+            if (i === 0) {
+                this.ctx.moveTo(x, y);
+            } else {
+                this.ctx.lineTo(x, y);
+            }
+        }
+
+        this.ctx.stroke();
+    }
+
 
     start() {
         this.running = true;
