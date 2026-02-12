@@ -8,7 +8,7 @@
     --text-tool: #e0e0e0;
     --text-tool-secondary: #a0a0a0;
     --border: #404040;
-    
+
     /* Use token colors for spectra */
     --spectrum-live: var(--blue);
     --spectrum-capture-1: var(--coral);
@@ -316,34 +316,236 @@ details a:hover {
     text-decoration: underline;
 }
 
+/* Metric Modulation Calculator Styles */
+.calculator-display {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 2rem;
+    padding: 2rem;
+    overflow-y: auto;
+    align-items: start;
+}
+
+.tempo-section {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.tempo-section h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-tool);
+    font-family: var(--font-ui);
+}
+
+.tempo-input-group {
+    margin-bottom: 1.5rem;
+}
+
+.tempo-input-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    color: var(--text-tool);
+    font-family: var(--font-ui);
+}
+
+.note-symbol {
+    font-size: 2rem;
+    color: var(--blue);
+}
+
+.tempo-input-group input[type="number"] {
+    width: 80px;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    background: var(--bg-tertiary);
+    color: var(--text-tool);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: var(--font-ui);
+}
+
+.tempo-result {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    color: var(--text-tool);
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+    font-family: var(--font-ui);
+}
+
+.tempo-value {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--coral);
+}
+
+.modulation-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem 1rem;
+}
+
+.modulation-section h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-tool);
+    font-family: var(--font-ui);
+}
+
+.modulation-ratio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.modulation-ratio input[type="number"] {
+    width: 60px;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    text-align: center;
+    background: var(--bg-tertiary);
+    color: var(--text-tool);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: var(--font-ui);
+}
+
+.modulation-ratio span {
+    font-size: 0.85rem;
+    color: var(--text-tool-secondary);
+    font-family: var(--font-ui);
+}
+
+.modulation-ratio select {
+    min-width: 120px;
+}
+
+.equals-symbol {
+    font-size: 2rem;
+    color: var(--text-tool);
+    font-weight: 600;
+}
+
+.time-sig-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.time-sig-group input[type="number"] {
+    width: 60px;
+    padding: 0.5rem;
+    text-align: center;
+    background: var(--bg-tertiary);
+    color: var(--text-tool);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: var(--font-ui);
+}
+
+.time-sig-group select {
+    width: 80px;
+}
+
+.time-sig-group span {
+    font-size: 1.2rem;
+    color: var(--text-tool);
+}
+
+.tempo-section {
+    min-height: 500px;
+    /* or whatever makes them equal */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Mobile Responsive for Calculator */
+@media (max-width: 1024px) {
+    .calculator-display {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+
+    .modulation-section {
+        order: 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .calculator-display {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .tempo-section {
+        padding: 1rem;
+    }
+
+    .tempo-input-group label {
+        font-size: 1.2rem;
+    }
+
+    .tempo-input-group input[type="number"] {
+        width: 60px;
+        font-size: 1.2rem;
+    }
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .tool-main {
         flex-direction: column;
     }
-    
+
     #fft-canvas {
         height: 60vh;
     }
-    
+
     .controls-panel {
         width: 100%;
         height: 40vh;
         border-left: none;
         border-top: 1px solid var(--border);
     }
-    
+
     .tool-header {
         flex-direction: column;
         gap: 0.5rem;
         align-items: stretch;
     }
-    
+
     .tool-header h1 {
-        font-size: 1.25rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-tool);
+        font-family: var(--font-ui);
+        letter-spacing: normal;
+        margin: 0;
         text-align: center;
+        flex: 1;
+        /* This makes it take up space and center properly */
     }
-    
+
     .init-button {
         width: 100%;
     }
@@ -353,11 +555,11 @@ details a:hover {
     .tool-header {
         padding: 0.75rem 1rem;
     }
-    
+
     .controls-panel {
         padding: 1rem;
     }
-    
+
     .control-group {
         margin-bottom: 1rem;
     }
