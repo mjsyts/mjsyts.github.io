@@ -43,6 +43,17 @@
     flex-shrink: 0;
 }
 
+.tool-header .page-back__link {
+    font-size: 0.9rem;
+    color: var(--text-tool-secondary);
+    text-decoration: none;
+    font-family: var(--font-ui);
+}
+
+.tool-header .page-back__link:hover {
+    color: var(--text-tool);
+}
+
 .tool-header h1 {
     font-size: 1.5rem;
     font-weight: 600;

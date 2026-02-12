@@ -15,6 +15,9 @@ thumb: /assets/images/thumbs/tools/fft-analyzer.jpg
 <body>
     <div class="tool-container">
         <header class="tool-header">
+            <nav class="page-back" aria-label="Back navigation">
+                <a href="/" onclick="if (window.history.length > 1) { history.back(); return false; }" class="page-back__link">&larr; Back</a>
+            </nav>
             <h1>FFT Analyzer</h1>
             <button id="init-button" class="init-button">Click to Initialize Audio</button>
         </header>
