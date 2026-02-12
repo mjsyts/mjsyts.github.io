@@ -16,18 +16,6 @@ Building a real-time FFT spectrum analyzer with:
 - `_tools/fft-analyzer/index.html` - UI markup
 - `assets/css/components/audio-tool.css` - Already has spectrum color tokens defined
 
-## Color System (Already Exists)
-
-The project already has spectrum colors defined in `audio-tool.css`:
-```css
---spectrum-live: var(--blue);       /* #43A0BD */
---spectrum-capture-1: var(--coral); /* #DE8D74 */
---spectrum-capture-2: var(--aqua);  /* #6ABCD5 */
---spectrum-capture-3: var(--gold);  /* #D4990D */
---spectrum-capture-4: var(--green); /* #9FC353 */
---spectrum-capture-5: var(--indigo);/* #7191AF */
-```
-
 ## Implementation Steps
 
 ### ✅ Step 1: Setup fft.js Library
@@ -39,7 +27,7 @@ The project already has spectrum colors defined in `audio-tool.css`:
 
 **In fft-analyzer.js**: Add import for FFT library
 
-### ⬜ Step 2: Clean Up HTML
+### ✅ Step 2: Clean Up HTML
 
 Remove the unnecessary "Input Source" button section (lines 27-31 in index.html):
 ```html

@@ -1,5 +1,6 @@
 // assets/js/tools/fft-analyzer.js
 import { AudioEngine } from '../../applets/host/audio.js';
+import FFT from 'https://cdn.skypack.dev/fft.js'; 
 
 class FFTAnalyzer {
     constructor() {
@@ -63,7 +64,21 @@ class FFTAnalyzer {
         return windowed;
     }
 
+    draw() {
+        // Drawing updates
+
+        if (this.running) {
+            requestAnimationFrame(() => this.draw());
+        }
+    }
+
     start() {
+        this.running = true;
+        this.draw();
+    }
+
+    stop() {
+        this.running = false;
     }
 }
 
