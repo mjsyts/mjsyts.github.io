@@ -41,7 +41,7 @@ Remove the unnecessary "Input Source" button section (lines 27-31 in index.html)
 -->
 ```
 
-### ⬜ Step 3: Core FFT Methods
+### ✅ Step 3: Core FFT Methods
 
 Add these methods to the `FFTAnalyzer` class:
 

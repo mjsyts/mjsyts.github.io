@@ -95,49 +95,79 @@ class FFTAnalyzer {
         }
     }
 
-    drawSpectrum(magnitudes) {
-        const width = this.canvas.width;
-        const height = this.canvas.height;
+    drawSpectrum(magnitudes, color = null, alpha = 0.8) {
+        // Use CSS dimensions
+        const rect = this.canvas.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
 
-        // Get colors from CSS custom properties
-        const style = getComputedStyle(document.documentElement);
-        const bgColor = style.getPropertyValue('--bg-primary').trim() || '#1a1a1a';
-        const lineColor = style.getPropertyValue('--primary-color').trim() || '#00ff88';
+        // Get frequency range
+        const range = document.getElementById('freq-range').value;
+        let minFreq, maxFreq;
+        switch (range) {
+            case 'full': minFreq = 20; maxFreq = 20000; break;
+            case 'musical': minFreq = 50; maxFreq = 5000; break;
+            case 'sub': minFreq = 20; maxFreq = 200; break;
+            default: minFreq = 20; maxFreq = 20000;
+        }
+
+        const sampleRate = this.audio.getSampleRate() || 48000;
 
         // Clear canvas
+        const style = getComputedStyle(document.documentElement);
+        const bgColor = style.getPropertyValue('--bg-primary').trim() || '#1a1a1a';
+        const lineColor = color || style.getPropertyValue('--primary-color').trim() || '#00ff88';
+
         this.ctx.fillStyle = bgColor;
         this.ctx.fillRect(0, 0, width, height);
 
-        // Convert to dB and normalize
+        // Convert to dB
         const minDb = -90;
         const maxDb = -10;
 
-        const dbValues = new Float32Array(magnitudes.length);
-        for (let i = 0; i < magnitudes.length; i++) {
-            const db = 20 * Math.log10(magnitudes[i] + 1e-10);
-            dbValues[i] = (db - minDb) / (maxDb - minDb);
-            dbValues[i] = Math.max(0, Math.min(1, dbValues[i]));
-        }
-
         // Draw spectrum
         this.ctx.strokeStyle = lineColor;
+        this.ctx.globalAlpha = alpha;
         this.ctx.lineWidth = 2;
         this.ctx.beginPath();
 
-        for (let i = 0; i < dbValues.length; i++) {
-            const x = (i / dbValues.length) * width;
-            const y = height - (dbValues[i] * height * 0.9);
+        let firstPoint = true;
 
-            if (i === 0) {
+        for (let i = 0; i < magnitudes.length; i++) {
+            // Calculate frequency for this bin
+            const binFreq = (i * sampleRate) / (2 * magnitudes.length);
+
+            // Skip bins outside our range
+            if (binFreq < minFreq || binFreq > maxFreq) continue;
+
+            // Map frequency to X position (within the selected range)
+            let x;
+            if (this.frequencyScale === 'log') {
+                const logMin = Math.log10(minFreq);
+                const logMax = Math.log10(maxFreq);
+                const logFreq = Math.log10(binFreq);
+                x = ((logFreq - logMin) / (logMax - logMin)) * width;
+            } else {
+                // Linear mapping within range
+                x = ((binFreq - minFreq) / (maxFreq - minFreq)) * width;
+            }
+
+            // Convert magnitude to dB and normalize
+            const db = 20 * Math.log10(magnitudes[i] + 1e-10);
+            const normalized = (db - minDb) / (maxDb - minDb);
+            const y = height - (Math.max(0, Math.min(1, normalized)) * height * 0.9);
+
+            if (firstPoint) {
                 this.ctx.moveTo(x, y);
+                firstPoint = false;
             } else {
                 this.ctx.lineTo(x, y);
             }
         }
 
         this.ctx.stroke();
+        this.ctx.globalAlpha = 1.0;
     }
-
 
     start() {
         this.running = true;
