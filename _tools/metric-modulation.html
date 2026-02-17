@@ -6,6 +6,7 @@ thumb: /assets/images/thumbs/tools/metric-modulation.jpg
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,27 +14,29 @@ thumb: /assets/images/thumbs/tools/metric-modulation.jpg
     <link rel="stylesheet" href="/assets/css/components/audio-tool.css">
     <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
 </head>
+
 <body>
     <div class="tool-container">
         <header class="tool-header">
             <nav class="page-back" aria-label="Back navigation">
-                <a href="/" onclick="if (window.history.length > 1) { history.back(); return false; }" class="page-back__link">&larr; Back</a>
+                <a href="/" onclick="if (window.history.length > 1) { history.back(); return false; }"
+                    class="page-back__link">&larr; Back</a>
             </nav>
             <h1>Metric Modulation Calculator</h1>
         </header>
-        
+
         <div class="tool-main">
             <div class="calculator-display">
                 <section class="tempo-section">
                     <h2>Starting Tempo</h2>
                     <div class="tempo-input-group">
                         <label>
-                            <span class="note-symbol" id="old-note-symbol">♩</span> = 
+                            <span class="note-symbol" id="old-note-symbol">♩</span> =
                             <input type="number" id="old-tempo" min="20" max="300" value="120" step="1">
                             <span>BPM</span>
                         </label>
                     </div>
-                    
+
                     <div class="control-group">
                         <label>Beat Unit</label>
                         <select id="old-base-note">
@@ -45,7 +48,7 @@ thumb: /assets/images/thumbs/tools/metric-modulation.jpg
                             <option value="32">Thirty-second note</option>
                         </select>
                     </div>
-                    
+
                     <div class="control-group">
                         <label>Tuplet (optional)</label>
                         <select id="old-tuplet">
@@ -56,7 +59,7 @@ thumb: /assets/images/thumbs/tools/metric-modulation.jpg
                             <option value="11">11-tuplet</option>
                         </select>
                     </div>
-                    
+
                     <div class="control-group">
                         <label>Time Signature</label>
                         <div class="time-sig-group">
@@ -69,13 +72,9 @@ thumb: /assets/images/thumbs/tools/metric-modulation.jpg
                             <span>Irrational (tuplet-based)</span>
                         </label>
                     </div>
-                    
-                    <div class="control-group">
-                        <label>Preview Bars</label>
-                        <input type="number" id="old-bars" min="1" max="4" value="2" step="1">
-                    </div>
+
                 </section>
-                
+
                 <section class="modulation-section">
                     <div class="control-group">
                         <label>Calculate</label>
@@ -84,7 +83,7 @@ thumb: /assets/images/thumbs/tools/metric-modulation.jpg
                             <button class="toggle-button" data-direction="reverse">New → Start</button>
                         </div>
                     </div>
-                    
+
                     <h2>Modulation</h2>
                     <div class="modulation-ratio">
                         <input type="number" id="mod-old-count" min="1" max="15" value="3" step="1">
@@ -105,9 +104,9 @@ thumb: /assets/images/thumbs/tools/metric-modulation.jpg
                             <option value="11">11-tuplet</option>
                         </select>
                     </div>
-                    
+
                     <div class="equals-symbol">=</div>
-                    
+
                     <div class="modulation-ratio">
                         <input type="number" id="mod-new-count" min="1" max="15" value="2" step="1">
                         <span>of new</span>
@@ -128,15 +127,15 @@ thumb: /assets/images/thumbs/tools/metric-modulation.jpg
                         </select>
                     </div>
                 </section>
-                
+
                 <section class="tempo-section">
                     <h2>New Tempo</h2>
                     <div class="tempo-result">
-                        <span class="note-symbol" id="new-note-symbol">♩</span> = 
+                        <span class="note-symbol" id="new-note-symbol">♩</span> =
                         <span id="new-tempo-value" class="tempo-value">180.00</span>
                         <span>BPM</span>
                     </div>
-                    
+
                     <div class="control-group">
                         <label>Beat Unit</label>
                         <select id="new-base-note">
@@ -148,7 +147,7 @@ thumb: /assets/images/thumbs/tools/metric-modulation.jpg
                             <option value="32">Thirty-second note</option>
                         </select>
                     </div>
-                    
+
                     <div class="control-group">
                         <label>Tuplet (optional)</label>
                         <select id="new-tuplet">
@@ -159,7 +158,7 @@ thumb: /assets/images/thumbs/tools/metric-modulation.jpg
                             <option value="11">11-tuplet</option>
                         </select>
                     </div>
-                    
+
                     <div class="control-group">
                         <label>Time Signature</label>
                         <div class="time-sig-group">
@@ -172,20 +171,16 @@ thumb: /assets/images/thumbs/tools/metric-modulation.jpg
                             <span>Irrational (tuplet-based)</span>
                         </label>
                     </div>
-                    
-                    <div class="control-group">
-                        <label>Preview Bars</label>
-                        <input type="number" id="new-bars" min="1" max="4" value="2" step="1">
-                    </div>
+
                 </section>
             </div>
-            
+
             <aside class="controls-panel">
                 <section class="control-group">
                     <button id="play-preview" class="action-button">Play Preview</button>
                     <button id="stop-preview" class="action-button" disabled>Stop</button>
                 </section>
-                
+
                 <section class="control-group">
                     <label>Click Sound</label>
                     <select id="click-sound">
@@ -195,19 +190,26 @@ thumb: /assets/images/thumbs/tools/metric-modulation.jpg
                         <option value="beep">Beep</option>
                     </select>
                 </section>
-            
+
+                <div class="control-group">
+                    <label>Preview Bars</label>
+                    <input type="number" id="new-bars" min="1" max="4" value="2" step="1">
+                </div>
+
             </aside>
         </div>
-        
+
         <footer class="tool-footer">
             <details>
                 <summary>About this tool</summary>
-                <p>Calculate new tempos from metric modulations with support for irrational time signatures (tuplet-based denominators). 
-                   Specify the starting tempo, the modulation relationship, and hear the result with audio preview.</p>
+                <p>Calculate new tempos from metric modulations with support for irrational time signatures
+                    (tuplet-based denominators).
+                    Specify the starting tempo, the modulation relationship, and hear the result with audio preview.</p>
             </details>
         </footer>
     </div>
-    
+
     <script type="module" src="/assets/js/tools/metric-modulation.js"></script>
 </body>
+
 </html>
