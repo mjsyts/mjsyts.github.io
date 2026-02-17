@@ -1,0 +1,44 @@
+---
+sitemap: false
+---
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One-Pole Filter — Impulse & Frequency Response</title>
+  <link rel="stylesheet" href="/applets/shared/applet-theme.css">
+</head>
+
+<body class="applet">
+  <div class="applet-wrap">
+    <div class="app-main">
+
+      <!-- Impulse response -->
+      <div class="surface">
+        <canvas id="canvas-ir"></canvas>
+      </div>
+
+      <!-- Frequency response -->
+      <div class="surface" style="margin-top: 8px;">
+        <canvas id="canvas-fr"></canvas>
+      </div>
+
+      <!-- Controls -->
+      <div class="panel panel--padded">
+        <div class="row">
+          <span class="label">a</span>
+          <input class="range" type="range" id="coeff-slider" min="-1.0" max="1.0" step="0.01" value="0">
+          <input class="input" type="number" id="coeff-input" min="-1.0" max="1.0" step="0.01" value="0" style="width: 5rem; flex: 0 0 auto;">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="applet.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+---
+sitemap: false
+---
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One-Pole Filter — Audio Demo</title>
+  <link rel="stylesheet" href="/applets/shared/applet-theme.css">
+</head>
+
+<body class="applet" role="application" aria-label="One-Pole Filter Audio Demo">
+  <div class="applet-wrap">
+    <main class="app-main">
+      <section class="panel panel--padded" aria-label="Controls">
+
+        <header class="audio-head">
+          <div class="audio-title label">one-pole filter</div>
+          <div class="audio-meta">
+            <div class="audio-sr mono" id="sr">sample rate: —</div>
+            <div class="audio-status mono" id="status">idle</div>
+          </div>
+        </header>
+
+        <div class="row wrap" style="margin-top: 0.5rem;">
+          <button id="start" class="btn primary" type="button">start</button>
+          <button id="stop"  class="btn"         type="button" disabled>stop</button>
+
+          <span class="spacer"></span>
+
+          <span class="label">mode</span>
+          <select id="mode" class="audio-select">
+            <option value="lowpass">lowpass</option>
+            <option value="highpass">highpass</option>
+          </select>
+        </div>
+
+        <div class="row wrap" style="margin-top: 0.5rem;">
+          <label class="label" for="cutoff">cutoff</label>
+          <input id="cutoff" class="range" type="range" min="1" max="20000" step="1" value="1000" />
+          <output class="mono audio-val" id="cutoffVal" for="cutoff">1000 Hz</output>
+        </div>
+
+        <div class="row wrap">
+          <label class="label" for="amp">amplitude</label>
+          <input id="amp" class="range" type="range" min="0" max="1" step="0.01" value="0.5" />
+          <output class="mono audio-val" id="ampVal" for="amp">0.50</output>
+        </div>
+
+        <div class="row wrap">
+          <span class="label">a</span>
+          <output class="mono audio-val" id="coeffVal">—</output>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+
+</html>
