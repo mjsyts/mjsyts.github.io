@@ -3,11 +3,12 @@ from __future__ import annotations
 
 import subprocess
 from pathlib import Path
-from datetime import date
+from datetime import datetime
+from zoneinfo import ZoneInfo
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-TODAY = date.today().isoformat()
+TODAY = datetime.now(ZoneInfo("America/New_York")).date().isoformat()
 
 TARGET_DIRS = [ROOT / "_posts", ROOT / "_development", ROOT / "_writing"]
 
