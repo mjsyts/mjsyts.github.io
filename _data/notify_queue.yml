@@ -49,5 +49,5 @@
   subject: "Filters — Part 2: One Pole and Frequency Response"
   excerpt: "Building a one-pole filter and understanding frequency response."
   audience: dsp              # dsp | sound_design | both
-  status: queued             # queued | sent
+  status: sent             # queued | sent
   created_at: 2026-02-17
