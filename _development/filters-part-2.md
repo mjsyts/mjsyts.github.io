@@ -5,7 +5,7 @@ date: 2026-02-17
 last_modified_at: 2026-02-18
 series: "Filters"
 part: 2
-published: false
+published: true
 permalink: /development/filters-part-2/
 tags: [dsp, filter, webaudio, synthesis, c++]
 desc: "Building a one-pole filter and understanding frequency response."
