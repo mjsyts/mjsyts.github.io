@@ -2,7 +2,7 @@
 layout: post
 title: "Filters — Part 2: One Pole and Frequency Response"
 date: 2026-02-17
-last_modified_at: 2026-02-17
+last_modified_at: 2026-02-18
 series: "Filters"
 part: 2
 published: false
