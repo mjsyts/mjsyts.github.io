@@ -189,6 +189,16 @@ Use the applet to hear white noise filtered by a one-pole filter and to see the 
 
 In the next article, we'll look at biquad filters and what it actually means for a filter to have a pole.
 
+## See Also
+
+- CSound: [tone (lowpass)](https://csound.com/docs/manual/tone.html) / [atone (highpass)](https://csound.com/docs/manual/atone.html)
+- FAUST: [fi.pole](https://faustlibraries.grame.fr/libs/filters/#fipole)
+- Max/MSP: [onepole~](https://docs.cycling74.com/legacy/max8/refpages/onepole~)
+- PureData: [~lop / ~hip](http://www.pd-tutorial.com/english/ch03s03.html)
+- SuperCollider: [OnePole](https://doc.sccode.org/Classes/OnePole.html)
+
+<p style="font-style: italic;">**JUCE, MATLAB, and the Web Audio API do not have a direct one-pole equivalent. JUCE's <code>IIRFilter</code> and MATLAB's <code>filter</code> can implement one with manual coefficients. The Web Audio API's <code>BiquadFilterNode</code> is a two-pole filter — the AudioWorklet implementation in this article is closer to a true one-pole.</p>
+
 ## Notes
 
 [^oppenheim]: Oppenheim, Alan V., and Ronald W. Schafer. *Discrete-Time Signal Processing*. Pearson, 2010. [https://www.pearson.com/en-us/subject-catalog/p/Oppenheim-Discrete-Time-Signal-Processing-3rd-Edition/P200000003226](https://www.pearson.com/en-us/subject-catalog/p/Oppenheim-Discrete-Time-Signal-Processing-3rd-Edition/P200000003226).
