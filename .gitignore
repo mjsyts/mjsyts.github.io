@@ -6,6 +6,8 @@ _site/
 .jekyll-cache/
 .sass-cache/
 .bundle/
+__pycache__/
+*.pyc
 
 # OS / editor
 .DS_Store
