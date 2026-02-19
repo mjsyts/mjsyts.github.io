@@ -39,6 +39,7 @@ class LanguageConfig {
     supercollider: "sclang",
     sclang: "sclang",
     sc: "sclang",
+    mojo: "mojo"
   };
 
   static defaultLabelMap = {
@@ -50,6 +51,7 @@ class LanguageConfig {
     cpp: "C++",
     sclang: "SCLANG",
     code: "CODE",
+    mojo: "MOJO"
   };
 
   constructor(options = {}) {
