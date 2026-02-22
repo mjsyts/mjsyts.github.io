@@ -1,0 +1,6 @@
+{
+  "name": "Ruby 3.1.7 Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile"
+  }
+}
