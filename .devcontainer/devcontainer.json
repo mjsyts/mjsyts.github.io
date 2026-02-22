@@ -1,6 +1,4 @@
 {
-  "name": "Ruby 3.1.7 Dev Container",
-  "build": {
-    "dockerfile": "Dockerfile"
-  }
+  "image": "mcr.microsoft.com/devcontainers/ruby:3.1",
+  "postCreateCommand": "bundle install"
 }
