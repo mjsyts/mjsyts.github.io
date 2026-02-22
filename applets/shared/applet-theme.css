@@ -6,6 +6,12 @@
 
 :root {
   color-scheme: light;
+--code-keyword: #5A4FCF;
+--code-type: #43A0BD;
+--code-string: #DC8B6C;
+--code-number: #D19A3F;
+--code-function: #8DB848;
+--code-constant: #6BC4C4;
 }
 
 *,
@@ -79,6 +85,8 @@ iframe {
   max-width: 100%;
   min-width: 0;
 }
+
+
 
 /* -----------------------------
    Rows
