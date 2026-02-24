@@ -69,6 +69,20 @@ iframe {
   background: var(--bg);
   color: var(--text);
   padding: 0.75rem;
+
+  /* site palette */
+  --blue: #43A0BD;
+  --aqua: #6BC4C4;
+  --green: #8DB848;
+  --gold: #D19A3F;
+  --coral: #DC8B6C;
+  --indigo: #6659C7;
+  --violet: #9B5FBF;
+
+  /* code tokens */
+  --code-text: rgba(0, 0, 0, 0.88);
+  --code-muted: rgba(0, 0, 0, 0.55);
+  --code-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 .applet-wrap {
