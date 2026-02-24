@@ -1,0 +1,103 @@
+---
+sitemap: false
+---
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Biquad Filter — Pole-Zero Plot</title>
+  <link rel="stylesheet" href="/applets/shared/applet-theme.css">
+  <style>
+    .viz-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .viz-row .surface {
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .unstable-badge {
+      display: none;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(200, 60, 40, 0.12);
+      border: 1px solid rgba(200, 60, 40, 0.35);
+      color: rgba(200, 60, 40, 0.9);
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+
+    .unstable-badge.visible {
+      display: flex;
+    }
+
+    .canvas-label {
+      font-family: var(--ui);
+      font-weight: 900;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+      text-transform: lowercase;
+    }
+  </style>
+</head>
+
+<body class="applet">
+  <div class="applet-wrap">
+    <div class="app-main">
+
+      <!-- Controls / status -->
+      <div class="panel panel--padded">
+        <div class="row">
+          <span class="label">drag poles and zeros on the z-plane</span>
+          <span class="spacer"></span>
+          <div class="unstable-badge" id="unstable-badge">⚠ unstable</div>
+          <button class="btn" id="reset-btn" type="button">reset</button>
+        </div>
+      </div>
+
+      <!-- Top row: z-plane + frequency response -->
+      <div class="viz-row">
+        <div class="surface">
+          <div class="canvas-label">z-plane</div>
+          <canvas id="canvas-zplane"></canvas>
+        </div>
+        <div class="surface">
+          <div class="canvas-label">frequency response</div>
+          <canvas id="canvas-fr"></canvas>
+        </div>
+      </div>
+
+      <!-- Bottom: impulse response (short) -->
+      <div class="surface">
+        <div class="canvas-label">impulse response</div>
+        <canvas id="canvas-ir"></canvas>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="applet.js"></script>
+</body>
+
+</html>

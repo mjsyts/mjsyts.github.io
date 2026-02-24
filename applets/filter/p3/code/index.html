@@ -1,0 +1,289 @@
+---
+sitemap: false
+---
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Biquad Filter Explorer</title>
+  <!-- Local CSS -->
+  <link rel="stylesheet" href="/assets/css/base/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base/code-tokens.css">
+  <link rel="stylesheet" href="/assets/css/components/codeblocks.css">
+  <link rel="stylesheet" href="/applets/shared/applet-theme.css">
+  <!-- Prism CSS + site overrides -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+  <link rel="stylesheet" href="/assets/css/vendor/prism-overrides.css">
+  <style>
+    .explorer-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    @media (max-width: 640px) {
+      .explorer-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .left-col,
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    /* Make codegroup fill the right column */
+    .right-col .codegroup {
+      flex: 1;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .right-col .codegroup__panel {
+      flex: 1;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .right-col .codegroup pre {
+      height: 100%;
+      min-height: 320px;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+
+    /* Sliders */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .slider-row .label {
+      flex: 0 0 3.5rem;
+      font-size: 0.82rem;
+    }
+
+    .slider-row .range {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .slider-row .audio-val {
+      flex: 0 0 5.5rem;
+      text-align: right;
+      font-size: 0.82rem;
+    }
+
+    .slider-row.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    /* FR canvas wrap */
+    .fr-wrap {
+      position: relative;
+    }
+
+    /* Allpass overlay */
+    .allpass-note {
+      display: none;
+      position: absolute;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.82));
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .allpass-note.visible {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .allpass-note-title {
+      font-family: var(--ui);
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      color: var(--text);
+    }
+
+    .allpass-note-body {
+      font-family: var(--ui);
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 26rem;
+    }
+
+    /* Filter description */
+    .filter-desc {
+      background: linear-gradient(180deg, var(--panel), rgba(255, 255, 255, 0.58));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.6rem 0.75rem;
+    }
+
+    .filter-desc-name {
+      font-family: var(--ui);
+      font-weight: 900;
+      font-size: 0.88rem;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .filter-desc-text {
+      font-family: var(--ui);
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body class="applet">
+  <div class="applet-wrap">
+    <div class="app-main">
+
+      <!-- Top control bar -->
+      <div class="panel panel--padded">
+        <div class="row">
+          <span class="label">filter type</span>
+          <select id="filter-type" class="audio-select">
+            <option value="lowpass">lowpass</option>
+            <option value="highpass">highpass</option>
+            <option value="bandpass">bandpass (constant skirt)</option>
+            <option value="bandpass_peak">bandpass (0 dB peak)</option>
+            <option value="notch">notch</option>
+            <option value="allpass">allpass</option>
+            <option value="peak">peak (peaking EQ)</option>
+            <option value="lowshelf">low shelf</option>
+            <option value="highshelf">high shelf</option>
+          </select>
+          <span class="spacer"></span>
+          <select id="source" class="audio-select">
+            <option value="clean">guitar (clean)</option>
+            <option value="hum">guitar (with hum)</option>
+          </select>
+          <button id="play-pause" class="btn primary" type="button">play</button>
+        </div>
+      </div>
+
+      <!-- Main layout -->
+      <div class="explorer-layout">
+
+        <!-- LEFT: FR plot + sliders + description -->
+        <div class="left-col">
+
+          <div class="surface fr-wrap">
+            <canvas id="canvas-fr"></canvas>
+            <div class="allpass-note" id="allpass-note">
+              <div class="allpass-note-title">flat magnitude response</div>
+              <div class="allpass-note-body">An allpass filter passes all frequencies at equal amplitude — the frequency
+                response is always 0 dB. Its effect is on <strong>phase</strong> only. The cutoff frequency is where the
+                phase shift is exactly 180°. Q controls how steep the phase transition is around that point. Allpass
+                filters are used in phasers, comb filters, and speaker time-alignment.</div>
+            </div>
+          </div>
+
+          <div class="surface">
+            <canvas id="canvas-waveform"></canvas>
+          </div>
+
+          <div class="panel panel--padded">
+            <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+              <div class="slider-row">
+                <span class="label">freq</span>
+                <input class="range" type="range" id="freq" min="20" max="20000" step="1" value="1000">
+                <input class="input mono audio-val" type="number" id="freq-val" min="20" max="20000" step="1"
+                  value="1000">
+              </div>
+              <div class="slider-row">
+                <span class="label">Q</span>
+                <input class="range" type="range" id="q" min="0.1" max="20" step="0.01" value="0.707">
+                <input class="input mono audio-val" type="number" id="q-val" min="0.1" max="20" step="0.01"
+                  value="0.707">
+              </div>
+              <div class="slider-row" id="gain-row">
+                <span class="label">gain</span>
+                <input class="range" type="range" id="gain" min="-24" max="24" step="0.1" value="0">
+                <input class="input mono audio-val" type="number" id="gain-val" min="-24" max="24" step="0.1" value="0">
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-desc">
+            <div class="filter-desc-name" id="desc-name">Lowpass</div>
+            <div class="filter-desc-text" id="desc-text">Passes frequencies below the cutoff, attenuates above. Higher Q
+              produces a resonant peak just before the cutoff.</div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: Codegroup using site styles -->
+        <div class="right-col">
+          <div class="codegroup">
+
+            <div class="codegroup__bar">
+              <div class="codegroup__tabs" role="tablist" aria-label="Code language">
+                <button class="codegroup__tab" role="tab" aria-selected="true" tabindex="0" data-lang="cpp">C++</button>
+                <button class="codegroup__tab" role="tab" aria-selected="false" tabindex="-1"
+                  data-lang="js">JavaScript</button>
+                <button class="codegroup__tab" role="tab" aria-selected="false" tabindex="-1"
+                  data-lang="mojo">Mojo</button>
+              </div>
+              <div class="codegroup__actions">
+                <button type="button" class="codeblock__copy-btn" id="copy-btn" aria-label="Copy code to clipboard">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" />
+                    <rect x="8" y="8" width="12" height="12" rx="2" ry="2" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="codegroup__panel" data-lang="cpp" role="tabpanel">
+              <pre><code id="code-cpp" class="language-cpp"></code></pre>
+            </div>
+            <div class="codegroup__panel" data-lang="js" role="tabpanel" hidden>
+              <pre><code id="code-js" class="language-javascript"></code></pre>
+            </div>
+            <div class="codegroup__panel" data-lang="mojo" role="tabpanel" hidden>
+              <pre><code id="code-mojo" class="language-python"></code></pre>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Prism JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+  <script src="applet.js"></script>
+</body>
+
+</html>
