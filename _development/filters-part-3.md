@@ -66,7 +66,7 @@ There are 9 different biquad filter shapes:
 
 Before implementing the processor, we need to enumerate the filter shapes.
 
-<div data-codegroup markdown="1" data-labels='{"cpp":"C++","javascript":"JavaScript (AudioWorklet)","mojo":"Mojo (MMMAudio)"}'>
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++","javascript":"JavaScript (AudioWorklet)","python":"Mojo (MMMAudio)"}'>
 
 ```cpp
 enum class BiquadMode : int {
@@ -96,7 +96,7 @@ const BiquadMode = Object.freeze({
 });
 ```
 
-```mojo
+```python
 struct BiquadModes:
     comptime lowpass: Int64 = 0
     comptime highpass: Int64 = 1
@@ -115,7 +115,7 @@ struct BiquadModes:
 
 The `Biquad` class skeleton below has a few supporting methods. `setParameters()` takes frequency, Q, and gain and only recomputes coefficients when something actually changes. `setSampleRate()` does the same — updating the sample rate invalidates the cached coefficients. `reset()` clears the state variables, useful after a discontinuity in the audio stream. `zapGremlins()` sanitizes the output on every sample. Filters can produce denormals, NaN, or infinity when pushed hard, so we zero anything that isn't a finite, non-negligible value.
 
-<div data-codegroup markdown="1" data-labels='{"cpp":"C++","javascript":"JavaScript (AudioWorklet)","mojo":"Mojo (MMMAudio)"}'>
+<div data-codegroup markdown="1" data-labels='{"cpp":"C++","javascript":"JavaScript (AudioWorklet)","python":"Mojo (MMMAudio)"}'>
 
 ```cpp
 #pragma once
@@ -222,7 +222,7 @@ class Biquad {
 }
 ```
 
-```mojo
+```python
 struct Biquad(Representable, Movable, Copyable):
     var sampleRate: Float32
     var frequency: Float32
