@@ -1,0 +1,92 @@
+/* =========================================================
+   Prism Theme Overrides
+   Matches Rouge site palette (rouge-overrides.css)
+   Load AFTER prism CDN theme to override defaults.
+   ========================================================= */
+
+/* Reset Prism background — codegroup container controls it */
+pre[class*="language-"],
+code[class*="language-"] {
+  background: transparent;
+  color: var(--code-text);
+  text-shadow: none;
+  font-size: .9rem;
+  font-family: var(--code-font);
+}
+
+/* Comments */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: var(--code-muted);
+  font-style: normal;
+  opacity: 0.75;
+}
+
+/* Keywords — var(--indigo) */
+.token.keyword,
+.token.rule,
+.token.atrule {
+  color: var(--indigo);
+  font-weight: 600;
+}
+
+/* Types, class names, builtins — var(--blue) */
+.token.class-name,
+.token.builtin,
+.token.tag,
+.token.selector {
+  color: var(--blue);
+}
+
+/* Strings — var(--coral) */
+.token.string,
+.token.char,
+.token.attr-value,
+.token.template-string {
+  color: var(--coral);
+}
+
+/* Numbers — var(--gold) */
+.token.number,
+.token.unit {
+  color: var(--gold);
+}
+
+/* Constants, booleans — var(--aqua) */
+.token.boolean,
+.token.constant,
+.token.symbol,
+.token.null,
+.token.undefined {
+  color: var(--aqua);
+}
+
+/* Functions — var(--green) */
+.token.function,
+.token.function-name {
+  color: var(--green);
+}
+
+/* Operators and punctuation — neutral */
+.token.operator,
+.token.punctuation,
+.token.delimiter {
+  color: var(--code-text);
+}
+
+/* Attributes */
+.token.attr-name {
+  color: var(--green);
+}
+
+/* Properties */
+.token.property {
+  color: var(--blue);
+}
+
+/* Namespace/module */
+.token.namespace {
+  color: var(--code-muted);
+}
