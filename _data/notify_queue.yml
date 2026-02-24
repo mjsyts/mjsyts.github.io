@@ -51,3 +51,12 @@
   audience: dsp              # dsp | sound_design | both
   status: sent             # queued | sent
   created_at: 2026-02-17
+
+- id: 2026-02-23-filters-p3
+  post: /development/filters-part-3/   # whatever your permalink is
+  type: new_article          # new_article | update | milestone
+  subject: "Filters — Part 3: Poles, Biquad Filter, and Filter Types"
+  excerpt: "Building a biquad filter, understanding poles and stability, and exploring common filter types."
+  audience: dsp              # dsp | sound_design | both
+  status: queued             # queued | sent
+  created_at: 2026-02-23

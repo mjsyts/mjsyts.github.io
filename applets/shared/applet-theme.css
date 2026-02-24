@@ -6,6 +6,14 @@
 
 :root {
   color-scheme: light;
+  /* Site palette — available to applet-hosted Prism/Rouge */
+  --blue: #43A0BD;
+  --aqua: #6BC4C4;
+  --green: #8DB848;
+  --gold: #D19A3F;
+  --coral: #DC8B6C;
+  --indigo: #6659C7;
+  --violet: #9B5FBF;
 }
 
 *,

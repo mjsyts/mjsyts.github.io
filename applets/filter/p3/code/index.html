@@ -10,11 +10,13 @@ sitemap: false
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Biquad Filter Explorer</title>
   <!-- Local CSS -->
+  <link rel="stylesheet" href="/assets/css/base/tokens.css">
   <link rel="stylesheet" href="/assets/css/base/code-tokens.css">
   <link rel="stylesheet" href="/assets/css/components/codeblocks.css">
   <link rel="stylesheet" href="/applets/shared/applet-theme.css">
-  <!-- Prism CSS -->
+  <!-- Prism CSS + site overrides -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+  <link rel="stylesheet" href="/assets/css/vendor/prism-overrides.css">
   <style>
     .explorer-layout {
       display: grid;
@@ -173,6 +175,12 @@ sitemap: false
             <option value="lowshelf">low shelf</option>
             <option value="highshelf">high shelf</option>
           </select>
+          <span class="spacer"></span>
+          <select id="source" class="audio-select">
+            <option value="clean">guitar (clean)</option>
+            <option value="hum">guitar (with hum)</option>
+          </select>
+          <button id="play-pause" class="btn primary" type="button">play</button>
         </div>
       </div>
 
@@ -193,22 +201,28 @@ sitemap: false
             </div>
           </div>
 
+          <div class="surface">
+            <canvas id="canvas-waveform"></canvas>
+          </div>
+
           <div class="panel panel--padded">
             <div style="display: flex; flex-direction: column; gap: 0.4rem;">
               <div class="slider-row">
                 <span class="label">freq</span>
                 <input class="range" type="range" id="freq" min="20" max="20000" step="1" value="1000">
-                <output class="mono audio-val" id="freq-val">1000 Hz</output>
+                <input class="input mono audio-val" type="number" id="freq-val" min="20" max="20000" step="1"
+                  value="1000">
               </div>
               <div class="slider-row">
                 <span class="label">Q</span>
                 <input class="range" type="range" id="q" min="0.1" max="20" step="0.01" value="0.707">
-                <output class="mono audio-val" id="q-val">0.707</output>
+                <input class="input mono audio-val" type="number" id="q-val" min="0.1" max="20" step="0.01"
+                  value="0.707">
               </div>
               <div class="slider-row" id="gain-row">
                 <span class="label">gain</span>
                 <input class="range" type="range" id="gain" min="-24" max="24" step="0.1" value="0">
-                <output class="mono audio-val" id="gain-val">0.0 dB</output>
+                <input class="input mono audio-val" type="number" id="gain-val" min="-24" max="24" step="0.1" value="0">
               </div>
             </div>
           </div>

@@ -1,11 +1,11 @@
 ---
 layout: post
 title: "Filters — Part 3: Poles, Biquad Filter, and Filter Types"
-date: 2026-02-19
-last_modified_at: 2026-02-19
+date: 2026-02-23
+last_modified_at: 2026-02-23
 series: "Filters"
 part: 3
-published: false
+published: true
 permalink: /development/filters-part-3/
 tags: [dsp, filter, biquad, webaudio, synthesis, c++, mojo, mmmaudio]
 desc: "Building a biquad filter, understanding poles and stability, and exploring common filter types."
@@ -33,21 +33,23 @@ Drag the filter pole and zero around on the unit circle to see the filter's freq
     <iframe class="applet__frame" src="/applets/filter/p3/z-plane/index.html" loading="lazy"></iframe>
 </div> 
 
-## Direct Form II
+## Transposed Direct Form II
 
-The biquad has two stages.
+The biquad is computed in a single pass using two state variables, $s_1$ and $s_2$.
 
-The first equation computes an intermediate value $w[n]$ by taking the input and subtracting scaled copies of its own past two values — that's the **feedback**, and those are your **poles**.  
+The output is computed directly from the input and the first state variable:
 
-$$w[n] = x[n] - a_1 w[n-1] - a_2 w[n-2]$$
+$$y[n] = b_0 \, x[n] + s_1[n-1]$$
 
-The second equation computes the output by mixing the current and past two values of $w[n]$ — that's the **feedforward**, and those are your **zeros**.
+The state variables are then updated for the next sample:   
 
-$$y[n] = b_0 w[n] + b_1 w[n-1] + b_2 w[n-2]$$
+$$s_1[n] = b_1 \, x[n] - a_1 \, y[n] + s_2[n-1]$$   
 
-The $a$ coefficients control the poles (resonance, rolloff), the $b$ coefficients control the zeros (nulls, shelf shape). Together they give you the 12 dB/octave rolloff and the full range of filter shapes a one-pole can't produce.
+$$s_2[n] = b_2 \, x[n] - a_2 \, y[n]$$
 
-## Implementation
+The $a$ coefficients control the poles (resonance, rolloff), the $b$ coefficients control the zeros (nulls, shelf shape). Together they give you the 12 dB/octave rolloff and the full range of filter shapes a one-pole can't produce. Transposed Direct Form II is the industry-standard structure for biquad implementation — it requires only two state variables and has better numerical properties than the non-transposed form.
+
+## Implementation[^mmmaudio]
 
 ### Filter Types
 
@@ -111,7 +113,7 @@ struct BiquadModes:
 
 ### The Processor
 
-The `Biquad` class skeleton below has a few supporting methods. `setParameters()` takes frequency, Q, and gain and only recomputes coefficients when something actually changes. `setSampleRate()` does the same — updating the sample rate invalidates the cached coefficients. `reset()` clears the delay line state, useful after a discontinuity in the audio stream. `zapGremlins()` sanitizes the output on every sample. Filters can produce denormals, NaN, or infinity when pushed hard, so we zero anything that isn't a finite, non-negligible value.
+The `Biquad` class skeleton below has a few supporting methods. `setParameters()` takes frequency, Q, and gain and only recomputes coefficients when something actually changes. `setSampleRate()` does the same — updating the sample rate invalidates the cached coefficients. `reset()` clears the state variables, useful after a discontinuity in the audio stream. `zapGremlins()` sanitizes the output on every sample. Filters can produce denormals, NaN, or infinity when pushed hard, so we zero anything that isn't a finite, non-negligible value.
 
 <div data-codegroup markdown="1" data-labels='{"cpp":"C++","javascript":"JavaScript (AudioWorklet)","mojo":"Mojo (MMMAudio)"}'>
 
@@ -137,15 +139,14 @@ public:
     }
 
     void reset() {
-        mW1 = mW2 = 0.0f;
+        mS1 = mS2 = 0.0f;
     }
 
     float process(float x) {
         if (mCoeffsDirty) computeCoefficients();
-        float w = x - mA1 * mW1 - mA2 * mW2;
-        float y = mB0 * w + mB1 * mW1 + mB2 * mW2;
-        mW2 = mW1;
-        mW1 = w;
+        float y  = mB0 * x + mS1;
+        mS1 = mB1 * x - mA1 * y + mS2;
+        mS2 = mB2 * x - mA2 * y;
         return zapGremlins(y);
     }
 
@@ -165,7 +166,7 @@ private:
 
     float mB0 = 1.0f, mB1 = 0.0f, mB2 = 0.0f;
     float mA1 = 0.0f, mA2 = 0.0f;
-    float mW1 = 0.0f, mW2 = 0.0f;
+    float mS1 = 0.0f, mS2 = 0.0f;
 
     bool mCoeffsDirty = true;
 };
@@ -181,7 +182,7 @@ class Biquad {
 
         this.b0 = 1; this.b1 = 0; this.b2 = 0;
         this.a1 = 0; this.a2 = 0;
-        this.w1 = 0; this.w2 = 0;
+        this.s1 = 0; this.s2 = 0;
 
         this.dirty = true;
     }
@@ -200,15 +201,14 @@ class Biquad {
     }
 
     reset() {
-        this.w1 = this.w2 = 0;
+        this.s1 = this.s2 = 0;
     }
 
     process(x) {
         if (this.dirty) this.computeCoefficients();
-        const w = x - this.a1 * this.w1 - this.a2 * this.w2;
-        const y = this.b0 * w + this.b1 * this.w1 + this.b2 * this.w2;
-        this.w2 = this.w1;
-        this.w1 = w;
+        const y  = this.b0 * x + this.s1;
+        this.s1 = this.b1 * x - this.a1 * y + this.s2;
+        this.s2 = this.b2 * x - this.a2 * y;
         return this.zapGremlins(y);
     }
 
@@ -231,7 +231,7 @@ struct Biquad(Representable, Movable, Copyable):
 
     var b0: Float32; var b1: Float32; var b2: Float32
     var a1: Float32; var a2: Float32
-    var w1: Float32; var w2: Float32
+    var s1: Float32; var s2: Float32
 
     var coeffsDirty: Bool
 
@@ -242,7 +242,7 @@ struct Biquad(Representable, Movable, Copyable):
         self.gainDb      = 0.0
         self.b0 = 1.0; self.b1 = 0.0; self.b2 = 0.0
         self.a1 = 0.0; self.a2 = 0.0
-        self.w1 = 0.0; self.w2 = 0.0
+        self.s1 = 0.0; self.s2 = 0.0
         self.coeffsDirty = True
 
     fn setSampleRate(mut self, sampleRate: Float32):
@@ -258,16 +258,15 @@ struct Biquad(Representable, Movable, Copyable):
         self.coeffsDirty = True
 
     fn reset(mut self):
-        self.w1 = 0.0
-        self.w2 = 0.0
+        self.s1 = 0.0
+        self.s2 = 0.0
 
     fn process(mut self, x: Float32) -> Float32:
         if self.coeffsDirty:
             self._computeCoefficients()
-        var w = x - self.a1 * self.w1 - self.a2 * self.w2
-        var y = self.b0 * w + self.b1 * self.w1 + self.b2 * self.w2
-        self.w2 = self.w1
-        self.w1 = w
+        var y  = self.b0 * x + self.s1
+        self.s1 = self.b1 * x - self.a1 * y + self.s2
+        self.s2 = self.b2 * x - self.a2 * y
         return self._zapGremlins(y)
 
     fn _computeCoefficients(mut self):
@@ -283,10 +282,36 @@ struct Biquad(Representable, Movable, Copyable):
 
 ### Coefficients
 
-Coefficients are calculated differently for each biquad filter shape. `computeCoefficients()` has five intermediate values. `w0` is a normalized frequency value in radians. We also need `sin(w0)` and `cos(w0)`. `alpha` is a scaling factor to normalize the filter resonance. `A` is a gain factor only used by **peak (peaking EQ)**, **lowshelf**, and **highshelf** filters. At 0 dB, `A = 1` and it drops out of the equations entirely, which is why the other filter types can ignore it.
+Coefficients are calculated differently for each biquad filter shape.[^rbj] `computeCoefficients()` has five intermediate values. `w0` is a normalized frequency value in radians. We also need `sin(w0)` and `cos(w0)`. `alpha` is a scaling factor to normalize the filter resonance. `A` is a gain factor only used by **peak (peaking EQ)**, **lowshelf**, and **highshelf** filters. At 0 dB, `A = 1` and it drops out of the equations entirely, which is why the other filter types can ignore it.
 
-Use the applet below to view the different coefficient calculation functions and to learn more about each filter shape. Adjust the parameters to see the effect they have on the filter's frequency response. An **allpass** filter only changes the **phase** of a signal, so the frequency response plot is flat for all frequencies.
+The coefficient recipes for each filter shape are in the applet below.
+
+## Try It Out
+
+Use the applet to view the different coefficient calculation functions and to learn more about each filter shape. Adjust the parameters to see the effect they have on the filter's frequency response. An **allpass** filter only changes the **phase** of a signal, so the frequency response plot is flat for all frequencies.
 
 <div class="applet applet--lg"> 
     <iframe class="applet__frame" src="/applets/filter/p3/code/index.html" loading="lazy"></iframe>
-</div> 
+</div>
+
+## See Also
+
+### Fundamentals
+
+- [Introduction to Digital Filters with Audio Applications — Julius O. Smith](https://ccrma.stanford.edu/~jos/filters/BiQuad_Section.html)
+
+### Platform-Specific Implementations
+
+- CSound: [`biquad`](https://csound.com/docs/manual/biquad.html)
+- FAUST: [`(fi.)tf22t`](https://faustlibraries.grame.fr/libs/filters/#direct-form-second-order-biquad-sections)
+- MATLAB: [`biquadFilter`](https://www.mathworks.com/help/dsp/ref/biquadfilter.html)
+- Max/MSP: [`biquad~`](https://docs.cycling74.com/legacy/max8/refpages/biquad~)
+- PureData: `biquad~` is available via externals but has no official documentation
+- SuperCollider: [`SOS`](https://doc.sccode.org/Classes/SOS.html), [`BEQSuite`](https://doc.sccode.org/Classes/BEQSuite.html)
+- Web Audio API: [`BiquadFilterNode`](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode)
+
+## Notes
+
+[^rbj]: Bristow-Johnson, Robert. *Audio EQ Cookbook*. 1994. [w3.org/TR/audio-eq-cookbook/](https://www.w3.org/TR/audio-eq-cookbook/).
+
+[^mmmaudio]: MMMAudio is a Mojo audio DSP library by Sam Pluta and Ted Moore. Mojo looks like Python but compiles to native code with explicit SIMD and memory control. The biquad implementation is my own contribution. [spluta.github.io/MMMAudio/](https://spluta.github.io/MMMAudio/).

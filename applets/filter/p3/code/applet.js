@@ -318,15 +318,15 @@ a2 =            (Ap1 - Am1 * cosw0 - tsa)`,
 // ─── DSP helpers ─────────────────────────────────────────────────────────────
 
 function norm(b0, b1, b2, a0, a1, a2) {
-  return { b0: b0/a0, b1: b1/a0, b2: b2/a0, a1: a1/a0, a2: a2/a0 };
+  return { b0: b0 / a0, b1: b1 / a0, b2: b2 / a0, a1: a1 / a0, a2: a2 / a0 };
 }
 
 function getIntermediates(freq, q, gainDb, sampleRate) {
-  const w0    = 2 * Math.PI * freq / sampleRate;
-  const cos   = Math.cos(w0);
-  const sin   = Math.sin(w0);
+  const w0 = 2 * Math.PI * freq / sampleRate;
+  const cos = Math.cos(w0);
+  const sin = Math.sin(w0);
   const alpha = sin / (2 * q);
-  const A     = Math.pow(10, gainDb / 40);
+  const A = Math.pow(10, gainDb / 40);
   return { cos, sin, alpha, A };
 }
 
@@ -334,17 +334,17 @@ function frequencyResponse(b0, b1, b2, a1, a2, N = 512) {
   const half = N / 2;
   const mag = new Float32Array(half);
   for (let k = 0; k < half; k++) {
-    const w    = (Math.PI * k) / half;
+    const w = (Math.PI * k) / half;
     const cosw = Math.cos(w), sinw = Math.sin(w);
-    const cos2 = Math.cos(2*w), sin2 = Math.sin(2*w);
-    const bRe = b0 + b1*cosw + b2*cos2;
-    const bIm =    - b1*sinw - b2*sin2;
-    const aRe = 1  + a1*cosw + a2*cos2;
-    const aIm =    - a1*sinw - a2*sin2;
-    const denom = aRe*aRe + aIm*aIm;
-    const rRe = (bRe*aRe + bIm*aIm) / denom;
-    const rIm = (bIm*aRe - bRe*aIm) / denom;
-    const linear = Math.sqrt(rRe*rRe + rIm*rIm);
+    const cos2 = Math.cos(2 * w), sin2 = Math.sin(2 * w);
+    const bRe = b0 + b1 * cosw + b2 * cos2;
+    const bIm = - b1 * sinw - b2 * sin2;
+    const aRe = 1 + a1 * cosw + a2 * cos2;
+    const aIm = - a1 * sinw - a2 * sin2;
+    const denom = aRe * aRe + aIm * aIm;
+    const rRe = (bRe * aRe + bIm * aIm) / denom;
+    const rIm = (bIm * aRe - bRe * aIm) / denom;
+    const linear = Math.sqrt(rRe * rRe + rIm * rIm);
     mag[k] = linear > 1e-10 ? 20 * Math.log10(linear) : -80;
   }
   return mag;
@@ -353,24 +353,66 @@ function frequencyResponse(b0, b1, b2, a1, a2, N = 512) {
 // ─── Canvas ──────────────────────────────────────────────────────────────────
 
 const canvas = $('canvas-fr');
-const ctx2d  = canvas.getContext('2d');
+const ctx2d = canvas.getContext('2d');
 
 function setupCanvas() {
-  const dpr  = window.devicePixelRatio || 1;
+  const dpr = window.devicePixelRatio || 1;
   const rect = canvas.parentElement.getBoundingClientRect();
-  const w    = rect.width - 12;
-  const h    = Math.round(w * 0.55);
-  canvas.width  = w * dpr;
+  const w = rect.width - 12;
+  const h = Math.round(w * 0.55);
+  canvas.width = w * dpr;
   canvas.height = h * dpr;
-  canvas.style.width  = w + 'px';
+  canvas.style.width = w + 'px';
   canvas.style.height = h + 'px';
   ctx2d.scale(dpr, dpr);
 }
 
+const waveCanvas = $('canvas-waveform');
+const waveCtx = waveCanvas.getContext('2d');
+
+function setupWaveformCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+  const rect = waveCanvas.parentElement.getBoundingClientRect();
+  const w = rect.width - 12;
+  const h = Math.round(w * 0.2);
+  waveCanvas.width = w * dpr;
+  waveCanvas.height = h * dpr;
+  waveCanvas.style.width = w + 'px';
+  waveCanvas.style.height = h + 'px';
+  waveCtx.scale(dpr, dpr);
+}
+
+function drawWaveform() {
+  if (!analyserNode || !timeData) return;
+  analyserNode.getByteTimeDomainData(timeData);
+
+  const dpr = window.devicePixelRatio || 1;
+  const w = waveCanvas.width / dpr;
+  const h = waveCanvas.height / dpr;
+
+  waveCtx.clearRect(0, 0, w, h);
+
+  waveCtx.strokeStyle = 'rgba(222,141,116,0.8)';
+  waveCtx.lineWidth = 1.5;
+  waveCtx.beginPath();
+  for (let i = 0; i < timeData.length; i++) {
+    const x = (i / timeData.length) * w;
+    const y = (timeData[i] / 255) * h;
+    i === 0 ? waveCtx.moveTo(x, y) : waveCtx.lineTo(x, y);
+  }
+  waveCtx.stroke();
+}
+
+function drawLoop() {
+  if (!isPlaying) return;
+  drawWaveform();
+  requestAnimationFrame(drawLoop);
+}
+
 function drawFR(mag) {
   const dpr = window.devicePixelRatio || 1;
-  const w   = canvas.width  / dpr;
-  const h   = canvas.height / dpr;
+  const w = canvas.width / dpr;
+  const h = canvas.height / dpr;
 
   ctx2d.clearRect(0, 0, w, h);
 
@@ -380,7 +422,7 @@ function drawFR(mag) {
 
   const DB_MAX = 30, DB_MIN = -60, DB_RANGE = DB_MAX - DB_MIN;
   const dbToY = db => padY + (1 - (Math.max(DB_MIN, Math.min(DB_MAX, db)) - DB_MIN) / DB_RANGE) * plotH;
-  const binToX = k  => padX + (k / (mag.length - 1)) * plotW;
+  const binToX = k => padX + (k / (mag.length - 1)) * plotW;
 
   const gridDBs = [-60, -48, -36, -24, -12, 0, 12, 24];
   ctx2d.font = '700 10px system-ui';
@@ -426,7 +468,7 @@ function drawFR(mag) {
 
 const PREAMBLE = {
   cpp:
-`// intermediates
+    `// intermediates
 const float w0    = 2.0f * M_PI * mFrequency / mSampleRate;
 const float cosw0 = std::cos(w0);
 const float sinw0 = std::sin(w0);
@@ -439,7 +481,7 @@ mA1 = a1/a0;  mA2 = a2/a0;
 
 `,
   js:
-`// intermediates
+    `// intermediates
 const w0    = 2 * Math.PI * this.frequency / this.sampleRate;
 const cosw0 = Math.cos(w0);
 const sinw0 = Math.sin(w0);
@@ -452,7 +494,7 @@ this.a1 = a1/a0; this.a2 = a2/a0;
 
 `,
   mojo:
-`# intermediates
+    `# intermediates
 var w0    = 2.0 * pi * self.frequency / self.sampleRate
 var cosw0 = cos(w0)
 var sinw0 = sin(w0)
@@ -470,26 +512,131 @@ self.a1 = a1/a0; self.a2 = a2/a0
 
 const SAMPLE_RATE = 48000;
 let currentFilter = 'lowpass';
-let currentLang   = 'cpp';
+let currentLang = 'cpp';
 
 // ─── UI refs ─────────────────────────────────────────────────────────────────
 
-const filterSel   = $('filter-type');
-const freqSlider  = $('freq');
-const qSlider     = $('q');
-const gainSlider  = $('gain');
-const freqVal     = $('freq-val');
-const qVal        = $('q-val');
-const gainVal     = $('gain-val');
-const gainRow     = $('gain-row');
-const descName    = $('desc-name');
-const descText    = $('desc-text');
+const playBtn = $('play-pause');
+const srcEl = $('source');
+const filterSel = $('filter-type');
+const freqSlider = $('freq');
+const qSlider = $('q');
+const gainSlider = $('gain');
+const freqVal = $('freq-val');
+const qVal = $('q-val');
+const gainVal = $('gain-val');
+const gainRow = $('gain-row');
+const descName = $('desc-name');
+const descText = $('desc-text');
 const allpassNote = $('allpass-note');
-const copyBtn     = $('copy-btn');
+const copyBtn = $('copy-btn');
 
-const langTabs    = document.querySelectorAll('.codegroup__tab');
-const panels      = document.querySelectorAll('.codegroup__panel');
-const codeEls     = { cpp: $('code-cpp'), js: $('code-js'), mojo: $('code-mojo') };
+const langTabs = document.querySelectorAll('.codegroup__tab');
+const panels = document.querySelectorAll('.codegroup__panel');
+const codeEls = { cpp: $('code-cpp'), js: $('code-js'), mojo: $('code-mojo') };
+
+// ─── Audio ───────────────────────────────────────────────────────────────────
+
+let audioCtx = null;
+let biquadNode = null;
+let analyserNode = null;
+let sourceNode = null;
+let gainNode = null;
+let timeData = null;
+let isPlaying = false;
+let cleanBuffer = null;
+let humBuffer = null;
+
+async function initAudio() {
+  if (audioCtx) return;
+  audioCtx = new AudioContext();
+  biquadNode = audioCtx.createBiquadFilter();
+  gainNode = audioCtx.createGain();
+  analyserNode = audioCtx.createAnalyser();
+  analyserNode.fftSize = 2048;
+  timeData = new Uint8Array(analyserNode.fftSize);
+
+  // source → biquad → gain → analyser → destination
+  biquadNode.connect(gainNode);
+  gainNode.connect(analyserNode);
+  analyserNode.connect(audioCtx.destination);
+
+  const [c, h] = await Promise.all([
+    fetch('/assets/audio/filter/guitar_clean.mp3').then(r => r.arrayBuffer()).then(b => audioCtx.decodeAudioData(b)),
+    fetch('/assets/audio/filter/guitar_hum.mp3').then(r => r.arrayBuffer()).then(b => audioCtx.decodeAudioData(b)),
+  ]);
+  cleanBuffer = c;
+  humBuffer = h;
+}
+
+function startPlayback() {
+  const buffer = srcEl.value === 'hum' ? humBuffer : cleanBuffer;
+  sourceNode = audioCtx.createBufferSource();
+  sourceNode.buffer = buffer;
+  sourceNode.loop = true;
+  sourceNode.connect(biquadNode);
+  sourceNode.start();
+  isPlaying = true;
+  playBtn.textContent = 'pause';
+  requestAnimationFrame(drawLoop);
+}
+
+function stopPlayback() {
+  if (sourceNode) {
+    sourceNode.stop();
+    sourceNode.disconnect();
+    sourceNode = null;
+  }
+  isPlaying = false;
+  playBtn.textContent = 'play';
+}
+
+playBtn.addEventListener('click', async () => {
+  await initAudio();
+  if (audioCtx.state === 'suspended') await audioCtx.resume();
+
+  if (isPlaying) {
+    await audioCtx.suspend();
+    isPlaying = false;
+    playBtn.textContent = 'play';
+  } else {
+    if (!sourceNode) startPlayback();
+    else {
+      await audioCtx.resume();
+      isPlaying = true;
+      playBtn.textContent = 'pause';
+      requestAnimationFrame(drawLoop);
+    }
+  }
+});
+
+srcEl.addEventListener('change', () => {
+  if (isPlaying) {
+    stopPlayback();
+    startPlayback();
+  }
+});
+
+function pushAudioFilter() {
+  if (!biquadNode) return;
+  const freq = parseFloat(freqSlider.value);
+  const q = parseFloat(qSlider.value);
+  const gainDb = parseFloat(gainSlider.value);
+  const f = FILTERS[currentFilter];
+
+  // Map your filter keys to BiquadFilterNode types
+  const typeMap = {
+    lowpass: 'lowpass', highpass: 'highpass',
+    bandpass: 'bandpass', bandpass_peak: 'bandpass',
+    notch: 'notch', allpass: 'allpass',
+    peak: 'peaking', lowshelf: 'lowshelf', highshelf: 'highshelf',
+  };
+
+  biquadNode.type = typeMap[currentFilter];
+  biquadNode.frequency.value = freq;
+  biquadNode.Q.value = q;
+  biquadNode.gain.value = f.useGain ? gainDb : 0;
+}
 
 // ─── Tab switching ───────────────────────────────────────────────────────────
 
@@ -513,7 +660,7 @@ langTabs.forEach(tab => {
 document.querySelector('.codegroup__tabs').addEventListener('keydown', e => {
   if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
   const tabs = [...langTabs];
-  const idx  = tabs.findIndex(t => t.dataset.lang === currentLang);
+  const idx = tabs.findIndex(t => t.dataset.lang === currentLang);
   const next = e.key === 'ArrowRight'
     ? (idx + 1) % tabs.length
     : (idx - 1 + tabs.length) % tabs.length;
@@ -554,13 +701,32 @@ function updateCode() {
 // ─── Readouts ────────────────────────────────────────────────────────────────
 
 function updateReadouts() {
-  const freq   = parseFloat(freqSlider.value);
-  const q      = parseFloat(qSlider.value);
-  const gainDb = parseFloat(gainSlider.value);
-  freqVal.textContent = freq >= 1000 ? `${(freq/1000).toFixed(2)} kHz` : `${Math.round(freq)} Hz`;
-  qVal.textContent    = q.toFixed(3);
-  gainVal.textContent = gainDb >= 0 ? `+${gainDb.toFixed(1)} dB` : `${gainDb.toFixed(1)} dB`;
+  freqVal.value = parseFloat(freqSlider.value);
+  qVal.value = parseFloat(qSlider.value);
+  gainVal.value = parseFloat(gainSlider.value);
 }
+
+// Sync number input → slider
+freqVal.addEventListener('change', () => {
+  const v = Math.max(20, Math.min(20000, parseFloat(freqVal.value) || 20));
+  freqVal.value = v;
+  freqSlider.value = v;
+  updatePlot(); pushAudioFilter();
+});
+
+qVal.addEventListener('change', () => {
+  const v = Math.max(0.1, Math.min(20, parseFloat(qVal.value) || 0.1));
+  qVal.value = v;
+  qSlider.value = v;
+  updatePlot(); pushAudioFilter();
+});
+
+gainVal.addEventListener('change', () => {
+  const v = Math.max(-24, Math.min(24, parseFloat(gainVal.value) || 0));
+  gainVal.value = v;
+  gainSlider.value = v;
+  updatePlot(); pushAudioFilter();
+});
 
 // ─── Plot ────────────────────────────────────────────────────────────────────
 
@@ -573,10 +739,11 @@ function updatePlot() {
   allpassNote.classList.remove('visible');
 
   const filter = FILTERS[currentFilter];
-  const freq   = parseFloat(freqSlider.value);
-  const q      = parseFloat(qSlider.value);
+  const freq = parseFloat(freqSlider.value);
+  const q = parseFloat(qSlider.value);
   const gainDb = parseFloat(gainSlider.value);
-  const { cos, sin, alpha, A } = getIntermediates(freq, q, gainDb, SAMPLE_RATE);
+  const sr = audioCtx?.sampleRate ?? SAMPLE_RATE;
+  const { cos, sin, alpha, A } = getIntermediates(freq, q, gainDb, sr);
   const { b0, b1, b2, a1, a2 } = filter.coeffs(cos, sin, alpha, A);
   drawFR(frequencyResponse(b0, b1, b2, a1, a2));
 }
@@ -593,24 +760,28 @@ function applyFilter(key) {
   if (filter.useGain) {
     gainRow.classList.remove('disabled');
     gainSlider.disabled = false;
+    gainVal.disabled = false;
   } else {
     gainRow.classList.add('disabled');
     gainSlider.disabled = true;
+    gainVal.disabled = true;
   }
 
   updateCode();
   updateReadouts();
   updatePlot();
+  pushAudioFilter();
 }
 
 filterSel.addEventListener('change', () => applyFilter(filterSel.value));
-freqSlider.addEventListener('input', () => { updateReadouts(); updatePlot(); });
-qSlider.addEventListener('input',    () => { updateReadouts(); updatePlot(); });
-gainSlider.addEventListener('input', () => { updateReadouts(); updatePlot(); });
+freqSlider.addEventListener('input', () => { updateReadouts(); updatePlot(); pushAudioFilter(); });
+qSlider.addEventListener('input', () => { updateReadouts(); updatePlot(); pushAudioFilter(); });
+gainSlider.addEventListener('input', () => { updateReadouts(); updatePlot(); pushAudioFilter(); });
 
-window.addEventListener('resize', () => { setupCanvas(); updatePlot(); });
+window.addEventListener('resize', () => { setupCanvas(); setupWaveformCanvas(); updatePlot(); });
 
 // ─── Init ────────────────────────────────────────────────────────────────────
 
 setupCanvas();
+setupWaveformCanvas();
 applyFilter('lowpass');
