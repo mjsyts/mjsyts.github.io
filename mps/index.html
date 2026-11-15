@@ -10,10 +10,11 @@ sitemap: false
        srcset="{{ '/assets/images/mps/sign-640.jpg' | relative_url }} 640w,
                {{ '/assets/images/mps/sign-1280.jpg' | relative_url }} 1280w,
                {{ '/assets/images/mps/sign-1800.jpg' | relative_url }} 1800w"
-       sizes="(min-width: 1100px) 1100px, 100vw" width="1800" height="920"
+       sizes="(min-width: 1300px) 1300px, 100vw" width="1800" height="920"
        alt="Wooden park sign reading Off the Beaten Path, with the Modular Park Service shield">
+  <a class="scroll-cue" href="#modules">Modules</a>
 </section>
-<p class="lede">Modules for VCV Rack, named for the national parks.</p>
+<p class="lede" id="modules">Modules for VCV Rack, named for the national parks.</p>
 
 <ul class="tabs" role="tablist">
   {% for m in modules %}
