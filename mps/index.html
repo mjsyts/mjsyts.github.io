@@ -15,6 +15,10 @@ sitemap: false
        alt="Wooden park-style sign reading Off the Beaten Path, with the Modular Park Service shield">
 </section>
 
+<section class="mps-intro">
+  <p>Modules for VCV Rack, named for the national parks.</p>
+</section>
+
 <nav class="mps-carousel" aria-label="Modules">
   <button class="mps-carousel__arrow" data-dir="-1" aria-label="Previous module">&#8249;</button>
   <ul class="mps-carousel__track" role="tablist">
@@ -22,9 +26,9 @@ sitemap: false
     <li>
       <button role="tab" class="mps-card" data-module="{{ m.slug }}" aria-controls="manual-{{ m.slug }}"
               style="--accent: {{ m.accent | default: '#8a5a2b' }}">
-        <span class="mps-card__panel">{{ m.hp }} HP</span>
+        {% if m.panel %}<img class="mps-card__panel" src="{{ m.panel | relative_url }}" alt="">{% endif %}
         <span class="mps-card__name">{{ m.title }}</span>
-        <span class="mps-card__tag">{{ m.tier }}</span>
+        <span class="mps-card__tag">{{ m.tier }} &middot; {{ m.hp }} HP</span>
       </button>
     </li>
     {% endfor %}
@@ -35,8 +39,10 @@ sitemap: false
 <main class="mps-manuals">
   {% for m in modules %}
   <article class="mps-manual" id="manual-{{ m.slug }}" role="tabpanel" hidden style="--accent: {{ m.accent | default: '#8a5a2b' }}">
-    <h2>{{ m.title }}</h2>
-    <p class="mps-manual__tagline">{{ m.tagline }}</p>
+    <header class="mps-manual__head">
+      <h2>{{ m.title }}</h2>
+      <p class="mps-manual__tagline">{{ m.tagline }}</p>
+    </header>
     <div class="mps-manual__body">{{ m.content | markdownify }}</div>
   </article>
   {% endfor %}

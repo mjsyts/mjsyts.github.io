@@ -26,6 +26,11 @@
     });
   });
 
+  var nav = document.querySelector('.mps-carousel');
+  var track = document.querySelector('.mps-carousel__track');
+  function measure() { nav.classList.toggle('has-overflow', track.scrollWidth > track.clientWidth + 2); }
+  measure(); window.addEventListener('resize', measure);
+
   var start = location.hash.slice(1);
   select(cards.some(function (c) { return c.dataset.module === start; }) ? start : cards[0].dataset.module, false);
 })();
