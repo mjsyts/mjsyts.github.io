@@ -12,10 +12,10 @@
 body { margin: 0; background: var(--cream); color: var(--brown); font: 1.05rem/1.6 var(--font-body); }
 a { color: inherit; }
 
-.mps-hero { background: #22271b; line-height: 0; }
-.mps-hero__img { display: block; width: 100%; height: auto; max-height: 82vh; margin: 0 auto; object-fit: contain; object-position: center; }
+.mps-hero { padding: 2rem 1.25rem 0; line-height: 0; }
+.mps-hero__img { display: block; width: 100%; max-width: 54rem; height: auto; margin: 0 auto; border-radius: 14px; box-shadow: 0 10px 30px rgba(66, 39, 7, .28); }
 
-.mps-carousel { display: flex; align-items: center; gap: .5rem; max-width: 62rem; margin: 1rem auto 0; padding: 0 1rem; }
+.mps-carousel { display: flex; align-items: center; gap: .5rem; max-width: 54rem; margin: 1.25rem auto 0; padding: 0 1rem; }
 .mps-carousel__track { list-style: none; margin: 0; padding: 1rem .5rem; display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; flex: 1; scrollbar-width: none; }
 .mps-carousel__track::-webkit-scrollbar { display: none; }
 .mps-carousel__arrow { background: none; border: 1px solid var(--rule); border-radius: 50%; width: 2.4rem; height: 2.4rem; font-size: 1.4rem; line-height: 1; color: inherit; cursor: pointer; flex: 0 0 auto; }
