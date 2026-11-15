@@ -12,13 +12,8 @@
 body { margin: 0; background: var(--cream); color: var(--brown); font: 1.05rem/1.6 var(--font-body); }
 a { color: inherit; }
 
-.mps-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--rule); }
-.mps-brand { font-family: var(--font-display); font-size: 1.4rem; text-decoration: none; }
-
-.mps-hero { padding: 3rem 1.5rem 2rem; text-align: center; }
-.mps-sign { display: inline-block; padding: 2rem 3rem; background: var(--brown); color: var(--cream); border-radius: 10px; box-shadow: 0 6px 0 rgba(0,0,0,.25); }
-.mps-sign h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 7vw, 3.6rem); margin: 0; line-height: 1.1; }
-.mps-sign p { margin: .4rem 0 0; letter-spacing: .14em; text-transform: uppercase; font-size: .85rem; }
+.mps-hero { background: #1d2218; line-height: 0; }
+.mps-hero__img { display: block; width: 100%; max-width: 1920px; height: auto; margin: 0 auto; max-height: 78vh; object-fit: cover; object-position: center; }
 
 .mps-carousel { display: flex; align-items: center; gap: .5rem; max-width: 62rem; margin: 1rem auto 0; padding: 0 1rem; }
 .mps-carousel__track { list-style: none; margin: 0; padding: 1rem .5rem; display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; flex: 1; scrollbar-width: none; }
@@ -44,4 +39,4 @@ a { color: inherit; }
 .mps-manual__body code { background: var(--surface); padding: .08em .35em; border-radius: 3px; font-size: .92em; }
 
 .mps-footer { text-align: center; padding: 2rem; color: var(--muted); font-size: .85rem; border-top: 1px solid var(--rule); }
-@media (max-width: 40rem) { .mps-sign { padding: 1.5rem; } .mps-carousel__arrow { display: none; } }
+@media (max-width: 40rem) { .mps-carousel__arrow { display: none; } }

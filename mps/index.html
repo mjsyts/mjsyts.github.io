@@ -5,16 +5,14 @@ description: Off the beaten path. Modules for VCV Rack, named for national parks
 sitemap: false
 ---
 {% assign modules = site.mps | sort: "order" %}
-<header class="mps-header">
-  <a class="mps-brand" href="{{ '/mps/' | relative_url }}">Modular Park Service</a>
-</header>
-
 <section class="mps-hero">
-  <!-- Replace with the Blender sign: <img src="/assets/images/mps/sign.png" alt="Modular Park Service"> -->
-  <div class="mps-sign">
-    <h1>Modular Park Service</h1>
-    <p>Off the beaten path</p>
-  </div>
+  <img class="mps-hero__img"
+       src="{{ '/assets/images/mps/sign-1280.jpg' | relative_url }}"
+       srcset="{{ '/assets/images/mps/sign-640.jpg' | relative_url }} 640w,
+               {{ '/assets/images/mps/sign-1280.jpg' | relative_url }} 1280w,
+               {{ '/assets/images/mps/sign-1920.jpg' | relative_url }} 1920w"
+       sizes="100vw" width="1920" height="1080"
+       alt="Wooden park-style sign reading Off the Beaten Path, with the Modular Park Service shield">
 </section>
 
 <nav class="mps-carousel" aria-label="Modules">
