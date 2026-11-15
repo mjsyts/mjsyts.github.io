@@ -1,0 +1,47 @@
+---
+layout: mps
+title: Modular Park Service
+description: Off the beaten path. Modules for VCV Rack, named for national parks.
+sitemap: false
+---
+{% assign modules = site.mps | sort: "order" %}
+<header class="mps-header">
+  <a class="mps-brand" href="{{ '/mps/' | relative_url }}">Modular Park Service</a>
+</header>
+
+<section class="mps-hero">
+  <!-- Replace with the Blender sign: <img src="/assets/images/mps/sign.png" alt="Modular Park Service"> -->
+  <div class="mps-sign">
+    <h1>Modular Park Service</h1>
+    <p>Off the beaten path</p>
+  </div>
+</section>
+
+<nav class="mps-carousel" aria-label="Modules">
+  <button class="mps-carousel__arrow" data-dir="-1" aria-label="Previous module">&#8249;</button>
+  <ul class="mps-carousel__track" role="tablist">
+    {% for m in modules %}
+    <li>
+      <button role="tab" class="mps-card" data-module="{{ m.slug }}" aria-controls="manual-{{ m.slug }}"
+              style="--accent: {{ m.accent | default: '#8a5a2b' }}">
+        <span class="mps-card__panel">{{ m.hp }} HP</span>
+        <span class="mps-card__name">{{ m.title }}</span>
+        <span class="mps-card__tag">{{ m.tier }}</span>
+      </button>
+    </li>
+    {% endfor %}
+  </ul>
+  <button class="mps-carousel__arrow" data-dir="1" aria-label="Next module">&#8250;</button>
+</nav>
+
+<main class="mps-manuals">
+  {% for m in modules %}
+  <article class="mps-manual" id="manual-{{ m.slug }}" role="tabpanel" hidden style="--accent: {{ m.accent | default: '#8a5a2b' }}">
+    <h2>{{ m.title }}</h2>
+    <p class="mps-manual__tagline">{{ m.tagline }}</p>
+    <div class="mps-manual__body">{{ m.content | markdownify }}</div>
+  </article>
+  {% endfor %}
+</main>
+
+<footer class="mps-footer">&copy; M. Josiah Sytsma</footer>

@@ -1,0 +1,47 @@
+:root {
+  --cream: #f4ddba;
+  --brown: #422707;
+  --muted: #7a5f3c;
+  --rule: rgba(66, 39, 7, .18);
+  --surface: rgba(66, 39, 7, .07);
+  --font-display: "Pacifico", cursive;
+  --font-body: "Futura", "Jost", system-ui, sans-serif;
+  --measure: 40rem;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--cream); color: var(--brown); font: 1.05rem/1.6 var(--font-body); }
+a { color: inherit; }
+
+.mps-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--rule); }
+.mps-brand { font-family: var(--font-display); font-size: 1.4rem; text-decoration: none; }
+
+.mps-hero { padding: 3rem 1.5rem 2rem; text-align: center; }
+.mps-sign { display: inline-block; padding: 2rem 3rem; background: var(--brown); color: var(--cream); border-radius: 10px; box-shadow: 0 6px 0 rgba(0,0,0,.25); }
+.mps-sign h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 7vw, 3.6rem); margin: 0; line-height: 1.1; }
+.mps-sign p { margin: .4rem 0 0; letter-spacing: .14em; text-transform: uppercase; font-size: .85rem; }
+
+.mps-carousel { display: flex; align-items: center; gap: .5rem; max-width: 62rem; margin: 1rem auto 0; padding: 0 1rem; }
+.mps-carousel__track { list-style: none; margin: 0; padding: 1rem .5rem; display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; flex: 1; scrollbar-width: none; }
+.mps-carousel__track::-webkit-scrollbar { display: none; }
+.mps-carousel__arrow { background: none; border: 1px solid var(--rule); border-radius: 50%; width: 2.4rem; height: 2.4rem; font-size: 1.4rem; line-height: 1; color: inherit; cursor: pointer; flex: 0 0 auto; }
+.mps-carousel__arrow:hover { background: var(--surface); }
+
+.mps-card { scroll-snap-align: center; flex: 0 0 auto; width: 9rem; padding: .6rem; border: 2px solid transparent; border-radius: 8px; background: var(--surface); color: inherit; font: inherit; cursor: pointer; display: flex; flex-direction: column; gap: .4rem; text-align: left; transition: transform .15s; }
+.mps-card:hover { transform: translateY(-2px); }
+.mps-card.is-active { border-color: var(--accent); background: #fff6e4; }
+.mps-card__panel { height: 9rem; border-radius: 4px; background: linear-gradient(160deg, var(--accent), var(--brown)); color: var(--cream); display: grid; place-items: center; font-size: .8rem; letter-spacing: .1em; }
+.mps-card__name { font-family: var(--font-display); font-size: 1.05rem; line-height: 1.2; }
+.mps-card__tag { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+.mps-manuals { max-width: var(--measure); margin: 1.5rem auto 0; padding: 0 1.5rem 3rem; }
+.mps-manual h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2.2rem, 6vw, 3.2rem); margin: 0; line-height: 1.1; }
+.mps-manual__tagline { margin: .3rem 0 1.5rem; color: var(--muted); font-size: 1.15rem; border-bottom: 3px solid var(--accent); padding-bottom: 1rem; }
+.mps-manual__body h2 { font-size: 1.6rem; margin: 2rem 0 .5rem; }
+.mps-manual__body h3 { font-size: .9rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-family: var(--font-body); margin: 1.6rem 0 .4rem; }
+.mps-manual__body table { width: 100%; border-collapse: collapse; margin: 0 0 1.2rem; font-size: .97rem; }
+.mps-manual__body th, .mps-manual__body td { text-align: left; padding: .45rem .6rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.mps-manual__body th { font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.mps-manual__body code { background: var(--surface); padding: .08em .35em; border-radius: 3px; font-size: .92em; }
+
+.mps-footer { text-align: center; padding: 2rem; color: var(--muted); font-size: .85rem; border-top: 1px solid var(--rule); }
+@media (max-width: 40rem) { .mps-sign { padding: 1.5rem; } .mps-carousel__arrow { display: none; } }
