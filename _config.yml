@@ -68,6 +68,8 @@ collections:
   tools:
     output: true
     permalink: /tools/:name/
+  mps:
+    output: false
 
 # Defaults for collection entries
 defaults:

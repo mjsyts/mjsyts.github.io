@@ -1,0 +1,37 @@
+---
+layout: mps
+title: Modular Park Service
+description: Modules for VCV Rack, named for the national parks.
+sitemap: false
+---
+{% assign modules = site.mps | sort: "order" %}
+<section class="hero">
+  <img src="{{ '/assets/images/mps/sign-1280.jpg' | relative_url }}"
+       srcset="{{ '/assets/images/mps/sign-640.jpg' | relative_url }} 640w,
+               {{ '/assets/images/mps/sign-1280.jpg' | relative_url }} 1280w,
+               {{ '/assets/images/mps/sign-1800.jpg' | relative_url }} 1800w"
+       sizes="(min-width: 1100px) 1100px, 100vw" width="1800" height="920"
+       alt="Wooden park sign reading Off the Beaten Path, with the Modular Park Service shield">
+</section>
+<p class="lede">Modules for VCV Rack, named for the national parks.</p>
+
+<ul class="tabs" role="tablist">
+  {% for m in modules %}
+  <li><button class="tab" role="tab" data-module="{{ m.slug }}" aria-controls="manual-{{ m.slug }}">{{ m.title }}</button></li>
+  {% endfor %}
+</ul>
+
+<main class="paper">
+  {% for m in modules %}
+  <article class="manual" id="manual-{{ m.slug }}" role="tabpanel" hidden style="--accent: {{ m.accent | default: '#8a5a2b' }}">
+    <header>
+      <h2 class="name">{{ m.title }}</h2>
+      <p class="tagline">{{ m.tagline }}</p>
+      <p class="meta">{{ m.tier }} &middot; {{ m.hp }} HP</p>
+    </header>
+    <div class="body">{{ m.content | markdownify }}</div>
+  </article>
+  {% endfor %}
+</main>
+
+<footer>&copy; M. Josiah Sytsma</footer>
