@@ -1,5 +1,5 @@
 ---
-title: Deasth Valley
+title: Death Valley
 slug: deathvalley
 tier: free       # free | premium
 hp: 10
