@@ -1,5 +1,6 @@
 ---
 title: Congaree
+type: Saw VCO
 tagline: A Kuramoto saw bank that sounds like a swamp at dusk.
 order: 1
 tier: Premium

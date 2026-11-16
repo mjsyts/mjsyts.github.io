@@ -25,7 +25,8 @@ world: true     # static backdrop behind the sign (assets/images/mps/world.webp)
       <img class="panel" src="{{ '/assets/images/mps/panels/' | append: m.panel | relative_url }}" alt="{{ m.title }} front panel" width="540" height="1518" loading="lazy" draggable="false">
       <div class="info">
         <h2>{{ m.title }}</h2>
-        <p>{{ m.tagline }}</p>
+        <p class="type">{{ m.type }}</p>
+        <p class="tagline">{{ m.tagline }}</p>
         <span class="meta">{{ m.tier }} &middot; {{ m.hp }} HP</span>
       </div>
     </li>
@@ -40,6 +41,7 @@ world: true     # static backdrop behind the sign (assets/images/mps/world.webp)
   <article class="manual" id="manual-{{ m.slug }}" hidden style="--accent: {{ m.accent | default: '#8a5a2b' }}">
     <header>
       <h2 class="name">{{ m.title }}</h2>
+      <p class="type">{{ m.type }}</p>
       <p class="tagline">{{ m.tagline }}</p>
       <p class="meta">{{ m.tier }} &middot; {{ m.hp }} HP</p>
     </header>
