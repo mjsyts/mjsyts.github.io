@@ -1,5 +1,8 @@
+/* Copasetic NF is licensed: the file lives in assets/fonts/ (gitignored, local only), same as Pickllle.
+   Deployed without it, the labels simply fall back to the body font. */
+@font-face{font-family:"Copasetic";src:url("/assets/fonts/CopaseticNF.ttf") format("truetype");font-display:swap}
 :root{--forest:#22271b;--cream:#f4ddba;--brown:#422707;--muted:#7a5f3c;--rule:rgba(66,39,7,.2);
---font-display:"Pacifico",cursive;--font-body:"Futura","Jost",system-ui,sans-serif}
+--font-display:"Pacifico",cursive;--font-body:"Futura","Jost",system-ui,sans-serif;--font-label:"Copasetic","Futura","Jost",system-ui,sans-serif}
 *{box-sizing:border-box}
 html{background:var(--forest)}
 html{scroll-behavior:smooth}
@@ -31,7 +34,7 @@ body{margin:0;background:var(--forest);color:var(--cream);font:1.05rem/1.65 var(
 .info{max-width:12rem}
 .info h2{font-family:var(--font-display);font-weight:400;font-size:2rem;line-height:1.5;margin:0;color:var(--cream)}
 .info p{margin:.2rem 0 .9rem;font-size:.98rem;color:rgba(244,221,186,.75);line-height:1.5}
-.info .meta{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(244,221,186,.55)}
+.info .meta{font-family:var(--font-label);font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,221,186,.55)}
 .car-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:2.75rem;height:2.75rem;border-radius:50%;border:1px solid rgba(244,221,186,.35);background:rgba(34,39,27,.7);color:var(--cream);font-size:1.6rem;line-height:1;cursor:pointer;backdrop-filter:blur(4px);transition:background .15s}
 .car-btn:hover{background:rgba(244,221,186,.18)}
 .car-btn.prev{left:.75rem}.car-btn.next{right:.75rem}
@@ -46,13 +49,13 @@ body{margin:0;background:var(--forest);color:var(--cream);font:1.05rem/1.65 var(
 .manual header{padding-bottom:1.1rem;margin-bottom:1.5rem;border-bottom:3px solid var(--accent)}
 .manual h2.name{font-family:var(--font-display);font-weight:400;font-size:clamp(2.3rem,6vw,3.3rem);line-height:1.5;margin:0}
 .manual .tagline{margin:0;color:var(--muted);font-size:1.12rem}
-.manual .meta{margin:.6rem 0 0;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.manual .meta{margin:.6rem 0 0;font-family:var(--font-label);font-size:.88rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .body h2{font-family:var(--font-display);font-weight:400;font-size:1.55rem;line-height:1.5;margin:2rem 0 .5rem}
 .body p,.body ul{margin:0 0 1rem}
 .body li{margin-bottom:.3rem}
 .body table{width:100%;border-collapse:collapse;margin:0 0 1.2rem;font-size:.97rem}
 .body th,.body td{text-align:left;padding:.55rem .8rem .55rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
-.body th{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.body th{font-family:var(--font-label);font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .body td:first-child{white-space:nowrap;padding-right:1.3rem}
 
 footer{text-align:center;padding:2.5rem 1rem 3rem;color:rgba(244,221,186,.55);font-size:.85rem}
