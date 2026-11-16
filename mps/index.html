@@ -3,7 +3,7 @@ layout: mps
 title: Modular Park Service
 description: Modules for VCV Rack, named for the national parks.
 sitemap: false
-sweep_frames: 0   # set to the number of frames in assets/images/mps/sweep/ (f_0000.webp ...) to enable the Blender sweep
+sweep_frames: 48  # set to the number of frames in assets/images/mps/sweep/ (f_0000.webp ...) to enable the Blender sweep
 ---
 {% assign modules = site.mps | sort: "order" %}
 <section class="hero" data-sweep-frames="{{ page.sweep_frames | default: 0 }}" data-sweep-path="{{ '/assets/images/mps/sweep/' | relative_url }}">
