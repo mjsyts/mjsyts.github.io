@@ -46,15 +46,28 @@
       c.width = imgs[0].naturalWidth; c.height = imgs[0].naturalHeight;
       c.className = sign.className; c.setAttribute('role', 'img'); c.setAttribute('aria-label', sign.alt);
       var g = c.getContext('2d');
-      var last = -1;
+      // Continuous position: blend the four nearest frames bilinearly so motion is smooth, not stepped.
+      var W = c.width, H = c.height;
+      function layer() { var o = document.createElement('canvas'); o.width = W; o.height = H; return o; }
+      var r0 = layer(), r1 = layer(), c0 = r0.getContext('2d'), c1 = r1.getContext('2d');
+      function blendRow(ctx, row, col, f) {
+        var i = row * cols + col;
+        ctx.globalAlpha = 1; ctx.clearRect(0, 0, W, H); ctx.drawImage(imgs[i], 0, 0);
+        if (f > 0.004 && col + 1 < cols) { ctx.globalAlpha = f; ctx.drawImage(imgs[i + 1], 0, 0); }
+        ctx.globalAlpha = 1;
+      }
+      var lastKey = '';
       function draw(x, y) {
-        var col = Math.round((Math.max(-1, Math.min(1, x)) + 1) / 2 * (cols - 1));
-        var row = rows > 1 ? Math.round((Math.max(-1, Math.min(1, y)) + 1) / 2 * (rows - 1)) : 0;
-        var k = row * cols + col;
-        if (k === last) return;
-        last = k;
-        g.clearRect(0, 0, c.width, c.height);
-        g.drawImage(imgs[k], 0, 0);
+        var u = (Math.max(-1, Math.min(1, x)) + 1) / 2 * (cols - 1);
+        var v = rows > 1 ? (Math.max(-1, Math.min(1, y)) + 1) / 2 * (rows - 1) : 0;
+        var col = Math.min(Math.floor(u), cols - 2), fu = u - col;
+        var row = rows > 1 ? Math.min(Math.floor(v), rows - 2) : 0, fv = rows > 1 ? v - row : 0;
+        var key = col + ',' + row + ',' + fu.toFixed(3) + ',' + fv.toFixed(3);
+        if (key === lastKey) return;
+        lastKey = key;
+        blendRow(c0, row, col, fu);
+        g.globalAlpha = 1; g.clearRect(0, 0, W, H); g.drawImage(r0, 0, 0);
+        if (rows > 1 && fv > 0.004) { blendRow(c1, row + 1, col, fu); g.globalAlpha = fv; g.drawImage(r1, 0, 0); g.globalAlpha = 1; }
       }
       draw(0, 0);
       sign.replaceWith(c);

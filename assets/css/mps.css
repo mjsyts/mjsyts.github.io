@@ -6,7 +6,11 @@ body{margin:0;background:var(--forest);color:var(--cream);font:1.05rem/1.65 var(
 
 .hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:1rem 1rem 3.5rem;line-height:0}
 .hero img,.hero canvas{display:block;width:min(100%,1200px);height:auto;max-height:calc(100svh - 5rem);object-fit:contain;}
-.hero{perspective:none;overflow:hidden}
+.hero{overflow:hidden}
+.hero.has-world::before{content:'';position:absolute;inset:0;background:var(--world) center/cover no-repeat;z-index:0}
+.hero.has-world::after{content:'';position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(to bottom,rgba(34,39,27,0),var(--forest));z-index:0}
+.hero img,.hero canvas,.scroll-cue{position:relative;z-index:1}
+.hero .scroll-cue{position:absolute}
 .scroll-cue{position:absolute;left:50%;bottom:1.25rem;transform:translateX(-50%);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(244,221,186,.6);text-decoration:none;line-height:1.4;text-align:center}
 .scroll-cue::after{content:"";display:block;width:1px;height:1.6rem;margin:.5rem auto 0;background:rgba(244,221,186,.45)}
 .scroll-cue:hover{color:var(--cream)}
