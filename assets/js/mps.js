@@ -39,17 +39,16 @@
     function frame(now) {
       if (!pointer) {
         var t = (now - t0) / 1000;
-        tx = Math.sin(t * 0.5) * 0.35;
-        ty = Math.cos(t * 0.37) * 0.25;
+        tx = Math.sin(t * 0.45) * 0.3;
+        ty = Math.cos(t * 0.33) * 0.2;
       }
-      cx += (tx - cx) * 0.07;
-      cy += (ty - cy) * 0.07;
+      cx += (tx - cx) * 0.06;
+      cy += (ty - cy) * 0.06;
       var el = drawYaw ? drawYaw.el : sign;
       if (drawYaw) {
         drawYaw.draw(cx);
-        el.style.transform = 'perspective(1400px) rotateX(' + (-cy * 3).toFixed(2) + 'deg) translate3d(0,' + (cy * -6).toFixed(1) + 'px,0)';
       } else {
-        el.style.transform = 'perspective(1400px) rotateY(' + (cx * 7).toFixed(2) + 'deg) rotateX(' + (-cy * 5).toFixed(2) + 'deg) translate3d(' + (cx * -8).toFixed(1) + 'px,' + (cy * -6).toFixed(1) + 'px,0)';
+        el.style.transform = 'perspective(1600px) rotateY(' + (cx * 2.5).toFixed(2) + 'deg) rotateX(' + (-cy * 1.5).toFixed(2) + 'deg)';
       }
       requestAnimationFrame(frame);
     }
@@ -73,12 +72,9 @@
         c.width = imgs[0].naturalWidth; c.height = imgs[0].naturalHeight;
         c.className = sign.className; c.setAttribute('role', 'img'); c.setAttribute('aria-label', sign.alt);
         var g = c.getContext('2d');
-        var RANGE = 0.7;                       // fraction of the rendered sweep the pointer can reach
         function draw(x) {
-          var u = (Math.max(-1, Math.min(1, x * RANGE)) + 1) / 2 * (nFrames - 1);
-          var k = Math.min(nFrames - 2, Math.floor(u)), f = u - k;
-          g.globalAlpha = 1; g.drawImage(imgs[k], 0, 0);
-          if (f > 0.001) { g.globalAlpha = f; g.drawImage(imgs[k + 1], 0, 0); g.globalAlpha = 1; }
+          var k = Math.round((Math.max(-1, Math.min(1, x)) + 1) / 2 * (nFrames - 1));
+          g.drawImage(imgs[k], 0, 0);
         }
         draw(0);
         sign.replaceWith(c);
