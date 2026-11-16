@@ -8,11 +8,4 @@ robots: noindex
 ---
 
 ## Overview
-
-## Controls
-
-## Inputs
-
-## Outputs
-
-## Tips
+A blank panel. Keeps you from shocking yourself and keeps dust out of the back-box cavity.
