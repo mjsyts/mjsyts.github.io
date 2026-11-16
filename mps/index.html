@@ -3,15 +3,15 @@ layout: mps
 title: Modular Park Service
 description: Modules for VCV Rack, named for the national parks.
 sitemap: false
-sweep_cols: 0   # yaw frames per row; set with sweep_rows once transparent frames are in assets/images/mps/sweep/ (7 x 5 = 35)
-sweep_rows: 0
+sweep_cols: 7   # yaw frames per row (assets/images/mps/sweep/, row-major)
+sweep_rows: 5   # pitch rows
 ---
 {% assign modules = site.mps | sort: "order" %}
 <section class="hero" data-sweep-cols="{{ page.sweep_cols | default: 0 }}" data-sweep-rows="{{ page.sweep_rows | default: 1 }}" data-sweep-path="{{ '/assets/images/mps/sweep/' | relative_url }}">
-  <img src="{{ '/assets/images/mps/sign-1280.jpg' | relative_url }}"
-       srcset="{{ '/assets/images/mps/sign-640.jpg' | relative_url }} 640w,
-               {{ '/assets/images/mps/sign-1280.jpg' | relative_url }} 1280w,
-               {{ '/assets/images/mps/sign-1800.jpg' | relative_url }} 1800w"
+  <img src="{{ '/assets/images/mps/sign-1280.webp' | relative_url }}"
+       srcset="{{ '/assets/images/mps/sign-640.webp' | relative_url }} 640w,
+               {{ '/assets/images/mps/sign-1280.webp' | relative_url }} 1280w,
+               {{ '/assets/images/mps/sign-1800.webp' | relative_url }} 1800w"
        sizes="(min-width: 1300px) 1300px, 100vw" width="1920" height="1080"
        alt="Wooden park sign reading Off the Beaten Path, with the Modular Park Service shield">
   <a class="scroll-cue" href="#modules">Modules</a>
