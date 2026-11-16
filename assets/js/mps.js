@@ -1,21 +1,90 @@
 (function () {
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  // ---- Module carousel: swipe / drag / arrows / dots / keys; the centered module's manual shows below ----
+  var track = document.querySelector('.track');
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
   var panels = Array.prototype.slice.call(document.querySelectorAll('.manual'));
-  if (!tabs.length) return;
+  var prevBtn = document.querySelector('.car-btn.prev'), nextBtn = document.querySelector('.car-btn.next');
+  var dotsEl = document.querySelector('.dots');
+  var active = -1;
 
-  function select(slug, push) {
-    tabs.forEach(function (t) {
-      var on = t.dataset.module === slug;
-      t.classList.toggle('is-active', on);
-      t.setAttribute('aria-selected', on ? 'true' : 'false');
+  function slug(i) { return slides[i].dataset.module; }
+  function centerOf(i) { var s = slides[i]; return s.offsetLeft + s.offsetWidth / 2 - track.clientWidth / 2; }
+  function goTo(i, instant) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    track.style.scrollBehavior = instant ? 'auto' : '';
+    track.scrollTo({ left: centerOf(i) });
+    if (instant) { track.style.scrollBehavior = ''; }
+    setActive(i, !instant);
+  }
+  function setActive(i, push) {
+    if (i === active) return;
+    active = i;
+    slides.forEach(function (s, n) { s.classList.toggle('is-active', n === i); });
+    panels.forEach(function (p) { p.hidden = p.id !== 'manual-' + slug(i); });
+    Array.prototype.forEach.call(dotsEl.children, function (d, n) {
+      d.classList.toggle('is-active', n === i); d.setAttribute('aria-selected', n === i ? 'true' : 'false');
     });
-    panels.forEach(function (p) { p.hidden = p.id !== 'manual-' + slug; });
-    if (push) { try { history.replaceState(null, '', '#' + slug); } catch (e) {} }
+    if (prevBtn) prevBtn.disabled = i === 0;
+    if (nextBtn) nextBtn.disabled = i === slides.length - 1;
+    if (push) { try { history.replaceState(null, '', '#' + slug(i)); } catch (e) {} }
+  }
+  function nearest() {
+    var mid = track.scrollLeft + track.clientWidth / 2, best = 0, bd = 1e9;
+    slides.forEach(function (s, n) { var d = Math.abs(s.offsetLeft + s.offsetWidth / 2 - mid); if (d < bd) { bd = d; best = n; } });
+    return best;
   }
 
-  tabs.forEach(function (t) {
-    t.addEventListener('click', function () { select(t.dataset.module, true); });
-  });
+  if (track && slides.length) {
+    var multi = slides.length > 1;
+    var car = document.querySelector('.carousel');
+    if (!multi) car.classList.add('single');
+    requestAnimationFrame(function () { requestAnimationFrame(function () { car.classList.add('is-ready'); }); });
+    slides.forEach(function (s, n) {
+      var d = document.createElement('button');
+      d.className = 'dot'; d.setAttribute('role', 'tab'); d.setAttribute('aria-label', s.getAttribute('aria-label'));
+      d.addEventListener('click', function () { goTo(n); });
+      dotsEl.appendChild(d);
+      s.addEventListener('click', function () { if (n !== active) goTo(n); });
+    });
+    if (multi) { prevBtn.hidden = false; nextBtn.hidden = false; } else { dotsEl.hidden = true; }
+    if (prevBtn) prevBtn.addEventListener('click', function () { goTo(active - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { goTo(active + 1); });
+
+    var ticking = false;
+    track.addEventListener('scroll', function () {
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(function () { ticking = false; setActive(nearest(), true); });
+    }, { passive: true });
+    track.tabIndex = 0;
+    track.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); goTo(active + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(active - 1); }
+    });
+
+    // Mouse drag (touch already swipes natively).
+    var drag = null;
+    track.addEventListener('pointerdown', function (e) {
+      if (e.pointerType !== 'mouse' || e.button !== 0 || !multi) return;
+      drag = { x: e.clientX, left: track.scrollLeft, moved: false };
+    });
+    window.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var dx = e.clientX - drag.x;
+      if (Math.abs(dx) > 4 && !drag.moved) { drag.moved = true; track.style.scrollSnapType = 'none'; track.style.scrollBehavior = 'auto'; track.style.cursor = 'grabbing'; }
+      if (drag.moved) track.scrollLeft = drag.left - dx;
+    });
+    window.addEventListener('pointerup', function () {
+      if (!drag) return;
+      var moved = drag.moved; drag = null;
+      if (moved) { track.style.scrollSnapType = ''; track.style.cursor = ''; goTo(nearest()); setTimeout(function () { track.style.scrollBehavior = ''; }, 0); }
+    });
+    track.addEventListener('click', function (e) { if (drag && drag.moved) e.stopPropagation(); }, true);
+
+    var hash = location.hash.slice(1);
+    var start = Math.max(0, slides.findIndex(function (s) { return s.dataset.module === hash; }));
+    window.addEventListener('load', function () { goTo(start, true); });
+    goTo(start, true);
+  }
 
   // Sign: one transparent render of the sign, tilted in real 3D (perspective) on the GPU by the pointer.
   // The sign is a flat board turning a few degrees, so a perspective warp of a single crisp frame is smooth
@@ -121,6 +190,4 @@
     big.src = hero.dataset.signHi;
   }
 
-  var start = location.hash.slice(1);
-  select(tabs.some(function (t) { return t.dataset.module === start; }) ? start : tabs[0].dataset.module, false);
 })();

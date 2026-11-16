@@ -3,8 +3,9 @@ title: Congaree
 tagline: A Kuramoto saw bank that sounds like a swamp at dusk.
 order: 1
 tier: Premium
-hp: 10
+hp: 9
 accent: "#5b7a4a"
+panel: congaree.webp
 ---
 Congaree is a bank of band-limited sawtooth oscillators that pull on each other the way fireflies synchronize. Spread them apart and you get a thick, drifting chorus. Pull them together and they bunch into a single, huge voice.
 
@@ -13,27 +14,27 @@ Congaree is a bank of band-limited sawtooth oscillators that pull on each other 
 | Control | What it does |
 | --- | --- |
 | **FREQ** | Center pitch of the bank. |
-| **FAT** | Spread of the detune across the oscillators. Low is nearly a single saw; high is a wide, bunched cloud. |
-| **COHERENCE** | Coupling strength. At zero the oscillators run free; as it rises they lock toward each other and the beating collapses. |
+| **SWARM** | How far the oscillators are spread apart in pitch. Low is nearly a single saw; high is a wide, drifting cloud. |
+| **PULL** | How strongly the oscillators drag on each other. Low lets them run free; high locks them together and the beating collapses. |
 | **VCO / LFO** | Switches the bank between audio range and low-frequency range. |
+| **SOFT** | Latch. Sync is hard by default; lit, it becomes soft sync. |
+| **LFM** | Latch. FM is 1 V/octave by default; lit, it becomes linear FM. |
 
-FAT and COHERENCE each have a CV jack with an attenuator pot.
+FREQ, PULL and SWARM each have an attenuverter, the small pot above their input jack. It sets how much of the incoming CV is applied, and can invert it.
 
 ## Jacks
 
 | Jack | Type | Notes |
 | --- | --- | --- |
-| **V/OCT** | In | 1 V/octave pitch. |
-| **LFM** | In | Linear frequency modulation. |
-| **SYNC** | In | Hard sync. |
-| **SOFT** | In | Soft sync. |
-| **FREQ CV** | In | Modulates FREQ. |
-| **FAT CV** | In | Modulates FAT. |
-| **COHERENCE CV** | In | Modulates COHERENCE. |
+| **V/OCT** | In | 1 V/octave pitch. Polyphonic: the output carries as many voices as this cable. |
+| **FREQ** | In | Frequency modulation, scaled by its attenuverter. Exponential or linear depending on LFM. |
+| **SWARM** | In | CV for SWARM. 10 V sweeps the full range at full attenuverter. |
+| **PULL** | In | CV for PULL. 10 V sweeps the full range at full attenuverter. |
+| **SYNC** | In | Syncs the bank to the incoming signal. Hard or soft depending on SOFT. |
 | **OUT** | Out | The summed bank. |
 
 ## Patch ideas
 
-- Sweep COHERENCE with a slow LFO to move between swarm and single voice.
-- Patch an envelope into FAT so each note opens wide and then tightens.
+- Sweep PULL with a slow LFO to move between a wide swarm and a single voice.
+- Patch an envelope into SWARM so each note opens wide and then tightens.
 - Set VCO / LFO to LFO and use the bank as a slow, shifting modulation source.
