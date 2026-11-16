@@ -1,3 +1,6 @@
+/* Open-licensed fonts (SIL OFL), self-hosted: licenses sit next to the files in assets/mps-fonts/ */
+@font-face{font-family:"Jost";src:url("/assets/mps-fonts/jost-latin-wght-normal.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Pacifico";src:url("/assets/mps-fonts/pacifico-latin-400-normal.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
 /* Copasetic NF is licensed: the file lives in assets/fonts/ (gitignored, local only), same as Pickllle.
    Deployed without it, the labels simply fall back to the body font. */
 @font-face{font-family:"Copasetic";src:url("/assets/fonts/CopaseticNF.ttf") format("truetype");font-display:swap}
