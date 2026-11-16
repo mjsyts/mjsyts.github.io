@@ -3,12 +3,10 @@ layout: mps
 title: Modular Park Service
 description: Modules for VCV Rack, named for the national parks.
 sitemap: false
-sweep_cols: 7   # yaw frames per row (assets/images/mps/sweep/, row-major)
-sweep_rows: 5   # pitch rows
 world: true     # static backdrop behind the sign (assets/images/mps/world.webp)
 ---
 {% assign modules = site.mps | sort: "order" %}
-<section class="hero{% if page.world %} has-world{% endif %}"{% if page.world %} style="--world:url('{{ '/assets/images/mps/world.webp' | relative_url }}')"{% endif %} data-sweep-cols="{{ page.sweep_cols | default: 0 }}" data-sweep-rows="{{ page.sweep_rows | default: 1 }}" data-sweep-path="{{ '/assets/images/mps/sweep/' | relative_url }}">
+<section class="hero{% if page.world %} has-world{% endif %}"{% if page.world %} style="--world:url('{{ '/assets/images/mps/world.webp' | relative_url }}')"{% endif %} data-sign-hi="{{ '/assets/images/mps/sign-hi.webp' | relative_url }}">
   <img src="{{ '/assets/images/mps/sign-1280.webp' | relative_url }}"
        srcset="{{ '/assets/images/mps/sign-640.webp' | relative_url }} 640w,
                {{ '/assets/images/mps/sign-1280.webp' | relative_url }} 1280w,
