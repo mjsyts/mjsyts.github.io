@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: mjsyts/mjsyts-private-assets
-          token: ${{ secrets.PRIVATE_ASSETS_TOKEN }}
+          ssh-key: ${{ secrets.PRIVATE_ASSETS_DEPLOY_KEY }}
           path: __private_assets
 
       - name: Copy fonts into site
