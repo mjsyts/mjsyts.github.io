@@ -73,10 +73,12 @@
         c.width = imgs[0].naturalWidth; c.height = imgs[0].naturalHeight;
         c.className = sign.className; c.setAttribute('role', 'img'); c.setAttribute('aria-label', sign.alt);
         var g = c.getContext('2d');
+        var RANGE = 0.7;                       // fraction of the rendered sweep the pointer can reach
         function draw(x) {
-          var k = Math.round((x + 1) / 2 * (nFrames - 1));
-          k = Math.max(0, Math.min(nFrames - 1, k));
-          g.drawImage(imgs[k], 0, 0);
+          var u = (Math.max(-1, Math.min(1, x * RANGE)) + 1) / 2 * (nFrames - 1);
+          var k = Math.min(nFrames - 2, Math.floor(u)), f = u - k;
+          g.globalAlpha = 1; g.drawImage(imgs[k], 0, 0);
+          if (f > 0.001) { g.globalAlpha = f; g.drawImage(imgs[k + 1], 0, 0); g.globalAlpha = 1; }
         }
         draw(0);
         sign.replaceWith(c);

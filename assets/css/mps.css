@@ -6,8 +6,8 @@ body{margin:0;background:var(--forest);color:var(--cream);font:1.05rem/1.65 var(
 
 .hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:1rem 1rem 3.5rem;line-height:0}
 .hero img,.hero canvas{display:block;width:min(100%,1400px);height:auto;max-height:calc(100svh - 5rem);object-fit:contain;
- -webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 6%,#000 90%,transparent);
- -webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent),linear-gradient(to bottom,transparent,#000 6%,#000 90%,transparent);mask-composite:intersect}
+ -webkit-mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent),linear-gradient(to bottom,transparent,#000 5%,#000 94%,transparent);
+ -webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent),linear-gradient(to bottom,transparent,#000 5%,#000 94%,transparent);mask-composite:intersect}
 .hero img,.hero canvas{will-change:transform;transform-origin:50% 50%}
 .hero{perspective:none;overflow:hidden}
 .scroll-cue{position:absolute;left:50%;bottom:1.25rem;transform:translateX(-50%);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(244,221,186,.6);text-decoration:none;line-height:1.4;text-align:center}
