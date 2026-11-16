@@ -2,6 +2,9 @@
 --font-display:"Pacifico",cursive;--font-body:"Futura","Jost",system-ui,sans-serif}
 *{box-sizing:border-box}
 html{background:var(--forest)}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+#modules{scroll-margin-top:1rem}
 body{margin:0;background:var(--forest);color:var(--cream);font:1.05rem/1.65 var(--font-body);-webkit-font-smoothing:antialiased}
 
 .hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:1rem 1rem 3.5rem;line-height:0}
