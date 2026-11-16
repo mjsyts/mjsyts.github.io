@@ -62,9 +62,9 @@
       'float cy=cos(a.x),sy=sin(a.x),cx=cos(a.y),sx=sin(a.y);' +
       'q=vec3(q.x*cy+q.z*sy,q.y,-q.x*sy+q.z*cy);' +        // yaw about Y
       'q=vec3(q.x,q.y*cx-q.z*sx,q.y*sx+q.z*cx);' +          // pitch about X
-      'float s=7./(7.-q.z);' +                                // perspective, camera 7 half-heights away
+      'float w=(7.-q.z)/7.;' +                                // perspective, camera 7 half-heights away; GPU divides by w
       'lit=1.+a.x*p.x*.35;' +                                 // faint light shift across the board
-      'gl_Position=vec4(q.x*s/asp,q.y*s,0.,1.);}');
+      'gl_Position=vec4(q.x/asp,q.y,0.,w);}');
     var fs = sh(gl.FRAGMENT_SHADER,
       'precision mediump float;varying vec2 v;varying float lit;uniform sampler2D t;' +
       'void main(){vec4 c=texture2D(t,v);gl_FragColor=vec4(c.rgb*lit,c.a);}');
