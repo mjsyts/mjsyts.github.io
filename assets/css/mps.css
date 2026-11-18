@@ -67,3 +67,9 @@ body{margin:0;background:var(--forest);color:var(--cream);font:1.05rem/1.65 var(
 
 footer{text-align:center;padding:2.5rem 1rem 3rem;color:rgba(244,221,186,.55);font-size:.85rem}
 @media(max-width:40rem){.paper{margin:1.5rem .75rem 0;padding:1.75rem 1.4rem 2rem;border-radius:10px}.body td:first-child{white-space:normal}}
+.theme-switch{display:flex;justify-content:center;gap:0;margin:1.5rem auto 0;width:max-content;border:1px solid rgba(244,221,186,.35);border-radius:999px;overflow:hidden}
+.theme-switch[hidden]{display:none}
+.theme-switch button{display:flex;align-items:center;justify-content:center;padding:.5rem 1.05rem;border:0;background:transparent;color:rgba(244,221,186,.7);cursor:pointer;transition:background .15s,color .15s}
+.theme-switch button+button{border-left:1px solid rgba(244,221,186,.25)}
+.theme-switch button:hover{background:rgba(244,221,186,.12)}
+.theme-switch button[aria-pressed="true"]{background:var(--cream);color:var(--brown)}

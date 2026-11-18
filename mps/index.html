@@ -17,12 +17,17 @@ world: true     # static backdrop behind the sign (assets/images/mps/world.webp)
 </section>
 <p class="lede" id="modules">Modules for VCV Rack, named for the national parks.</p>
 
+<div class="theme-switch" role="group" aria-label="Panel theme" hidden>
+  <button type="button" data-theme="light" aria-pressed="true" aria-label="Day panels" title="Day"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none"/><path d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.85 1.85M16.85 16.85l1.85 1.85M5.3 18.7l1.85-1.85M16.85 7.15l1.85-1.85"/></svg></button>
+  <button type="button" data-theme="dark" aria-pressed="false" aria-label="Night panels" title="Night"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a.6.6 0 0 0-.8-.7A9.5 9.5 0 1 0 21.2 15.4a.6.6 0 0 0-.7-.8z"/></svg></button>
+</div>
+
 <section class="carousel" aria-roledescription="carousel" aria-label="Modules">
   <button class="car-btn prev" aria-label="Previous module" hidden>&#8249;</button>
   <ul class="track">
-    {% for m in modules %}{% if m.panel %}
+    {% for m in modules %}{% if m.panel and m.tier == 'free' %}
     <li class="slide" id="slide-{{ m.slug }}" data-module="{{ m.slug }}" role="group" aria-label="{{ m.title }}">
-      <img class="panel" src="{{ '/assets/images/mps/panels/' | append: m.panel | relative_url }}" alt="{{ m.title }} front panel" width="540" height="1518" loading="lazy" draggable="false">
+      <img class="panel" src="{{ '/assets/images/mps/panels/' | append: m.panel | relative_url }}"{% if m.panel_dark %} data-light="{{ '/assets/images/mps/panels/' | append: m.panel | relative_url }}" data-dark="{{ '/assets/images/mps/panels/' | append: m.panel_dark | relative_url }}"{% endif %} alt="{{ m.title }} front panel" width="{{ m.panel_w | default: 540 }}" height="1518" loading="lazy" draggable="false">
       <div class="info">
         <h2>{{ m.title }}</h2>
         {% if m.type %}<p class="type">{{ m.type }}</p>{% endif %}
@@ -37,7 +42,7 @@ world: true     # static backdrop behind the sign (assets/images/mps/world.webp)
 </section>
 
 <main class="paper">
-  {% for m in modules %}{% if m.panel %}
+  {% for m in modules %}{% if m.panel and m.tier == 'free' %}
   <article class="manual" id="manual-{{ m.slug }}" hidden style="--accent: {{ m.accent | default: '#8a5a2b' }}">
     <header>
       <h2 class="name">{{ m.title }}</h2>

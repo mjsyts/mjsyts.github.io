@@ -86,6 +86,28 @@
     goTo(start, true);
   }
 
+  // ---- Panel theme: Day / Night, remembered per browser ----
+  var sw = document.querySelector('.theme-switch');
+  var themed = Array.prototype.slice.call(document.querySelectorAll('.panel[data-dark]'));
+  if (sw && themed.length) {
+    var mode = 'light';
+    try { var saved = localStorage.getItem('mps-panel-theme'); if (saved === 'light' || saved === 'dark') mode = saved; } catch (e) {}
+    var applyTheme = function () {
+      var dark = mode === 'dark';
+      themed.forEach(function (img) { var u = dark ? img.dataset.dark : img.dataset.light; if (img.getAttribute('src') !== u) img.src = u; });
+      Array.prototype.forEach.call(sw.querySelectorAll('button'), function (b) { b.setAttribute('aria-pressed', b.dataset.theme === mode ? 'true' : 'false'); });
+    };
+    Array.prototype.forEach.call(sw.querySelectorAll('button'), function (b) {
+      b.addEventListener('click', function () {
+        mode = b.dataset.theme;
+        try { localStorage.setItem('mps-panel-theme', mode); } catch (e) {}
+        applyTheme();
+      });
+    });
+    sw.hidden = false;
+    applyTheme();
+  }
+
   // Sign: one transparent render of the sign, tilted in real 3D (perspective) on the GPU by the pointer.
   // The sign is a flat board turning a few degrees, so a perspective warp of a single crisp frame is smooth
   // (no cross-fading between renders, no ghosting). The world behind it is a separate static image.
