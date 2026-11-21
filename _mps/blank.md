@@ -1,5 +1,5 @@
 ---
-title: Modular Park Service Blank
+title: Blank
 tier: free
 tags: [blank]
 tagline: "Blank panel in 5hp. Leave it better than you found it"
