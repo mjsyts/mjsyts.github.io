@@ -25,7 +25,7 @@ world: true     # static backdrop behind the sign (assets/images/mps/world.webp)
 <section class="carousel" aria-roledescription="carousel" aria-label="Modules">
   <button class="car-btn prev" aria-label="Previous module" hidden>&#8249;</button>
   <ul class="track">
-    {% for m in modules %}{% if m.panel and m.tier == 'free' %}
+    {% for m in modules %}{% if m.panel %}
     <li class="slide" id="slide-{{ m.slug }}" data-module="{{ m.slug }}" role="group" aria-label="{{ m.title }}">
       <img class="panel" src="{{ '/assets/images/mps/panels/' | append: m.panel | relative_url }}"{% if m.panel_dark %} data-light="{{ '/assets/images/mps/panels/' | append: m.panel | relative_url }}" data-dark="{{ '/assets/images/mps/panels/' | append: m.panel_dark | relative_url }}"{% endif %} alt="{{ m.title }} front panel" width="{{ m.panel_w | default: 540 }}" height="1518" loading="lazy" draggable="false">
       <div class="info">
@@ -42,7 +42,7 @@ world: true     # static backdrop behind the sign (assets/images/mps/world.webp)
 </section>
 
 <main class="paper">
-  {% for m in modules %}{% if m.panel and m.tier == 'free' %}
+  {% for m in modules %}{% if m.panel %}
   <article class="manual" id="manual-{{ m.slug }}" hidden style="--accent: {{ m.accent | default: '#8a5a2b' }}">
     <header>
       <h2 class="name">{{ m.title }}</h2>
