@@ -4,7 +4,7 @@ tier: premium
 tags: [oscillator, low-frequency oscillator, polyphonic]
 tagline: "Saw wavebank oscillator using a Kuramoto model"
 type: Oscillator
-order: 14
+order: 13
 hp: 9
 panel: congaree.webp
 panel_dark: congaree-dark.webp
