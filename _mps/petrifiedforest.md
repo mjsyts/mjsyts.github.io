@@ -15,6 +15,7 @@ robots: noindex
 ---
 
 ## Overview
+Petrified Forest is a four-stage polyphonic sample and hold. Each stage samples its input on a trigger and holds the value until the next one. With nothing patched to IN, a stage samples random voltages instead. AMOUNT adds jitter to the held value and BIAS offsets it. PUSH triggers a stage by hand, and also triggers every stage below it.
 
 ## Controls
 - **PUSH** (1–4): Triggers its stage by hand. Pushing a stage also triggers every stage below it.
@@ -29,3 +30,7 @@ robots: noindex
 - **OUT** (1–4): Held value, polyphonic, with as many channels as IN. When IN is unpatched, it outputs one channel.
 
 ## Tips
+- A fast clock into TRIG with IN patched gives a sample-rate-reduced, stepped version of the input. Increasing AMOUNT will add a bit of noise.
+
+## About the Park
+Petrified Forest is one of the world's largest deposits of fossilized trees that date to the Late Triassic (205-225 million years ago).
